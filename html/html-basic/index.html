@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <!--
     <a> : open tag
     </a>: close tag
@@ -17,12 +17,123 @@
     <h6>마크 다운의 ######</h6>
     <p>일반적인 텍스트(문단)을 표현</p>
     <a>마크다운의 []()</a>
-    <img alt="대체 텍스트" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2aRJR6dWUGsjhkUzKkGp-3787npBEJcJblg&s">
+    <img
+      alt="대체 텍스트"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2aRJR6dWUGsjhkUzKkGp-3787npBEJcJblg&s"
+    />
     ![대체 텍스트](이미지경로,source)
+    <br />
+    <br />
+    <hr />
 
-    <br>
-    <br>
-    <hr>
+    <!-- Ctrl+/ : 주석 -->
+    <!-- tag입력 + tab : 자동 완성 -->
+    <!-- Ctrl + Alt + 방향키 : 다중커서 -->
+    <!--주석 내용-->
 
-</body>
+    <!-- id 속성과 class 속성 -->
+    <!-- id 속성은 문서내에서 요소를 구별한 고유한 값(식별자) -->
+    <p id="1">1</p>
+    <p id="2">2</p>
+    <p>3</p>
+
+    <!-- class 속성은 문서내에서 요소를 그룹화하는 값 -->
+    <p class="1">4</p>
+    <p class="1">4</p>
+    <p class="5">5</p>
+    <p class="5">5</p>
+    <p>6</p>
+
+    <!-- id와 class의 값은 소문자 알파벳으로 시작 -->
+    <!-- 띄어쓰기가 불가능, - , _ 는 가능 -->
+    <p class="fruit red">빨간 사과</p>
+    <p class="fruit blue">파란 포도</p>
+    <p class="animal red">빨간 강아지</p>
+    <p class="animal blue">파란 고양이</p>
+
+    <hr />
+
+    <!-- 요소 중첩 -->
+    <div>division(분할)</div>
+
+    <div>
+      <div>
+        <h1>팀 버너스리</h1>
+        <h2>Berners-Lee</h2>
+      </div>
+
+      <img
+        src="data:image/jpeg;base64,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"
+        alt=""
+      />
+
+      <div>
+        <p>출생</p>
+        <p>1955년 6월 8일</p>
+      </div>
+
+      <div>
+        <p>출신학교</p>
+        <p>옥스퍼드 대학교</p>
+      </div>
+
+      <div>
+        <p>배우자</p>
+        <p>낸시 칼슨(1990~2011)</p>
+        <p>로즈메리 리스(2014~)</p>
+      </div>
+
+      <div>
+        <p>자녀</p>
+        <p>1남 1녀</p>
+      </div>
+
+      <div>
+        <p>수상</p>
+        <p>튜링상(2016)</p>
+        <p>메리트 훈장(2007)</p>
+        <p>대영 제국 훈장 2등급(2004)</p>
+        <p>왕립학회 회원(2001)</p>
+        <p>왕립공학학회 회원(2001)</p>
+        <p>왕립예술학회 회원(2001)</p>
+        <p>영국 컴퓨터학회 최고회원(1995)</p>
+      </div>
+
+      <div>
+        <p>분야</p>
+        <p>컴퓨터 과학</p>
+      </div>
+
+      <div>
+        <p>소속</p>
+        <p>W3C</p>
+        <p>사우샘프턴 대학교</p>
+        <p>플레시</p>
+        <p>매사추세츠 공과대학교</p>
+      </div>
+    </div>
+
+    <hr />
+    <h1>p태그와 span태그</h1>
+    <p>p태그</p>
+    <p>p태그</p>
+    <p>p태그</p>
+    <span>span태그</span>
+    <span>span태그</span>
+    <span>span태그</span>
+
+    <p><span>팀 버너스리 경</span>(영어: 어쩌구 저쩌구)</p>
+
+    <!-- ul, li, ol : 리스트 -->
+    <!--  - / 1. 2. -->
+    <ul>
+      <li>순서가 없는 태그1</li>
+      <li>순서가 없는 태그2</li>
+    </ul>
+
+    <ol>
+      <li>순서가 있는 태그1</li>
+      <li>순서가 있는 태그2</li>
+    </ol>
+  </body>
 </html>
