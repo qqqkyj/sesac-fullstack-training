@@ -1,0 +1,78 @@
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
+
+.blue {
+  color: blue;
+}
+
+.font-50 {
+  font-size: 50px;
+}
+
+.font-100 {
+  font-size: 100px;
+}
+
+/* 클래스는 .클래스명, id는 # *id명으로 작성*/
+#bold {
+  font-weight: bold;
+}
+
+/* 속성은 [속성명] */
+[href] {
+  font-size: 30px;
+  text-decoration: none;
+}
+
+[href="https://www.naver.com"]
+{
+  color: green;
+}
+
+/* 자식 선택자 */
+div > p {
+  font-style: italic;
+}
+
+#parent > .child {
+  color: violet;
+}
+
+/* 자손 선택자 */
+body p {
+  font-weight: 900;
+}
+
+/* 혼합 선택자 */
+span.red {
+  color: lightcoral;
+}
+
+span.green {
+  color: lightgreen;
+}
+
+input[type="text"] {
+}
+
+/* important는 되도록 사용하지 말 것 */
+div {
+  font-size: 30px !important;
+}
+
+div {
+  font-size: 50px;
+}
+
+#font-100 {
+  font-size: 100px;
+}
+
+.font-90 {
+  font-size: 90px;
+}
