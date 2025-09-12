@@ -1,0 +1,64 @@
+.parent {
+  background-color: blue;
+  height: 600px;
+}
+
+.child-1 {
+  background-color: red;
+  width: 50%;
+  height: 50%;
+}
+
+.child-2 {
+  background-color: yellow;
+  width: 25%;
+  height: 50%;
+}
+
+.parent-font {
+  font-size: 30px;
+}
+/* 부모가 기준 , default는 브라우저 자체 설정(16px)*/
+/* 15px */
+.child-font-1 {
+  font-size: 0.5em;
+}
+/* 60px */
+.child-font-2 {
+  font-size: 2em;
+}
+.child-child-font-2 {
+  /* 120px */
+  font-size: 2em;
+}
+
+/* rem */
+.rem-font-1 {
+  /* 16 * 0.5 = 8 */
+  font-size: 0.5rem;
+}
+
+.rem-font-2 {
+  /* 16 * 2 = 32 */
+  font-size: 2rem;
+}
+
+/* viewport : 큰 틀을 잡을 때 사용할 것 */
+.full-height {
+  /* 화면 높이 만큼의 100% 높이 */
+  min-height: 100vh;
+  background-color: lightyellow;
+}
+
+/* 색상과 글자크기는 상속 가능, 테두리 상속 불가능 */
+.parent-div {
+  color: aqua;
+  font-size: 10rem;
+  /* 테두리 : 2px 검은색 실선 */
+  border: 2px black solid;
+}
+
+.child-div {
+  /* 테두리 : 4px 빨강 점선 */
+  border: 4px red dashed;
+}
