@@ -95,6 +95,63 @@
 .big-box {
   background-color: aqua;
   width: 500px;
-  height: 300px;
+  height: 500px;
   margin: 20px;
+}
+
+.flex-container2 {
+  /* block은 줄바꿈 발생, inline은 텍스트 만큼만 공간 차지 */
+  display: flex;
+  background-color: bisque;
+  height: 500px;
+  width: 100vw;
+  /* gap : 플렉스 컨테이너에 설정 */
+  /* gap : 플렉스 아이템간 간격을 조정 */
+  gap: 10px;
+}
+
+.big-box2 {
+  background-color: aqua;
+  width: 100px;
+  height: 100px;
+}
+
+/* 각 개별 아이템의 교차 축 배치(정렬) 방식 */
+/* align-self는 align-items 보다 우선순위가 높다 */
+.align-self-center {
+  align-self: center;
+}
+
+.align-self-end {
+  align-self: flex-end;
+}
+
+/* 기본 너비(높이) */
+.basis-200 {
+  /* 아이템의 기본 크기 */
+  flex-basis: 200px;
+}
+
+/* 컨테이너의 빈공간을 차지하는 비율 */
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.flex-grow-2 {
+  flex-grow: 2;
+}
+
+/* 컨테이너의 공간이 부족할 때 */
+/* 아이템의 크기를 축소하는 비율 */
+.flex-shrink-0 {
+  /* 축소 비율 : 0 -> 축소를 안한다 */
+  flex-shrink: 0;
+}
+
+.flex-shrink-1 {
+  flex-shrink: 1;
+}
+
+.flex-shrink-2 {
+  flex-shrink: 2;
 }
