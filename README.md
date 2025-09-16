@@ -31,6 +31,7 @@
 - **2025-09-10** : [웹 개발 기본과 코드 버전 관리를 위한 Git](https://github.com/qqqkyj/sesac/blob/main/git/basic.md)
 - **2025-09-11** : [HTML을 활용한 웹사이트 구조화](https://github.com/qqqkyj/sesac/tree/main/html)
 - **2025-09-12** : [CSS를 활용한 웹사이트 스타일링](https://github.com/qqqkyj/sesac/tree/main/css)
+- **2025-09-15** : [CSS를 활용한 웹사이트 스타일링](https://github.com/qqqkyj/sesac/tree/main/css)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
