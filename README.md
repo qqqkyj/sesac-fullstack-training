@@ -32,6 +32,7 @@
 - **2025-09-11** : [HTML을 활용한 웹사이트 구조화](https://github.com/qqqkyj/sesac/tree/main/html)
 - **2025-09-12** : [CSS를 활용한 웹사이트 스타일링](https://github.com/qqqkyj/sesac/tree/main/css)
 - **2025-09-15** : [CSS를 활용한 웹사이트 스타일링2](https://github.com/qqqkyj/sesac/tree/main/css)
+- **2025-09-16** : [생성형 AI를 활용한 와이어프레임 생성](https://github.com/qqqkyj/practice/blob/main/css/ui-generative-ai/profile_full_screen.png)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
