@@ -396,9 +396,49 @@ console.log(Boolean(" ")); // true (공백은 문자열로 취급)
 
 ---
 
+## 5️. 암시적 불리언 형 변환
+
+- 불리언이 아닌 데이터에 논리 연산(`&&`, `||`, `!`) 적용 시, 자동으로 true/false로 변환됨
+
+```jsx
+console.log(!0); // 0 → false → ! → true
+console.log(!""); // "" → false → ! → true
+console.log(!1); // 1 → true → ! → false
+```
+
+---
+
+## 6️. 논리 연산자 (OR `||`)
+
+- **왼쪽 값이 true** → 왼쪽 값 반환
+- **왼쪽 값이 false** → 오른쪽 값 반환
+
+```jsx
+console.log(1 || 0); // 1 (왼쪽 true → 왼쪽 반환)
+console.log(0 || 10); // 10 (왼쪽 false → 오른쪽 반환)
+console.log("" || 0); // 0 (둘 다 false → 마지막 값 반환)
+```
+
+---
+
+## 7️. 논리 연산자 (AND `&&`)
+
+- **두 값 모두 true** → 오른쪽 값 반환
+- **하나라도 false** → false인 값 반환
+
+```jsx
+console.log(1 && 2); // 2 (둘 다 true → 오른쪽 반환)
+console.log(0 && 1); // 0 (왼쪽 false → 0 반환)
+console.log(1 && 0); // 0 (오른쪽 false → 0 반환)
+```
+
+---
+
 ## ✅ 정리
 
-- `String()`: 데이터를 문자열로 변환
-- `Number()`: 데이터를 숫자로 변환
-- `Boolean()`: 데이터를 true/false로 변환
-- 암묵적 변환도 많으니, 예측하기 어려울 땐 **명시적 변환**을 권장!
+- `String()` → 문자열로 변환
+- `Number()` → 숫자로 변환
+- `Boolean()` → true/false로 변환
+- `!` → 불리언으로 변환 후 반대로
+- `||` → 왼쪽 true면 반환, 아니면 오른쪽
+- `&&` → 둘 다 true면 오른쪽 반환, 하나라도 false면 false 반환

@@ -43,3 +43,29 @@ console.log(Boolean(99999999999)); //true
 // 문자열 형 변환
 console.log(Boolean("")); // false
 console.log(Boolean(" ")); // false
+
+// 암시적 불리언 형 변환
+// 불리언 데이터가 아닌 데이터에 대한 논리연산(&&, ||, !)
+console.log(!0); //// 0 --> 암시적 형변환 --> false --> not연산 --> true
+console.log(!""); //true
+console.log(!1); //false
+
+// 정확한 논리연산자 작동 방식
+// OR(||) : 왼쪽 데이터가 true면 왼쪽 데이터 생성,
+// 왼쪽 데이터가 false 면, 오른쪽 데이터를 생성
+// true || false
+// true || false
+console.log(1 || 0); //1
+// false || true
+console.log(0 || 10); //10
+// false || false
+console.log("" || 0); //0
+
+// AND(&&) : 2개의 데이터가 모두 true인 데이터라면 오른쪽 데이터를 생성
+// false인 경우 false인 데이터를 생성
+//true && true
+console.log(1 && 2); //2
+// false && true
+console.log(0 && 1); //0
+// true && false
+console.log(1 && 0); //0
