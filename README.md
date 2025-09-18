@@ -34,6 +34,8 @@
 - **2025-09-15** : [CSS를 활용한 웹사이트 스타일링2](https://github.com/qqqkyj/sesac/tree/main/css)
 - **2025-09-16** : [생성형 AI를 활용한 와이어프레임 생성](https://github.com/qqqkyj/practice/blob/main/css/ui-generative-ai/profile_full_screen.png)
 - **2025-09-17** : [웹 개발을 위한 JavaScript 기초](https://github.com/qqqkyj/sesac/tree/main/js)
+- **2025-09-18** : [웹 개발을 위한 JavaScript 기초 - 조건문](https://github.com/qqqkyj/sesac/tree/main/js/06-condition)
+- **2025-09-18** : [웹 개발을 위한 JavaScript 기초 - 반복문](https://github.com/qqqkyj/sesac/tree/main/js/07-loop)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
