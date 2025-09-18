@@ -129,6 +129,7 @@ if (age >= 20) {
 // 그런데 만약 변수 score가 80 미만 그리고(&&), 70 이상이라면
 // 그런데 만약 변수 score가 70 미만 그리고(&&), 60 이상이라면
 // 그런데 모두 아니라면
+// 출력 값 : C
 
 let score = 75;
 
@@ -143,3 +144,35 @@ if (score >= 90) {
 } else {
 	console.log("F");
 }
+
+// ---
+// 아래 방식의 경우 모든 조건을 독립적으로 체크
+// 출력 값 : C
+// 출력 값 : D
+if (score >= 90) {
+	console.log("A");
+}
+if (score >= 80) {
+	console.log("B");
+}
+if (score >= 70) {
+	console.log("C");
+}
+if (score >= 60) {
+	console.log("D");
+} else {
+	console.log("F");
+}
+
+// 삼항 연산자 표현식
+// 표현식 : 데이터를 생성하는 코드
+
+// 조건식은 무조건 참(true) / 거짓(false) 데이터 중 하나를 생성
+// 조건식 ? 조건식이 참일 때 반환할 데이터 : 조건식이 거짓일 때 반환할 거짓 데이터
+// react의 경우 조건문 보다 표현식을 많이 사용함
+
+const message = 2 > 1 ? "2는 1보다 크다" : "2는 1보다 크지 않다";
+
+// 사용자의 로그인 여부
+let isLoggined = true;
+const user = isLoggined ? "회원 사용자 화면" : "비회원 사용자 화면";
