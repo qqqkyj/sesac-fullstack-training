@@ -36,6 +36,9 @@
 - **2025-09-17** : [웹 개발을 위한 JavaScript 기초](https://github.com/qqqkyj/sesac/tree/main/js)
 - **2025-09-18** : [웹 개발을 위한 JavaScript 기초 - 조건문](https://github.com/qqqkyj/sesac/tree/main/js/06-condition)
 - **2025-09-18** : [웹 개발을 위한 JavaScript 기초 - 반복문](https://github.com/qqqkyj/sesac/tree/main/js/07-loop)
+- **2025-09-19** : [웹 개발을 위한 JavaScript 기초 - 함수](https://github.com/qqqkyj/sesac/tree/main/js/08-function)
+- **2025-09-19** : [웹 개발을 위한 JavaScript 기초 - 배열](https://github.com/qqqkyj/sesac/tree/main/js/09-array)
+- **2025-09-19** : [웹 개발을 위한 JavaScript 기초 - 객체](https://github.com/qqqkyj/sesac/tree/main/js/10-object)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
