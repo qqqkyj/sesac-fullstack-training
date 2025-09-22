@@ -39,6 +39,10 @@
 - **2025-09-19** : [웹 개발을 위한 JavaScript 기초 - 함수](https://github.com/qqqkyj/sesac/tree/main/js/08-function)
 - **2025-09-19** : [웹 개발을 위한 JavaScript 기초 - 배열](https://github.com/qqqkyj/sesac/tree/main/js/09-array)
 - **2025-09-19** : [웹 개발을 위한 JavaScript 기초 - 객체](https://github.com/qqqkyj/sesac/tree/main/js/10-object)
+- **2025-09-22** : [웹 개발을 위한 JavaScript 기초 - 모듈](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/11-module)
+- **2025-09-22** : [웹 개발을 위한 JavaScript 기초 - 유효 범위](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/11-scope)
+- **2025-09-22** : [웹 개발을 위한 JavaScript 기초 - 예외 처리](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/12-exception)
+- **2025-09-22** : [웹 개발을 위한 JavaScript 기초 - 콜백 함수](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/13-callback)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
