@@ -43,6 +43,9 @@
 - **2025-09-22** : [웹 개발을 위한 JavaScript 기초 - 유효 범위](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/11-scope)
 - **2025-09-22** : [웹 개발을 위한 JavaScript 기초 - 예외 처리](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/12-exception)
 - **2025-09-22** : [웹 개발을 위한 JavaScript 기초 - 콜백 함수](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/13-callback)
+- **2025-09-23** : [브라우져 컨트롤을 위한 JavaScript 고급 - 비동기 처리](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/14-async)
+- **2025-09-23** : [브라우져 컨트롤을 위한 JavaScript 고급 - Promise, async/await](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/15-promise)
+- **2025-09-23** : [브라우져 컨트롤을 위한 JavaScript 고급 - API, axios](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/16-web-api)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
