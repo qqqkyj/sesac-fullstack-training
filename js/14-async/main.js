@@ -33,20 +33,3 @@ console.log("setTimeout 후 코드");
 // 	}, 2000);
 // 	console.log("콜백 지옥.3000ms 후 실행"); //3초 후 실행
 // }, 3000);
-
-// promise
-// resolve() : 성공 시 값을 반환하는 함수
-// reject() : 실패 시 값을 반환하는 함수
-const promise = new Promise((resolve, reject) => {
-	// 비동기 작업 흉내
-	setTimeout(() => {
-		const random = Math.random(); // 랜덤 숫자 생성
-
-		if (random > 0.5) {
-			resolve("숫자가 0.5 이상! 성공"); // 성공 시  반환
-		} else {
-			reject("숫자가 0.5 이하! 실패"); // 실패 시  반환
-		}
-	}, 1000);
-});
-console.log(promise);
