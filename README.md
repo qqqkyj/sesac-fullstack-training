@@ -46,6 +46,7 @@
 - **2025-09-23** : [브라우져 컨트롤을 위한 JavaScript 고급 - 비동기 처리](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/14-async)
 - **2025-09-23** : [브라우져 컨트롤을 위한 JavaScript 고급 - Promise, async/await](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/15-promise)
 - **2025-09-23** : [브라우져 컨트롤을 위한 JavaScript 고급 - API, axios](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/16-web-api)
+- **2025-09-24** : [브라우져 컨트롤을 위한 JavaScript 고급 - DOM, 노드, 이벤트(axios2)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/17-dom)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
