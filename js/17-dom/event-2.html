@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<!-- event-2.html -->
+		<button>클릭</button>
+
+		<!-- script -->
+		<script>
+			// 태그명이 button인 요소를 선택(querySelector)하고, 변수에 할당
+			const btnTag = document.querySelector("button");
+
+			// DOM의 textContent 속성을 활용
+			btnTag["textContent"] = "Click";
+
+			// DOM의 이벤트 속성을 활용해서 이벤트핸들러 함수를 등록
+			btnTag["onclick"] = () => {
+				alert("클릭 클릭");
+			};
+
+			// 태그명이 input인 요소를 선택하고, 변수에 할당
+			const bodyTag = document.querySelector("body");
+			//bodyTag.append(document.createElement("input"));
+			bodyTag.insertBefore(document.createElement("input"), btnTag);
+
+			const inputTag = document.querySelector("input");
+			// input의 oninput 이벤트가 발생하면 콘솔에 "입력" 문자열을 출력
+			inputTag["oninput"] = () => {
+				console.log("입력");
+			};
+		</script>
+	</body>
+</html>

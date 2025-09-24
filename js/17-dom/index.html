@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<!-- axios CDN(Content Delivery Network) 링크 -->
+		<!-- 자바스크립트 파일이 아니기 때문에 import axios from "axios" 사용 불가 -->
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	</head>
+	<body>
+		<div id="parent"></div>
+		<button>클릭</button>
+
+		<!-- script -->
+		<script>
+			// API 사용을 위한 기본 주소(URL)
+			const DOMAIN_NAME = "https://dummyjson.com";
+
+			// 통신 연결 테스트 함수
+			async function testConnect() {
+				// 요청 주소 => url
+				// 요청 방법 => method
+				// const res = await axios.get(`${DOMAIN_NAME}/test`);
+				const config = { url: `${DOMAIN_NAME}/test`, method: "get" };
+				// axios를 활용해서 요청(클라이언트 -> 서버)
+				// 요청에 대한 응답을 변수 res에 저장
+				const res = await axios(config);
+				const data = res["data"];
+				console.log(data);
+			}
+			// testConnect();
+
+			// id가 parent인 요소를 선택
+			const parentTag = document.querySelector("#parent");
+
+			// 상품 목록을 요청할 비동기 함수
+			async function getProducts() {
+				const config = { url: `${DOMAIN_NAME}/products`, method: "get" };
+				const res = await axios(config);
+
+				// 응답 데이터에서 data속성 추출
+				const data = res["data"];
+				// data 객체에서 products 속성 추출
+				const products = data["products"];
+				console.table(products);
+
+				// 배열 고차 메서드를 사용해서 배열 데이터인 products를 반복
+				products.forEach((element) => {
+					//매개 변수 element : 배열에 저장된 개별 상품 개체(각각의 product)
+					const title = element["title"]; //상품(element) 정보에서 이름(title) 속성 추출
+					const pTag = document.createElement("p"); //p태그 생성
+					pTag["textContent"] = title; //p태그 요소의 텍스트를 상품의 이름으로 설정
+					parentTag.append(pTag); //#parent 인 요소에 p태그 추가(append())
+				});
+			}
+			//getProducts();
+
+			async function getAllProducts() {
+				const config = { url: `${DOMAIN_NAME}/products`, method: "get" };
+				const res = await axios(config);
+				const products = res["data"]["products"];
+				console.table(products);
+			}
+			//getAllProducts();
+
+			// 태그명이 button인 요소의 click 이벤트가 발생했을 때
+			// 함수 getProducts가 호출 코드 작성
+			// 1. 태그명이 button인 요소를 선택
+			// 2. 요소를 변수에 할당(저장)
+			// 3. 요소에 click 이벤트에 대한 AddEventListener() 메서드로 요소에 click 이벤트에 대한 핸들러 등록
+			const btnTag = document.querySelector("button");
+			btnTag.addEventListener("click", () => {
+				//getProducts();
+				getAllProducts();
+			});
+		</script>
+	</body>
+</html>
