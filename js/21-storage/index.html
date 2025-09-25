@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Local Storage vs Session Storage</title>
+  </head>
+  <body>
+    <h2>로컬 스토리지 (Local Storage)</h2>
+    <input
+      type="text"
+      id="localKey"
+      placeholder="로컬 스토리지 키를 입력하세요"
+    />
+    <input
+      type="text"
+      id="localValue"
+      placeholder="로컬 스토리지 값을 입력하세요"
+    />
+    <button onclick="setLocalStorage()">저장</button>
+    <button onclick="getLocalStorage()">조회</button>
+    <div id="localDisplay"></div>
+
+    <hr />
+
+    <h2>세션 스토리지 (Session Storage)</h2>
+    <input
+      type="text"
+      id="sessionKey"
+      placeholder="세션 스토리지 키를 입력하세요"
+    />
+    <input
+      type="text"
+      id="sessionValue"
+      placeholder="세션 스토리지 값을 입력하세요"
+    />
+    <button onclick="setSessionStorage()">저장</button>
+    <button onclick="getSessionStorage()">조회</button>
+    <div id="sessionDisplay"></div>
+
+    <script>
+      // 로컬 스토리지 함수들
+      function setLocalStorage() {
+        const key = document.getElementById("localKey").value;
+        const value = document.getElementById("localValue").value;
+
+        if (key && value) {
+          localStorage.setItem(key, value);
+          alert(`로컬 스토리지에 저장되었습니다: ${key} = ${value}`);
+          document.getElementById("localKey").value = "";
+          document.getElementById("localValue").value = "";
+        } else {
+          alert("키와 값을 모두 입력해주세요.");
+        }
+      }
+
+      function getLocalStorage() {
+        const key = document.getElementById("localKey").value;
+        if (key) {
+          const value = localStorage.getItem(key);
+          if (value) {
+            alert(`로컬 스토리지 값: ${key} = ${value}`);
+          } else {
+            alert(`키 '${key}'를 찾을 수 없습니다.`);
+          }
+        } else {
+          alert("조회할 키를 입력해주세요.");
+        }
+      }
+
+      // 세션 스토리지 함수들
+      function setSessionStorage() {
+        const key = document.getElementById("sessionKey").value;
+        const value = document.getElementById("sessionValue").value;
+
+        if (key && value) {
+          sessionStorage.setItem(key, value);
+          alert(`세션 스토리지에 저장되었습니다: ${key} = ${value}`);
+          document.getElementById("sessionKey").value = "";
+          document.getElementById("sessionValue").value = "";
+        } else {
+          alert("키와 값을 모두 입력해주세요.");
+        }
+      }
+
+      function getSessionStorage() {
+        const key = document.getElementById("sessionKey").value;
+        if (key) {
+          const value = sessionStorage.getItem(key);
+          if (value) {
+            alert(`세션 스토리지 값: ${key} = ${value}`);
+          } else {
+            alert(`키 '${key}'를 찾을 수 없습니다.`);
+          }
+        } else {
+          alert("조회할 키를 입력해주세요.");
+        }
+      }
+    </script>
+  </body>
+</html>
