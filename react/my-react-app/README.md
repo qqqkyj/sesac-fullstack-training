@@ -102,7 +102,7 @@ function Counter() {
    npm create vite@latest my-react-app -- --template react
    ```
 
-   ![image.png](attachment:9b2c8008-d0be-42ba-8644-9e46917ec188:image.png)
+   ![alt text](image.png)
 
 2. **프로젝트 경로 이동**
 
@@ -122,10 +122,10 @@ function Counter() {
    npm run dev
    ```
 
-   ![image.png](attachment:843696ff-a383-4025-a401-859333bfc4a8:image.png)
+   ![alt text](image-1.png)
 
    - 브라우저에서 👉 `http://localhost:5173` 접속
-     ![image.png](attachment:c6a4b250-3f1e-43d9-8e5a-c927e3095f78:image.png)
+     ![alt text](image-2.png)
 
 5. **프로덕션 빌드**
 
@@ -133,7 +133,7 @@ function Counter() {
    npm run build
    ```
 
-   ![image.png](attachment:1bb05c54-d802-4178-9d89-f14ddf6d720b:image.png)
+   ![alt text](image-3.png)
 
    - 빌드된 결과물은 `dist/` 폴더에 생성됨
 
@@ -169,11 +169,11 @@ function Counter() {
   - `App.jsx` : 최상위 메인 컴포넌트
   - `assets/` : 이미지, 오디오, 폰트 등
   - `App.module.css` : 모듈화된 CSS
-    ![image.png](attachment:6ca448a5-e894-410a-aa26-df966ad818ab:image.png)
+    ![alt text](image-4.png)
   - `App.jsx` 에 `App.module.css` 불러오기
-    ![image.png](attachment:2b7e89c0-cdef-4a4c-8194-de017b7c6ee2:image.png)
+    ![alt text](image-5.png)
   - `npm run dev`
-    ![image.png](attachment:489822b4-9e74-408d-a253-f7e2132e3f6b:image.png)
+    ![alt text](image-6.png)
 
 ---
 
@@ -181,9 +181,9 @@ function Counter() {
 
 1. **확장 프로그램 설치**
    - VS Code → `ES7+ React/Redux/React-Native snippets`
-     ![image.png](attachment:c2d1be3d-19d8-415e-b9f5-7a389d560f06:image.png)
+     ![alt text](image-7.png)
    - icon → `Material Icon Theme`
-     ![image.png](attachment:045b16ff-e133-42d5-bdf0-19bc936f35f2:image.png)
+     ![alt text](image-8.png)
 2. **기본 파일 정리**
    - `src/App.css` → 삭제
    - `src/index.css` → 초기화 후 직접 설정
@@ -217,7 +217,7 @@ function Counter() {
    @import "tailwindcss";
    ```
 
-   ![image.png](attachment:aa2ec2ac-d44d-453c-a189-afeccc3120f1:image.png)
+   ![alt text](image-9.png)
 
 4. **적용 확인**
 
@@ -232,7 +232,7 @@ function Counter() {
 
    → 실행 시 빨간색 굵은 글씨로 `App` 표시 확인 ✅
 
-   ![image.png](attachment:82e16b14-719b-4675-9f70-c6a8248d0db1:image.png)
+   ![alt text](image-10.png)
 
 ---
 
