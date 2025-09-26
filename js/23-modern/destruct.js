@@ -73,3 +73,18 @@ const user = {
 };
 func(user); // Hello 홍길동, I'm 20
 func2(user); // Hello 홍길동, I'm 20
+
+const object1 = {
+	id: 1,
+	body: "This is some awesome thinking!",
+	postId: 242,
+	likes: 3,
+	user: {
+		id: 105,
+		username: "emmac",
+		fullName: "Emma Wilson",
+	},
+};
+
+console.log(object1["user"]);
+console.log(object1["user"]["id"]);
