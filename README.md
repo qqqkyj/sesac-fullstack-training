@@ -50,6 +50,8 @@
 - **2025-09-25** : [브라우져 컨트롤을 위한 JavaScript 고급 - 이벤트 전파](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/18-event-propagation)
 - **2025-09-25** : [브라우져 컨트롤을 위한 JavaScript 고급 - DOM 폼 처리](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/19-form)
 - **2025-09-25** : [브라우져 컨트롤을 위한 JavaScript 고급 - Web Storage, axios HTTP(Post, Put, Delete)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/21-storage)
+- **2025-09-26** : [브라우져 컨트롤을 위한 JavaScript 고급 - this, 모던 JavaScript](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/js/23-modern)
+- **2025-09-26** : [컴포넌트 기반 웹 UI 구현을 위한 React 기초 - react 설치 및 기초](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/my-react-app)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
