@@ -1,5 +1,6 @@
 import React from "react";
-import CardContainer from "./components/Props/CardContainer";
+import CardContainer from "./components/PropsFunction/CardContainer";
+import Card from "./components/PropsFunction/Card";
 
 // 파일과 동일한 함수는 컴포넌트 함수
 // 컴포넌트 함수 : 태그(HTML 문서)를 생성하는 함수
