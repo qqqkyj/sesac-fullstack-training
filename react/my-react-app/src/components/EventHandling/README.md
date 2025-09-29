@@ -114,3 +114,5 @@ onChange={(event) => handleChange(event)}
 | onChange | input, textarea, select | 입력값 추적, 실시간 검증             |
 | onSubmit | form                    | 폼 데이터 제출 처리, 새로고침 방지   |
 | onClick  | button, div 등          | 클릭 시 동작 수행, 알림/상태 변경 등 |
+
+---
