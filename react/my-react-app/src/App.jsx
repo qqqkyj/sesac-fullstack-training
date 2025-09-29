@@ -1,20 +1,24 @@
 import React from "react";
-// import Header from "./components/Header";
-// import Footer from "./components/Footer";
-// import Rule from "./components/JSX/Rule";
-// import InterPlation from "./components/JSX/InterPlation";
+import OnClick from "./components/EventHandling/OnClick";
+import OnChange from "./components/EventHandling/OnChange";
+import OnSubmit from "./components/EventHandling/OnSubmit";
 
-import MyButton from "./components/Component/MyButton";
-import MyList from "./components/Component/MyList";
-
-// App 컴포넌트는 Header 컴포넌트와 InterPolation 컴포넌트를 포함한다
-// App 컴포넌트는 Header 컴포넌트와 InterPolation 컴포넌트가 중첩됐다
+// 파일과 동일한 함수는 컴포넌트 함수
+// 컴포넌트 함수 : 태그(HTML 문서)를 생성하는 함수
+// 컴포넌트 함수는 파일 당 하나만 존재
 export default function App() {
+	// 영역 1. 내부 기능 로직을 작성하는 영역
+	// 이벤트 핸들러 함수를 정의
+	// 이벤트 핸들러 함수 : 이벤트가 발생할 때 실행될 기능
+
+	// ---------------------------------------------
+	// 영역 2. 태그(HTML 문서)를 생성(return)하는 영역
+
 	return (
 		<div>
 			{/* 컴포넌트 사용 */}
-			<MyList />
-			<MyButton />
+			<OnSubmit></OnSubmit>
+			<OnClick></OnClick>
 		</div>
 	);
 
