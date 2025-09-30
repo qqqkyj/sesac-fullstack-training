@@ -1,5 +1,5 @@
 import React from "react";
-import Parent from "./components/PropsChildren/Parent";
+import Container from "./components/Condition/Container";
 
 // 파일과 동일한 함수는 컴포넌트 함수
 // 컴포넌트 함수 : 태그(HTML 문서)를 생성하는 함수
@@ -15,7 +15,7 @@ export default function App() {
 	return (
 		<div>
 			{/* 컴포넌트 사용 */}
-			<Parent></Parent>
+			<Container></Container>
 		</div>
 	);
 }
