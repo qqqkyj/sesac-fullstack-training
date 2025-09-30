@@ -55,6 +55,10 @@
 - **2025-09-29** : [컴포넌트 기반 웹 UI 구현을 위한 React 기초 - 이벤트 핸들링](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/my-react-app/src/components/EventHandling)
 - **2025-09-29** : [컴포넌트 기반 웹 UI 구현을 위한 React 기초 - Props](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/my-react-app/src/components/PropsExample)
 - **2025-09-29** : [컴포넌트 기반 웹 UI 구현을 위한 React 기초 - Props Function](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/my-react-app/src/components/PropsFunction)
+- **2025-09-29** : [웹 개발 기본과 코드 버전 관리를 위한 Git - 브랜치](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/git/branch.md)
+- **2025-09-30** : [컴포넌트 기반 웹 UI 구현을 위한 React 기초 - 조건부 렌더링(Conditional Rendering)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/my-react-app/src/components/Condition)
+- **2025-09-30** : [컴포넌트 기반 웹 UI 구현을 위한 React 기초 - 리스트 렌더링(List Rendering)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/my-react-app/src/components/List)
+- **2025-09-30** : [컴포넌트 기반 웹 UI 구현을 위한 React 기초 - 상태(State)와 Hook](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/my-react-app/src/components/State)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
