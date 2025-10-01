@@ -1,11 +1,6 @@
 import React from "react";
-import Container from "./components/StateAdvanced/Container";
-import RadioButtons from "./components/StateAdvanced/RadioButtons";
+import Container from "./components/UseEffect/Container";
 
 export default function App() {
-	return (
-		<div>
-			<RadioButtons></RadioButtons>
-		</div>
-	);
+	return <Container></Container>;
 }
