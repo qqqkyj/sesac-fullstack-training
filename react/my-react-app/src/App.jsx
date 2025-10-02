@@ -1,6 +1,7 @@
 import React from "react";
-import Container from "./components/UseEffect/Container";
+// import MovieList from "./components/TMDB/MovieList";
+import MovieDetail from "./components/TMDB/MovieDetail";
 
 export default function App() {
-	return <Container></Container>;
+	return <MovieDetail></MovieDetail>;
 }
