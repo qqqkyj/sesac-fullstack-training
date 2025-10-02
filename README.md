@@ -62,6 +62,7 @@
 - **2025-10-01** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - State 고급 (form, radio, checkbox)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/my-react-app/src/components/StateAdvanced)
 - **2025-10-01** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - useEffect)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/my-react-app/src/components/UseEffect)
 - **2025-10-02** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - TMDB API dataFetching)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/my-react-app/src/components/TMDB)
+- **2025-10-02** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - axios 인스턴스와 요청 함수 분리)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/my-react-app/src/api)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
