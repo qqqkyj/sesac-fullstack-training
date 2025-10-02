@@ -222,3 +222,188 @@ export default function MovieDetail() {
 2. **`.env` 파일에 API 키 저장 & `.gitignore` 처리**
 3. **Axios 등으로 API 호출**
 4. **React 등에서 데이터 활용**
+
+---
+
+# 🎬 TMDB 영화 검색 실습 (React + TailwindCSS)
+
+## 1️⃣ 개요
+
+- TMDB API를 활용하여 영화 정보를 검색하고 결과를 화면에 표시
+- TailwindCSS로 레이아웃과 스타일 적용
+- 줄거리(`overview`)는 **3줄까지만 표시**, 넘치면 `…` 처리
+
+---
+
+## 2️⃣ 프로젝트 구조
+
+```
+src/
+└─ components/
+   ├─ Movie.jsx        // 단일 영화 카드 컴포넌트
+   └─ MovieSearch.jsx  // 검색 기능 + 영화 목록 표시
+```
+
+---
+
+## 3️⃣ Movie.jsx (단일 영화 컴포넌트)
+
+```jsx
+import React from "react";
+
+const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+
+export default function Movie({ movie }) {
+  return (
+    <div>
+      <p className="font-bold mb-2">{movie.title}</p>
+      <imgsrc={
+          movie.poster_path
+            ? `${IMAGE_BASE_URL}${movie.poster_path}`
+            : "https://placehold.co/500x750/000000/FFFFFF.png?text=No+Image"
+        }
+        alt={`${movie.title} 포스터`}
+      />
+      <p className="line-clamp-3 mb-2">{movie.overview}</p>
+      <p>Release: {movie.release_date}</p>
+      <p>Rating: {movie.vote_average}</p>
+    </div>
+  );
+}
+```
+
+### ✨ 포인트
+
+- `line-clamp-3` → TailwindCSS line-clamp 플러그인을 활용, 3줄까지만 보여주고 나머지는 `…` 처리
+- 포스터 없을 경우 **대체 이미지** 사용
+
+---
+
+## 4️⃣ MovieSearch.jsx (검색 + 목록)
+
+```jsx
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Movie from "./Movie";
+
+const BASE_URL = "https://api.themoviedb.org/3";
+const API_KEY = import.meta.env["VITE_TMDB_API_KEY"];
+
+export default function MovieSearch() {
+  const [movies, setMovies] = useState([]);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    getMoviesByTitle();
+  }, []);
+
+  async function getMoviesByTitle() {
+    if (!search.trim()) {
+      setMovies([]);
+      return;
+    }
+
+    const config = {
+      method: "GET",
+      url: `${BASE_URL}/search/movie`,
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+      params: {
+        query: search,
+        language: "ko-KR",
+        page: 1,
+      },
+    };
+
+    try {
+      const res = await axios(config);
+      setMovies(res.data.results);
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+      setMovies([]);
+    }
+  }
+
+  return (
+    <div className="p-4 md:p-8 max-w-screen-2xl mx-auto bg-gray-50 min-h-screen">
+      <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-gray-800">
+        🎬 영화 정보 검색
+      </h1>
+
+      <formclassName="flex gap-2 mb-10 max-w-2xl mx-auto"
+        onSubmit={(e) => {
+          e.preventDefault();
+          getMoviesByTitle();
+        }}
+      >
+        <inputclassName="flex-grow p-3 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-indigo-500 transition shadow-sm"
+          type="text"
+          placeholder="영화 제목을 검색해보세요..."
+          onChange={(e) => setSearch(e.target.value)}
+          value={search}
+        />
+        <inputtype="submit"
+          value="검색"
+          className="bg-indigo-600 text-white px-8 py-3 rounded-r-full hover:bg-indigo-700 cursor-pointer transition shadow-sm font-semibold"
+        />
+      </form>
+
+      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+        {movies.length > 0 ? (
+          movies.map((movie) => (
+            <li key={movie.id} className="transform hover:scale-105 transition duration-300">
+              <Movie movie={movie} />
+            </li>
+          ))
+        ) : (
+          <p className="col-span-full text-center text-gray-500 text-lg mt-10">
+            검색 결과가 없습니다.
+          </p>
+        )}
+      </ul>
+    </div>
+  );
+}
+```
+
+### ✨ 포인트
+
+- 검색어가 없으면 목록 초기화
+- TailwindCSS Grid로 반응형 영화 카드 레이아웃 구현
+- 영화 카드 hover 시 확대 효과
+
+---
+
+## 5️⃣ TailwindCSS line-clamp 설정
+
+1. 설치
+
+```bash
+npm install @tailwindcss/line-clamp
+```
+
+1. `tailwind.config.js`에 플러그인 추가
+
+```jsx
+plugins: [
+  require('@tailwindcss/line-clamp'),
+],
+```
+
+1. 줄거리 요소에 클래스 적용
+
+```jsx
+<p className="line-clamp-3">{movie.overview}</p>
+```
+
+---
+
+## 6️⃣ 결과 화면
+
+- 영화 검색 후 카드 형태로 표시
+- 줄거리는 최대 3줄까지만 표시되고 `…` 처리
+- 포스터 없으면 placeholder 이미지 표시
+
+![alt text](image-2.png)
