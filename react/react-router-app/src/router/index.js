@@ -1,8 +1,3 @@
-// 페이지 컴포넌트
-import Home from "../pages/RootPages/Home";
-import About from "../pages/RootPages/About";
-import Profile from "../pages/RootPages/Profile";
-
 // React Router의 createBrowserRouter 불러오기
 // createBrowserRouter 함수
 // 라우터 설정을 생성하는 함수
@@ -13,11 +8,13 @@ import { createBrowserRouter } from "react-router-dom";
 // 레이아웃 컴포넌트 불러오기
 import RootLayout from "../layout/RootLayout";
 import AuthLayout from "../layout/AuthLayout";
+import ProtectedLayout from "../layout/ProtectedLayout";
 
 // 페이지 컴포넌트 불러오기
 import Home from "../pages/RootPages/Home";
 import About from "../pages/RootPages/About";
 import Profile from "../pages/RootPages/Profile";
+
 import AuthHome from "../pages/AuthPages/AuthHome";
 import Login from "../pages/AuthPages/Login";
 import Signup from "../pages/AuthPages/Signup";
@@ -39,8 +36,15 @@ const router = createBrowserRouter([
 				Component: About,
 			},
 			{
-				path: "profile",
-				Component: Profile,
+				// path 속성 X
+				Component: ProtectedLayout,
+				// 보호할 경로와 컴포넌트 정의
+				children: [
+					{
+						path: "profile",
+						Component: Profile,
+					},
+				],
 			},
 		],
 	},
