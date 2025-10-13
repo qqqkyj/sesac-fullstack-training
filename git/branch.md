@@ -135,6 +135,13 @@ git switch main
 git pull sesac main
 ```
 
+### 3️⃣ 브랜치 삭제
+
+```bash
+# 병합 후 원격 저장소에서만 삭제된 상태로 로컬에서 강제 삭제
+git branch -D <삭제할 브랜치 명>
+```
+
 ---
 
 ## ✅ 추가 팁
