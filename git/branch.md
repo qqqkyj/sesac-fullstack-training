@@ -154,3 +154,11 @@ git branch -D <삭제할 브랜치 명>
   ```bash
   git branch -d git-branch
   ```
+
+---
+
+### 병합 방식 차이
+
+- merge : 병합 커밋이 생성된다
+- rebase : 커밋이 main 브랜치에 재배치한다
+- squash : 여러개의 커밋을 하나로 합쳐서 재배치한다
