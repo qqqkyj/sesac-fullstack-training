@@ -651,3 +651,429 @@ export default function PostList() {
 ## ✅ 한 줄 요약
 
 > useState() 👉 "화면 안에서만 유지되는 임시 상태" useSearchParams() 👉 "URL에도 남는 영구적 상태"
+
+# 📘 React Router 경로 상수(`PATHS`) 구조 정리
+
+## 1️⃣ 경로 상수(`PATHS`)의 역할
+
+> 프로젝트 내 모든 경로(URL 문자열)를 한곳에서 관리하기 위한 상수 객체입니다.
+>
+> 하드코딩된 문자열을 없애고, 경로 변경 시 유지보수를 쉽게 해줍니다.
+
+---
+
+## 2️⃣ 경로 상수 정의 – `src/constants/paths.js`
+
+```jsx
+// 📄 src/constants/paths.js
+
+// 경로 문자열을 관리하는 상수 객체
+const PATHS = {
+	// 🏠 Root Layout (공용 기본 페이지)
+	ROOT: {
+		// 기본 경로
+		INDEX: "/",
+		ABOUT: "/about",
+		POSTS: "/posts",
+		POSTS_DETAIL: "/posts/:postId", // 경로 파라미터 포함
+		PROFILE: "/profile",
+
+		// 동적 경로를 만들어주는 함수
+		getPostDetail: (postId) => `/posts/${postId}`,
+	},
+
+	// 🔐 Auth Layout (회원 인증 관련)
+	AUTH: {
+		INDEX: "/auth",
+		LOGIN: "/auth/login",
+		SIGNUP: "/auth/signup",
+	},
+
+	// 🧩 DummyJSON 실습 페이지
+	DUMMY: {
+		INDEX: "/dummy",
+		CARTS: "/dummy/carts",
+		POSTS: "/dummy/posts",
+		PRODUCTS: "/dummy/products",
+		PRODUCT_DETAIL: "/dummy/products/:productId",
+
+		getProductDetail: (productId) => `/dummy/products/${productId}`,
+	},
+};
+
+export default PATHS;
+```
+
+---
+
+## 3️⃣ 라우터 설정 – `src/router/index.js`
+
+```jsx
+import { createBrowserRouter } from "react-router-dom";
+import PATHS from "../constants/paths.js";
+
+// 🧱 레이아웃 컴포넌트
+import RootLayout from "../layout/RootLayout";
+import AuthLayout from "../layout/AuthLayout";
+import DummyLayout from "../layout/DummyLayout";
+import ProtectedLayout from "../layout/ProtectedLayout";
+
+// 🗂️ 페이지 컴포넌트
+import Home from "../pages/RootPages/Home";
+import About from "../pages/RootPages/About";
+import Profile from "../pages/RootPages/Profile";
+import PostList from "../pages/RootPages/PostList";
+import PostDetail from "../pages/RootPages/PostDetail";
+
+import AuthHome from "../pages/AuthPages/AuthHome";
+import Signup from "../pages/AuthPages/Signup";
+import Login from "../pages/AuthPages/Login";
+
+import DummyHome from "../pages/DummyPages/DummyHome";
+import Carts from "../pages/DummyPages/Carts";
+import Posts from "../pages/DummyPages/Posts";
+import Products from "../pages/DummyPages/Products";
+import ProductDetail from "../pages/DummyPages/ProductDetail";
+
+// 🚀 createBrowserRouter를 이용한 라우팅 구성
+const router = createBrowserRouter([
+	{
+		path: PATHS.ROOT.INDEX,
+		Component: RootLayout,
+		children: [
+			{ index: true, Component: Home },
+			{ path: PATHS.ROOT.ABOUT, Component: About },
+			{ path: PATHS.ROOT.POSTS, Component: PostList },
+			{ path: PATHS.ROOT.POSTS_DETAIL, Component: PostDetail },
+			{
+				Component: ProtectedLayout,
+				children: [{ path: PATHS.ROOT.PROFILE, Component: Profile }],
+			},
+		],
+	},
+	{
+		path: PATHS.AUTH.INDEX,
+		Component: AuthLayout,
+		children: [
+			{ index: true, Component: AuthHome },
+			{ path: PATHS.AUTH.LOGIN, Component: Login },
+			{ path: PATHS.AUTH.SIGNUP, Component: Signup },
+		],
+	},
+	{
+		path: PATHS.DUMMY.INDEX,
+		Component: DummyLayout,
+		children: [
+			{ index: true, Component: DummyHome },
+			{ path: PATHS.DUMMY.CARTS, Component: Carts },
+			{ path: PATHS.DUMMY.POSTS, Component: Posts },
+			{ path: PATHS.DUMMY.PRODUCTS, Component: Products },
+			{ path: PATHS.DUMMY.PRODUCT_DETAIL, Component: ProductDetail },
+		],
+	},
+]);
+
+export default router;
+```
+
+✅ **장점**
+
+- 모든 경로를 `PATHS` 객체로 통일 → 경로 변경 시 한 곳만 수정
+- 오타 방지 (`"/dummy/products"` 대신 `PATHS.DUMMY.PRODUCTS`)
+- 가독성 향상 및 팀 개발 시 유지보수 용이
+  ![alt text](image-5.png)
+
+---
+
+## 4️⃣ 경로 상수 사용 예시 – `src/pages/RootPages/PostList.jsx`
+
+```jsx
+import { useState, useEffect } from "react";
+import { useSearchParams, Link } from "react-router-dom";
+import axios from "axios";
+import PATHS from "../../constants/paths";
+
+export default function PostList() {
+	const [posts, setPosts] = useState([]);
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	useEffect(() => {
+		const sortBy = searchParams.get("sortBy") ?? "id";
+		const order = searchParams.get("order") ?? "asc";
+
+		async function fetchPosts() {
+			const res = await axios.get(
+				`https://dummyjson.com/posts?sortBy=${sortBy}&order=${order}`
+			);
+			setPosts(res.data.posts);
+		}
+		fetchPosts();
+	}, [searchParams]);
+
+	return (
+		<div>
+			<h2>게시글 목록</h2>
+
+			{/* 정렬 버튼 */}
+			<div>
+				<button onClick={() => setSearchParams({ sortBy: "id", order: "asc" })}>
+					ID 오름차순
+				</button>
+				<button
+					onClick={() => setSearchParams({ sortBy: "id", order: "desc" })}
+				>
+					ID 내림차순
+				</button>
+			</div>
+
+			{/* 게시글 리스트 */}
+			<ul>
+				{posts.map((post) => (
+					<li key={post.id}>
+						{/* ✅ 경로 상수 활용 */}
+						<Link to={PATHS.ROOT.getPostDetail(post.id)}>
+							No.{post.id} - {post.title}
+						</Link>
+					</li>
+				))}
+			</ul>
+		</div>
+	);
+}
+```
+
+![alt text](image-4.png)
+
+---
+
+## 🧠 요약: PATHS 패턴의 핵심 개념
+
+| 구분                    | 설명                                   | 예시                                        |
+| ----------------------- | -------------------------------------- | ------------------------------------------- |
+| **경로 상수 관리 목적** | 경로 문자열을 한곳에 모아 관리         | `/posts/:id` → `PATHS.ROOT.POSTS_DETAIL`    |
+| **중첩 구조**           | Layout별로 그룹화                      | `ROOT`, `AUTH`, `DUMMY` 등                  |
+| **동적 경로 메서드**    | URL 파라미터를 적용해 완성된 경로 반환 | `getPostDetail(postId)`                     |
+| **사용 위치**           | 라우터 설정, Link, Navigate 등         | `<Link to={PATHS.ROOT.getPostDetail(3)} />` |
+
+---
+
+✅ **요약 문장**
+
+> PATHS는 React Router에서 경로를 체계적으로 관리하기 위한 상수 모음이며,
+>
+> 중첩 구조 + 동적 URL 생성 메서드를 통해 유지보수성과 가독성을 극대화한다.
+
+---
+
+# React Router v7 – 라우터 모듈화 & Not Found 처리
+
+## 1️⃣ 라우터 모듈화(Modular Router)
+
+### 🔹 개념
+
+- 프로젝트가 커지면 라우터 설정이 점점 복잡해짐
+- 레이아웃 단위로 라우터를 모듈화하면 관리가 편리함
+- 각 레이아웃별로 관련된 페이지 라우트를 묶어서 파일로 관리
+- 중앙에서 합쳐서 `createBrowserRouter`로 등록
+  ![alt text](image-3.png)
+
+### 🔹 구조 예시
+
+```
+src/
+├─ constants/
+│  └─ paths.js        // URL 상수 관리
+├─ layout/
+│  ├─ RootLayout.jsx
+│  ├─ AuthLayout.jsx
+│  └─ DummyLayout.jsx
+├─ pages/
+│  ├─ RootPages/
+│  │  ├─ Home.jsx
+│  │  ├─ About.jsx
+│  │  ├─ PostList.jsx
+│  │  └─ PostDetail.jsx
+│  ├─ AuthPages/
+│  │  ├─ AuthHome.jsx
+│  │  ├─ Login.jsx
+│  │  └─ Signup.jsx
+│  └─ DummyPages/
+│     ├─ DummyHome.jsx
+│     ├─ Carts.jsx
+│     ├─ Posts.jsx
+│     └─ Products.jsx
+└─ router/
+   ├─ routes/
+   │  ├─ rootRoutes.js
+   │  └─ authRoutes.js
+   └─ index.js
+```
+
+---
+
+### 🔹 경로 상수 관리 (src/constants/paths.js)
+
+```jsx
+const PATHS = {
+	ROOT: {
+		INDEX: "/",
+		ABOUT: "/about",
+		POSTS: "/posts",
+		POSTS_DETAIL: "/posts/:postId",
+		getPostDetail: (postId) => `/posts/${postId}`,
+		PROFILE: "/profile",
+	},
+	AUTH: {
+		INDEX: "/auth",
+		LOGIN: "/auth/login",
+		SIGNUP: "/auth/signup",
+	},
+	DUMMY: {
+		INDEX: "/dummy",
+		PRODUCTS: "/dummy/products",
+		PRODUCT_DETAIL: (id) => `/dummy/products/${id}`,
+	},
+};
+
+export default PATHS;
+```
+
+> 💡 장점
+>
+> - URL 오타 방지
+> - 동적 라우트 함수 제공
+> - 유지보수 용이
+
+---
+
+### 🔹 Root Layout 라우트 모듈 (src/router/routes/rootRoutes.js)
+
+```jsx
+import RootLayout from "../../layout/RootLayout";
+import Home from "../../pages/RootPages/Home";
+import About from "../../pages/RootPages/About";
+import PostList from "../../pages/RootPages/PostList";
+import PostDetail from "../../pages/RootPages/PostDetail";
+import Profile from "../../pages/RootPages/Profile";
+import ProtectedLayout from "../../layout/ProtectedLayout";
+import PATHS from "../../constants/paths";
+
+const rootRoutes = [
+	{
+		path: PATHS.ROOT.INDEX,
+		Component: RootLayout,
+		children: [
+			{ index: true, Component: Home },
+			{ path: PATHS.ROOT.ABOUT, Component: About },
+			{ path: PATHS.ROOT.POSTS, Component: PostList },
+			{ path: PATHS.ROOT.POSTS_DETAIL, Component: PostDetail },
+			{
+				Component: ProtectedLayout,
+				children: [{ path: PATHS.ROOT.PROFILE, Component: Profile }],
+			},
+		],
+	},
+];
+
+export default rootRoutes;
+```
+
+---
+
+### 🔹 Auth Layout 라우트 모듈 (src/router/routes/authRoutes.js)
+
+```jsx
+import PATHS from "../../constants/paths";
+import AuthLayout from "../../layout/AuthLayout";
+import AuthHome from "../../pages/AuthPages/AuthHome";
+import Login from "../../pages/AuthPages/Login";
+import Signup from "../../pages/AuthPages/Signup";
+
+const authRoutes = [
+	{
+		path: PATHS.AUTH.INDEX,
+		Component: AuthLayout,
+		children: [
+			{ index: true, Component: AuthHome },
+			{ path: PATHS.AUTH.LOGIN, Component: Login },
+			{ path: PATHS.AUTH.SIGNUP, Component: Signup },
+		],
+	},
+];
+
+export default authRoutes;
+```
+
+---
+
+### 🔹 라우터 통합 (src/router/index.js)
+
+```jsx
+import { createBrowserRouter } from "react-router-dom";
+import DummyLayout from "../layout/DummyLayout";
+import NotFound from "../pages/NotFound";
+import Carts from "../pages/DummyPages/Carts";
+import Posts from "../pages/DummyPages/Posts";
+import Products from "../pages/DummyPages/Products";
+import ProductDetail from "../pages/DummyPages/ProductDetail";
+import DummyHome from "../pages/DummyPages/DummyHome";
+
+import rootRoutes from "./routes/rootRoutes";
+import authRoutes from "./routes/authRoutes";
+
+const router = createBrowserRouter([
+	...rootRoutes,
+	...authRoutes,
+	{
+		path: "/dummy",
+		Component: DummyLayout,
+		children: [
+			{ index: true, Component: DummyHome },
+			{ path: "carts", Component: Carts },
+			{ path: "posts", Component: Posts },
+			{ path: "products", Component: Products },
+			{ path: "products/:productId", Component: ProductDetail },
+		],
+	},
+	{
+		path: "*", // Not Found 처리
+		Component: NotFound,
+	},
+]);
+
+export default router;
+```
+
+---
+
+## 2️⃣ Not Found 처리
+
+### 🔹 개념
+
+- 사용자가 존재하지 않는 주소로 접근했을 때 안내 페이지를 표시
+- 404: 클라이언트에서 요청한 URL을 찾지 못함
+- React Router v7에서는 `path: "*"` 사용
+
+### 🔹 예시 페이지 (src/pages/NotFound.jsx)
+
+```jsx
+export default function NotFound() {
+	return (
+		<div className="text-center mt-20">
+			<h1 className="text-4xl font-bold">404 Not Found</h1>
+			<p className="text-gray-500 mt-4">페이지를 찾을 수 없습니다.</p>
+		</div>
+	);
+}
+```
+
+---
+
+### 🔹 핵심 포인트
+
+| 기능          | 설명                                       |
+| ------------- | ------------------------------------------ |
+| 라우터 모듈화 | 레이아웃 단위로 라우터를 분리하여 관리     |
+| PATHS 상수    | URL 문자열을 중앙에서 관리, 동적 경로 제공 |
+| 중첩 라우트   | 레이아웃 내부에서 관련 페이지 그룹화       |
+| NotFound      | 모든 경로 미일치 시 404 페이지 표시        |
