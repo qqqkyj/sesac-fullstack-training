@@ -8,9 +8,8 @@ import { createBrowserRouter } from "react-router-dom";
 import rootRoutes from "./routes/rootRoutes.js";
 import authRoutes from "./routes/authRoute.js";
 import dummyRoutes from "./routes/dummyRoutes.js";
-
 //404처리 페이지
-import NotFound from "../pages/NotFound.jsx";
+import NotFound from "../pages/NotFound";
 
 // 라우터 설정 생성
 const router = createBrowserRouter([
@@ -18,6 +17,10 @@ const router = createBrowserRouter([
 	...rootRoutes,
 	...authRoutes,
 	...dummyRoutes,
+	{
+		path: "*",
+		Component: NotFound,
+	},
 ]);
 
 export default router;

@@ -70,7 +70,7 @@ export default function PostList() {
 						{/* "/posts/:postId" */}
 						{/* 실제 값은 */}
 						{/* `/posts/${post.id}` */}
-						<Link to={PATHS.AUTH.getPostDetail(post.id)}>
+						<Link to={PATHS.ROOT.getPostDetail(post.id)}>
 							No. {post.id} - {post.title}
 						</Link>
 						<br />

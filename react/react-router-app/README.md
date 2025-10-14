@@ -914,24 +914,31 @@ src/
 ### 🔹 경로 상수 관리 (src/constants/paths.js)
 
 ```jsx
+// 경로 문자열을 관리 상수 객체
 const PATHS = {
+	// Root Layout의 중첩된 경로
 	ROOT: {
+		// Root Layout의 기본(진입) 경로
 		INDEX: "/",
 		ABOUT: "/about",
 		POSTS: "/posts",
+		// 경로 파라미터의 라우터 설정 속성
+		// 라우터 설정에서 사용할 경로 파라미터 주소(경로)
 		POSTS_DETAIL: "/posts/:postId",
+
+		// 경로 파라미터를 처리할 메서드(함수)
+		// 외부에서 postId를 전달받아서
+		// 동적으로 경로 파라미터를 적용한 주소 생성
+		// 컴포넌트에서 사용할 경로 파라미터 주소 생성 메서드
+		// Link 컴포넌트와 useNavigate() 훅에서 사용하는 함수
 		getPostDetail: (postId) => `/posts/${postId}`,
 		PROFILE: "/profile",
 	},
+	// AuthLayout의 중첩된 경로
 	AUTH: {
 		INDEX: "/auth",
 		LOGIN: "/auth/login",
 		SIGNUP: "/auth/signup",
-	},
-	DUMMY: {
-		INDEX: "/dummy",
-		PRODUCTS: "/dummy/products",
-		PRODUCT_DETAIL: (id) => `/dummy/products/${id}`,
 	},
 };
 
@@ -1019,9 +1026,8 @@ import { createBrowserRouter } from "react-router-dom";
 import rootRoutes from "./routes/rootRoutes.js";
 import authRoutes from "./routes/authRoute.js";
 import dummyRoutes from "./routes/dummyRoutes.js";
-
 //404처리 페이지
-import NotFound from "../pages/NotFound.jsx";
+import NotFound from "../pages/NotFound";
 
 // 라우터 설정 생성
 const router = createBrowserRouter([
@@ -1029,6 +1035,10 @@ const router = createBrowserRouter([
 	...rootRoutes,
 	...authRoutes,
 	...dummyRoutes,
+	{
+		path: "*",
+		Component: NotFound,
+	},
 ]);
 
 export default router;
