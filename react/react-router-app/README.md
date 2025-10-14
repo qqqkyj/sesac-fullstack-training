@@ -509,3 +509,145 @@ export default function PostDetail() {
 4. **중첩 라우팅 활용**
    - 보호된 페이지는 `ProtectedLayout` 안에서 `children`으로 중첩
    - 공통 레이아웃 유지 가능
+
+---
+
+# 💡 React `useSearchParams()` 완벽 정리
+
+## 🧭 개념 요약
+
+> useSearchParams() 훅
+>
+> React Router에서 제공하는 훅으로,
+>
+> **주소(URL)의 쿼리 파라미터(Query Parameters)**를 읽고 변경할 수 있다.
+
+✅ URL의 상태를 직접 제어할 수 있어,
+
+정렬·검색·필터링 상태를 **브라우저 주소에 반영**할 때 유용하다.
+
+---
+
+## ⚙️ 주요 특징
+
+| 항목                      | 설명                                                |
+| ------------------------- | --------------------------------------------------- |
+| `searchParams`            | 현재 URL의 쿼리 파라미터를 담은 객체                |
+| `setSearchParams()`       | 쿼리 파라미터를 변경하는 함수 (→ URL도 즉시 변경됨) |
+| `searchParams.get("key")` | 특정 파라미터 값 읽기                               |
+| 의존성 `[searchParams]`   | 쿼리 변경 시 useEffect 자동 재실행                  |
+| **데이터 유지**           | 새로고침, 뒤로가기 시에도 쿼리 유지됨               |
+
+---
+
+## 🧩 예제 코드
+
+```jsx
+import React, { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import axios from "axios";
+
+export default function PostList() {
+	const [posts, setPosts] = useState([]);
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	useEffect(() => {
+		// 쿼리 파라미터 읽기 (기본값 설정)
+		const order = searchParams.get("order") ?? "asc";
+		const sortBy = searchParams.get("sortBy") ?? "id";
+
+		async function getPosts() {
+			const res = await axios.get(
+				`https://dummyjson.com/posts?sortBy=${sortBy}&order=${order}`
+			);
+			setPosts(res.data.posts);
+		}
+		getPosts();
+	}, [searchParams]); // 쿼리 파라미터 변경 시 재실행
+
+	// 쿼리 파라미터 변경 함수
+	function handleSortChange(sortBy, order) {
+		setSearchParams({ sortBy, order });
+	}
+
+	return (
+		<div>
+			<h2>📋 게시글 목록</h2>
+			<div className="flex gap-2">
+				<button onClick={() => handleSortChange("id", "asc")}>
+					ID 오름차순
+				</button>
+				<button onClick={() => handleSortChange("id", "desc")}>
+					ID 내림차순
+				</button>
+				<button onClick={() => handleSortChange("title", "asc")}>
+					제목 오름차순
+				</button>
+				<button onClick={() => handleSortChange("title", "desc")}>
+					제목 내림차순
+				</button>
+			</div>
+
+			<ul>
+				{posts.map((post) => (
+					<li key={post.id}>
+						<Link to={`/posts/${post.id}`}>
+							No.{post.id} - {post.title}
+						</Link>
+					</li>
+				))}
+			</ul>
+		</div>
+	);
+}
+```
+
+---
+
+## 🧠 동작 흐름 요약
+
+1. `useSearchParams()`로 현재 URL 쿼리 읽기 (`?sortBy=id&order=asc`)
+2. 쿼리값에 따라 API 요청 (`axios.get(...)`)
+3. 게시글 상태(`posts`) 업데이트 후 렌더링
+4. 사용자가 버튼 클릭 → `setSearchParams()` 실행
+5. URL이 바뀜 → `useEffect()` 재실행 → 새 API 호출
+
+---
+
+## 🔄 URL 변화 예시
+
+| 동작                 | URL                             |
+| -------------------- | ------------------------------- |
+| 기본                 | `/posts`                        |
+| “제목 오름차순” 클릭 | `/posts?sortBy=title&order=asc` |
+| “ID 내림차순” 클릭   | `/posts?sortBy=id&order=desc`   |
+
+---
+
+## ⚖️ `useSearchParams()` vs `useState()` 비교
+
+| 구분                           | `useSearchParams()`                  | `useState()`                                     |
+| ------------------------------ | ------------------------------------ | ------------------------------------------------ |
+| **상태 저장 위치**             | **URL(브라우저 주소)**               | **컴포넌트 내부 메모리**                         |
+| **주소 표시 변화**             | ✅ URL 쿼리가 바뀜 (`?sortBy=title`) | ❌ 주소 변화 없음                                |
+| **새로고침 시 상태 유지**      | ✅ 유지됨 (URL에 남아있음)           | ❌ 초기화됨                                      |
+| **뒤로가기 / 앞으로가기 동작** | ✅ 브라우저 히스토리와 동기화        | ❌ 상태만 변경, 주소는 고정                      |
+| **공유 가능성**                | ✅ URL 복사 시 동일 상태 유지 가능   | ❌ 내부 상태라 다른 사람에게 전달 불가           |
+| **주 사용 목적**               | 정렬, 검색, 필터링, 페이지네이션     | 임시 데이터나 UI 상태 관리                       |
+| **의존성 관리**                | `[searchParams]`                     | `[state]`                                        |
+| **예시**                       | `/products?sortBy=price&order=desc`  | 내부 state: `const [sort, setSort] = useState()` |
+
+---
+
+## 🏁 핵심 요약
+
+- `useSearchParams()`는 **URL을 상태처럼 다루는 훅**
+- 정렬, 필터, 검색처럼 **사용자 행동이 주소로 반영되어야 할 때** 사용
+- `useState()`는 **컴포넌트 내부 전용 상태 관리**용
+  → 새로고침/URL 이동 시 사라짐
+
+---
+
+## ✅ 한 줄 요약
+
+> useState() 👉 "화면 안에서만 유지되는 임시 상태" useSearchParams() 👉 "URL에도 남는 영구적 상태"
