@@ -65,6 +65,7 @@
 - **2025-10-02** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - axios 인스턴스와 요청 함수 분리)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/my-react-app/src/api)
 - **2025-10-13** : [웹 개발 기본과 코드 버전 관리를 위한 Git - GitHub merge](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/git/branch.md)
 - **2025-10-13** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - Router, 중첩 라우터, 라우터 파라미터)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/react-router-app)
+- **2025-10-14** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - Router, useSearchParams, Router모듈화, Not found처리)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/react-router-app?#-react-usesearchparams-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
