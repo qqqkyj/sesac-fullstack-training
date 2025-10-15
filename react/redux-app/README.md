@@ -263,3 +263,11 @@ npm install @reduxjs/toolkit
   ![alt text](image-2.png)
 - 외부 값(payload) 값 만큼 count 증가
   ![alt text](image-3.png)
+
+### 확장 프로그램 설치
+
+[Redux DevTools](https://chromewebstore.google.com/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=ko)
+
+Action의 상태 확인 가능
+![alt text](image-4.png)
+![alt text](image-5.png)
