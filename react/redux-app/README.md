@@ -482,9 +482,20 @@ const persistedReducer = persistReducer(persistConfig, authReducer);
 ## ✅ 6. 환경 변수 설정
 
 - `.env` 파일에 **Supabase API 주소 & 키** 저장
+- `.env.example` 파일이 `.env` 파일에 대한 템플릿
+
+```bash
+#.env.example
+# 환경 변수 파일(.env) 템플릿
+# 필요한 환경 변수 이름과 목적, 역할 등등
+VITE_SUPABASE_URL="SUPABASE 프로젝트 주소"
+VITE_SUPABASE_ANON_KEY="SUPABASE 프로젝트 익명키"
+```
+
 - https://supabase.com/
 
-```
+```bash
+# .env
 VITE_SUPABASE_URL=...
 VITE_SUPABASE_ANON_KEY=...
 ```
