@@ -67,6 +67,7 @@
 - **2025-10-13** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - Router, 중첩 라우터, 라우터 파라미터](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/react-router-app)
 - **2025-10-14** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - Router, useSearchParams, Router모듈화, Not found 처리](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/react-router-app?#-react-usesearchparams-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC)
 - **2025-10-15** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - Redux, React Redux 비동기 처리와 사용자 인증](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/react-router-app?#-react-usesearchparams-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC)
+- **2025-10-16** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - React Redux 비동기 처리와 사용자 인증 2](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/redux-app#-redux-%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%B2%98%EB%A6%AC--%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9D%B8%EC%A6%9D-%EC%A0%95%EB%A6%AC)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
