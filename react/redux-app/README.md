@@ -412,9 +412,8 @@ const persistedReducer = persistReducer(persistConfig, authReducer);
   import axios from "axios";
 
   // 로그인 요청을 보낼 인증 서버에 대한 정보
-  const SUPABASE_URL = "https://jfsjmxtokcazzpykrxwp.supabase.co";
-  const SUPABASE_ANON_KEY =
-  	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impmc2pteHRva2NhenpweWtyeHdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMDE4NjksImV4cCI6MjA3NTc3Nzg2OX0.n-IAryEgUti5atr30MGszQ-fzStuW3BZDRMuaPPIefw";
+  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+  const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
   // 회원가입 비동기 처리
   const signup = createAsyncThunk(
@@ -712,9 +711,8 @@ VITE_SUPABASE_ANON_KEY=...
   import { act } from "react";
 
   // 로그인 요청을 보낼 인증 서버에 대한 정보
-  const SUPABASE_URL = "https://jfsjmxtokcazzpykrxwp.supabase.co";
-  const SUPABASE_ANON_KEY =
-  	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impmc2pteHRva2NhenpweWtyeHdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMDE4NjksImV4cCI6MjA3NTc3Nzg2OX0.n-IAryEgUti5atr30MGszQ-fzStuW3BZDRMuaPPIefw";
+  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+  const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
   // 회원가입 비동기 처리
   const signup = createAsyncThunk(
@@ -1090,6 +1088,7 @@ src/
 ## 📚 전체 폴더 소스 예시
 
 - `layouts/AuthLayout.jsx`
+
   ```jsx
   // 인증 관련 페이지 관리 레이아웃
   // 로그인 사용자의 접근을 막는다
@@ -1108,7 +1107,9 @@ src/
   	}
   }
   ```
+
 - `layouts/PrivateLayout.jsx`
+
   ```jsx
   // 이 레이아웃은 로그인 사용자만 접근가능한 레이아웃
   import { Navigate, Outlet } from "react-router-dom";
@@ -1128,7 +1129,9 @@ src/
   	}
   }
   ```
+
 - `pages/Home.jsx`
+
   ```jsx
   import React from "react";
   import { Link } from "react-router-dom";
@@ -1143,7 +1146,9 @@ src/
   	);
   }
   ```
+
 - `pages/Login.jsx`
+
   ```jsx
   import { useState, useEffect } from "react";
   import { useSelector, useDispatch } from "react-redux";
@@ -1209,7 +1214,9 @@ src/
   	);
   }
   ```
+
 - `pages/Profile.jsx`
+
   ```jsx
   // 로그아웃 버틈
   // 로그인을 한 상태라면 사용자 정보를 출력
@@ -1264,7 +1271,9 @@ src/
   	);
   }
   ```
+
 - `pages/Signup.jsx`
+
   ```jsx
   import { useState, useEffect } from "react";
   import { useSelector, useDispatch } from "react-redux";
@@ -1336,7 +1345,9 @@ src/
   	);
   }
   ```
+
 - `router/index.jsx`
+
   ```jsx
   import { createBrowserRouter } from "react-router-dom";
   import Home from "../pages/Home";
@@ -1380,7 +1391,9 @@ src/
   ]);
   export default router;
   ```
+
 - `store/authSlice.js`
+
   ```jsx
   // 액세스 토큰 상태 관리
   // 로그인, 회원가입, 로그아웃과 같은 네트워크 비동기 처리
@@ -1389,9 +1402,8 @@ src/
   import axios from "axios";
 
   // 로그인 요청을 보낼 인증 서버에 대한 정보
-  const SUPABASE_URL = "https://jfsjmxtokcazzpykrxwp.supabase.co";
-  const SUPABASE_ANON_KEY =
-  	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impmc2pteHRva2NhenpweWtyeHdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMDE4NjksImV4cCI6MjA3NTc3Nzg2OX0.n-IAryEgUti5atr30MGszQ-fzStuW3BZDRMuaPPIefw";
+  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+  const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
   // 회원가입 비동기 처리
   const signup = createAsyncThunk(
@@ -1538,7 +1550,9 @@ src/
   export default authSlice.reducer;
   export { signup, login, logout };
   ```
+
 - `store/index.js`
+
   ```jsx
   // configureStore 함수
   // 리듀서를 받아서 스토어를 생성하는 함수
@@ -1592,7 +1606,9 @@ src/
   // Persist 스토어 생성 및 내보내기
   export const persistor = persistStore(store);
   ```
+
 - `main.jsx`
+
   ```jsx
   import { StrictMode } from "react";
   import { createRoot } from "react-dom/client";
