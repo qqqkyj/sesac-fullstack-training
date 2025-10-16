@@ -22,9 +22,9 @@ export default function Login() {
 		if (token) {
 			alert("로그인 상태입니다.");
 			console.log(token);
-			navigate("/");
+			//navigate("/profile");
 		}
-	});
+	}, [token]);
 
 	function handleSubmit(e) {
 		e.preventDefault(); //form의 기본 이벤트(동작) 막기

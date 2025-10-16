@@ -871,3 +871,930 @@ VITE_SUPABASE_ANON_KEY=...
   	</StrictMode>
   );
   ```
+
+# ✅ Redux 비동기 처리 & 사용자 인증 (정리)
+
+## 🧠 1. 인증 시스템 구성 개요
+
+| 기능               | 설명                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| 🔐 **회원가입**    | 이메일/비밀번호로 계정 생성 (Supabase API)                   |
+| 🔑 **로그인**      | 로그인 요청 → JWT 토큰 수신                                  |
+| 📦 **토큰 저장**   | Redux 상태(`token`)에 저장 + 로컬스토리지에 persist          |
+| 👤 **프로필**      | 저장된 토큰 디코딩해 사용자 정보 표시                        |
+| 🔓 **로그아웃**    | Supabase에 로그아웃 요청 + 토큰 삭제                         |
+| 🚪 **라우팅 제어** | 로그인 여부에 따라 접근 가능/차단 처리 (Private/Auth Layout) |
+
+---
+
+## ⚙️ 2. 기술 스택 및 주요 라이브러리
+
+| 라이브러리         | 역할                                                 |
+| ------------------ | ---------------------------------------------------- |
+| `redux-toolkit`    | 상태 관리 및 비동기 액션 처리                        |
+| `redux-persist`    | 상태(특히 token) 영속화 (브라우저 새로고침에도 유지) |
+| `react-router-dom` | 페이지 이동 및 보호 라우팅                           |
+| `jwt-decode`       | 토큰 복호화해 사용자 정보 확인                       |
+
+---
+
+## 🔁 3. 인증 흐름 요약
+
+### ✅ 회원가입
+
+1. `dispatch(signup({ email, password }))`
+2. 서버에 요청 후, 응답 받으면 `isSignup = true`
+3. 회원가입 완료 → Alert → 메인으로 이동 (`navigate("/")`)
+
+---
+
+### ✅ 로그인
+
+1. `dispatch(login({ email, password }))`
+2. 서버로부터 JWT `access_token` 응답 받음
+3. Redux의 `token` 상태에 저장 + `redux-persist`로 로컬 스토리지에 저장
+
+---
+
+### ✅ 로그아웃
+
+1. `dispatch(logout())`
+2. Supabase에 로그아웃 요청
+3. `token = null`로 초기화 → 로그인 상태 해제
+
+---
+
+## 🔐 4. 인증 레이아웃 (라우팅 보호)
+
+| 레이아웃        | 설명                                                  |
+| --------------- | ----------------------------------------------------- |
+| `PrivateLayout` | 로그인된 사용자만 접근 가능 (예: `/profile`)          |
+| `AuthLayout`    | 비로그인 사용자만 접근 가능 (예: `/login`, `/signup`) |
+
+```jsx
+// PrivateLayout.jsx
+if (!token) return <Navigate to="/login" />;
+return <Outlet />;
+```
+
+```jsx
+// AuthLayout.jsx
+if (token) return <Navigate to="/profile" />;
+return <Outlet />;
+```
+
+---
+
+## 📦 5. 토큰 디코딩 (`jwt-decode`)
+
+```bash
+npm install jwt-decode
+```
+
+```jsx
+import jwtDecode from "jwt-decode";
+
+const decoded = jwtDecode(token);
+console.log(decoded.email); // 사용자 이메일 등 확인
+```
+
+---
+
+## 💾 6. Redux Persist 설정
+
+### 설치
+
+```bash
+npm install redux-persist
+```
+
+### store/index.js
+
+```jsx
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
+// 토큰만 저장
+const authPersistConfig = {
+	key: "auth",
+	storage,
+	whitelist: ["token"],
+};
+
+// persist reducer로 감싼 authReducer
+const persistAuthReducer = persistReducer(authPersistConfig, authReducer);
+
+// store 생성
+export const store = configureStore({
+	reducer: {
+		auth: persistAuthReducer,
+		// 다른 리듀서들
+	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: {
+				// persist 관련 액션 예외 처리
+				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+			},
+		}),
+});
+
+export const persistor = persistStore(store);
+```
+
+### main.jsx
+
+```jsx
+<Provider store={store}>
+	<PersistGate persistor={persistor}>
+		<RouterProvider router={router} />
+	</PersistGate>
+</Provider>
+```
+
+---
+
+## 🛠 7. 에러: Non-serializable value warning
+
+**문제:**
+
+Redux Persist 내부 액션은 함수 같은 비직렬화 값 포함
+
+```jsx
+//에러 메시지
+A non-serializable value was detected in an action, in the path: `register`. Value: ƒ register2(key) {
+    _pStore.dispatch({
+      type: REGISTER,
+      key
+    });
+  }
+```
+
+**해결:**
+
+```jsx
+serializableCheck: {
+  ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+},
+```
+
+이 설정을 `configureStore()` 안 `middleware`에 추가하면 경고 해결됨 ✅
+
+---
+
+## ✅ 8. 상태 요약 (authSlice)
+
+| 상태       | 설명                            |
+| ---------- | ------------------------------- |
+| `token`    | 로그인 성공 시 받은 JWT 토큰    |
+| `isSignup` | 회원가입 성공 여부 (true/false) |
+| `error`    | 인증 관련 에러 메시지 저장      |
+
+---
+
+## 🧪 9. 예외처리 & UX 개선 팁
+
+| 개선 포인트                | 설명                                                         |
+| -------------------------- | ------------------------------------------------------------ |
+| ✅ `resetIsSignup()`       | 함수형 액션 → 반드시 `dispatch(resetIsSignup())` 사용해야 함 |
+| ✅ 로그인 후 자동 이동     | `navigate("/profile")` 추가 추천                             |
+| ⚠️ `jwtDecode()` 예외 처리 | `try-catch`로 잘못된 토큰 방어                               |
+| ⚠️ 에러 메시지 표시        | UI에 로그인/회원가입 에러 안내 추가 필요                     |
+| ✅ 로그아웃 후 이동        | `navigate("/")`로 UX 자연스럽게 개선                         |
+
+---
+
+## 📚 전체 폴더 구조 예시
+
+```
+src/
+├── pages/
+│   ├── Home.jsx
+│   ├── Login.jsx
+│   ├── Signup.jsx
+│   └── Profile.jsx
+├── layouts/
+│   ├── PrivateLayout.jsx
+│   └── AuthLayout.jsx
+├── store/
+│   ├── index.js
+│   └── authSlice.js
+├── router/
+│   └── index.jsx
+├── main.jsx
+└── index.css
+```
+
+---
+
+## 📚 전체 폴더 소스 예시
+
+- `layouts/AuthLayout.jsx`
+  ```jsx
+  // 인증 관련 페이지 관리 레이아웃
+  // 로그인 사용자의 접근을 막는다
+
+  import React from "react";
+  import { useSelector } from "react-redux";
+  import { Outlet, Navigate } from "react-router-dom";
+
+  export default function AuthLayout() {
+  	const token = useSelector((state) => state.auth.token);
+  	if (token) {
+  		// 로그인 사용자라면 프로필 페이지로 이동
+  		return <Navigate to="/profile"></Navigate>;
+  	} else {
+  		return <Outlet></Outlet>;
+  	}
+  }
+  ```
+- `layouts/PrivateLayout.jsx`
+  ```jsx
+  // 이 레이아웃은 로그인 사용자만 접근가능한 레이아웃
+  import { Navigate, Outlet } from "react-router-dom";
+  import { useSelector } from "react-redux";
+
+  export default function PrivateLayout() {
+  	// 전역 상태 token 불러오기
+  	const token = useSelector((state) => state.auth.token);
+
+  	// 토큰이 없으면 즉, 로그인을 안했으면
+  	if (!token) {
+  		// 로그인 경로로 이동
+  		return <Navigate to="/login" replace></Navigate>;
+  	} else {
+  		// 중첩된 자식 컴포넌트 렌더링
+  		return <Outlet />;
+  	}
+  }
+  ```
+- `pages/Home.jsx`
+  ```jsx
+  import React from "react";
+  import { Link } from "react-router-dom";
+
+  export default function Home() {
+  	return (
+  		<div>
+  			<Link to="/signup">회원가입 페이지</Link>
+  			<Link to="/login">로그인 페이지</Link>
+  			<Link to="/profile">프로필 페이지</Link>
+  		</div>
+  	);
+  }
+  ```
+- `pages/Login.jsx`
+  ```jsx
+  import { useState, useEffect } from "react";
+  import { useSelector, useDispatch } from "react-redux";
+  // signup 액션: 회원가입 비동기 네트워트 처리 액션
+  // resetIsSignup 액션: isSignup 상태 초기화(false)액션
+  import { login } from "../store/authSlice";
+  import { useNavigate } from "react-router-dom";
+
+  export default function Login() {
+  	// 사용자 입력 이메일 관리 상태
+  	const [email, setEmail] = useState("");
+  	// 사용자 입력 비밀번호 관리 상태
+  	const [password, setPassword] = useState("");
+  	// dispatch함수
+  	const dispatch = useDispatch();
+  	// navigate함수
+  	const navigate = useNavigate();
+  	//token 상태는 로그인을 성공하면 값이 존재
+  	// 로그인을 안했다면 값이 null
+  	const token = useSelector((state) => state.auth.token);
+
+  	useEffect(() => {
+  		if (token) {
+  			alert("로그인 상태입니다.");
+  			console.log(token);
+  			//navigate("/profile");
+  		}
+  	}, [token]);
+
+  	function handleSubmit(e) {
+  		e.preventDefault(); //form의 기본 이벤트(동작) 막기
+  		// 비동기 처리 액션(authSlice에서 정의한 signup)을 디스패치(dispatch)로 실행
+  		console.log(`email:${email}, pwd: ${password}`);
+  		dispatch(login({ email: email, password: password }));
+  	}
+
+  	return (
+  		<div>
+  			<form
+  				onSubmit={(e) => {
+  					handleSubmit(e);
+  				}}
+  			>
+  				<input
+  					className="border-2"
+  					type="email"
+  					value={email}
+  					onChange={(e) => {
+  						setEmail(e.target.value);
+  					}}
+  				/>
+  				<input
+  					className="border-2"
+  					type="password"
+  					value={password}
+  					onChange={(e) => {
+  						setPassword(e.target.value);
+  					}}
+  				/>
+  				<input className="border-2" type="submit" value="로그인" />
+  			</form>
+  		</div>
+  	);
+  }
+  ```
+- `pages/Profile.jsx`
+  ```jsx
+  // 로그아웃 버틈
+  // 로그인을 한 상태라면 사용자 정보를 출력
+  // (정상적으로 로그인 했을 경우)사용자 정보는 전역 상태 token에 저장된 상태
+
+  import { useDispatch, useSelector } from "react-redux";
+  import { Link, useNavigate } from "react-router-dom";
+
+  import { jwtDecode } from "jwt-decode";
+  import { useEffect, useState } from "react";
+  import { logout } from "../store/authSlice";
+
+  export default function Profile() {
+  	// 전역상태 token
+  	const token = useSelector((state) => state.auth.token);
+  	const navigate = useNavigate();
+  	const dispatch = useDispatch();
+
+  	// 로그인 검증 로직
+  	// 사용자 정보 관리 상태
+  	const [decodeToken, setDecodeToken] = useState(null);
+  	useEffect(() => {
+  		if (token) {
+  			setDecodeToken(jwtDecode(token));
+  		}
+  	}, [token]);
+
+  	function handleLogout() {
+  		console.log("handleLogout시작");
+  		dispatch(logout());
+  	}
+
+  	return (
+  		<div>
+  			이메일 :
+  			{decodeToken ? (
+  				`이메일: ${decodeToken.email}`
+  			) : (
+  				<Link to="/login">로그인</Link>
+  			)}
+  			<div>
+  				<button
+  					className="border-2"
+  					onClick={() => {
+  						handleLogout();
+  					}}
+  				>
+  					로그아웃
+  				</button>
+  			</div>
+  		</div>
+  	);
+  }
+  ```
+- `pages/Signup.jsx`
+  ```jsx
+  import { useState, useEffect } from "react";
+  import { useSelector, useDispatch } from "react-redux";
+  // signup 액션: 회원가입 비동기 네트워트 처리 액션
+  // resetIsSignup 액션: isSignup 상태 초기화(false)액션
+  import { signup, resetIsSignup } from "../store/authSlice";
+  import { useNavigate } from "react-router-dom";
+
+  export default function Signup() {
+  	// 사용자 입력 이메일 관리 상태
+  	const [email, setEmail] = useState("");
+  	// 사용자 입력 비밀번호 관리 상태
+  	const [password, setPassword] = useState("");
+  	// dispatch함수
+  	const dispatch = useDispatch();
+  	// navigate함수
+  	const navigate = useNavigate();
+
+  	// 전역 상태 isSignup 불러오기
+  	const isSignup = useSelector((state) => state.auth.isSignup);
+
+  	// 전역 상태 error 불러오기
+  	const error = useSelector((state) => state.auth.error);
+
+  	function handleSubmit(e) {
+  		e.preventDefault(); //form의 기본 이벤트(동작) 막기
+  		// 비동기 처리 액션(authSlice에서 정의한 signup)을 디스패치(dispatch)로 실행
+  		dispatch(signup({ email: email, password: password }));
+  	}
+
+  	// 회원가입이 성공했을 때 알림창을 띄우고
+  	// useEffect를 활용해서 홈페이지로 이동 시키는 코드
+  	useEffect(() => {
+  		// 회원가입을 성공 했다면
+  		if (isSignup === true) {
+  			alert("회원가입을 성공했습니다. 메일함을 확인해 주세요.");
+  			dispatch(resetIsSignup);
+  			navigate("/");
+  		}
+  	}, [isSignup, dispatch]);
+
+  	// 회원가입 폼 구조
+  	return (
+  		<div>
+  			<form
+  				onSubmit={(e) => {
+  					handleSubmit(e);
+  				}}
+  			>
+  				<input
+  					className="border-2"
+  					type="email"
+  					value={email}
+  					onChange={(e) => {
+  						setEmail(e.target.value);
+  					}}
+  				/>
+  				<input
+  					className="border-2"
+  					type="password"
+  					value={password}
+  					onChange={(e) => {
+  						setPassword(e.target.value);
+  					}}
+  				/>
+  				<input className="border-2" type="submit" value="회원가입" />
+  			</form>
+  		</div>
+  	);
+  }
+  ```
+- `router/index.jsx`
+  ```jsx
+  import { createBrowserRouter } from "react-router-dom";
+  import Home from "../pages/Home";
+  import Login from "../pages/Login";
+  import Signup from "../pages/Signup";
+  import Profile from "../pages/Profile";
+
+  // PrivateLayout(로그인),AuthLayout(비로그인) 불러오기
+  import PrivateLayout from "./../layouts/PrivateLayout";
+  import AuthLayout from "../layouts/AuthLayout";
+
+  const router = createBrowserRouter([
+  	{
+  		path: "/",
+  		Component: Home,
+  	},
+  	// PrivateLayout 적용
+  	{
+  		Component: PrivateLayout,
+  		children: [
+  			{
+  				path: "/profile",
+  				Component: Profile,
+  			},
+  		],
+  	},
+  	// 비로그인 사용자만 접근
+  	{
+  		Component: AuthLayout,
+  		children: [
+  			{
+  				path: "/login",
+  				Component: Login,
+  			},
+  			{
+  				path: "/signup",
+  				Component: Signup,
+  			},
+  		],
+  	},
+  ]);
+  export default router;
+  ```
+- `store/authSlice.js`
+  ```jsx
+  // 액세스 토큰 상태 관리
+  // 로그인, 회원가입, 로그아웃과 같은 네트워크 비동기 처리
+
+  import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+  import axios from "axios";
+
+  // 로그인 요청을 보낼 인증 서버에 대한 정보
+  const SUPABASE_URL = "https://jfsjmxtokcazzpykrxwp.supabase.co";
+  const SUPABASE_ANON_KEY =
+  	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impmc2pteHRva2NhenpweWtyeHdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMDE4NjksImV4cCI6MjA3NTc3Nzg2OX0.n-IAryEgUti5atr30MGszQ-fzStuW3BZDRMuaPPIefw";
+
+  // 회원가입 비동기 처리
+  const signup = createAsyncThunk(
+  	"auth/signup",
+  	// 비동기 처리 함수(async)
+  	async (data, { rejectWithValue }) => {
+  		// 매개변수 data : 액션의 페이로드 역할
+  		// 실제로 data 변수에 저장될 데이터 => 회원가입을 위해 필요한 데이터
+  		try {
+  			// config : 요청 정보(url, method, headers, ...)
+  			const config = {
+  				url: `${SUPABASE_URL}/auth/v1/signup`,
+  				method: "POST",
+  				headers: {
+  					"Content-type": "application/json",
+  					apikey: SUPABASE_ANON_KEY,
+  				},
+  				data: {
+  					// supabase기준
+  					// 회원가입을 위해 필요한 데이터(email, password)
+  					email: data.email,
+  					password: data.password,
+  				},
+  			};
+
+  			const res = await axios(config);
+  			// 비동기처리를 성공했을 때의 데이터
+  			console.log(res.data);
+  			return res["data"];
+  		} catch (error) {
+  			// 비동기처리를 실패했을 때의 데이터
+  			console.log("signup error:", error.res.data);
+  			return rejectWithValue(error.response.data);
+  		}
+  	}
+  );
+
+  // 로그인 비동기 처리 액션
+  const login = createAsyncThunk(
+  	"auth/login",
+  	// 비동기 처리 함수
+  	async (data, { rejectWithValue }) => {
+  		// 로그인 로직 코드
+  		try {
+  			const config = {
+  				url: `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
+  				method: "POST",
+  				headers: {
+  					"Content-type": "application/json",
+  					apikey: SUPABASE_ANON_KEY,
+  				},
+  				data: {
+  					// 로그인 정보
+  					email: data.email,
+  					password: data.password,
+  				},
+  			};
+  			const res = await axios(config);
+  			console.log(res.data);
+  			return res.data;
+  		} catch (error) {
+  			console.log("login error:", error.res.data);
+  			return rejectWithValue(error.response.data);
+  		}
+  	}
+  );
+
+  // 로그아웃 비동기 처리 액션
+  const logout = createAsyncThunk(
+  	"auth/logout",
+  	async (_, { rejectWithValue, getState }) => {
+  		try {
+  			// axios 요청 설정(config)
+  			const config = {
+  				url: `${SUPABASE_URL}/auth/v1/logout`,
+  				method: "POST",
+  				headers: {
+  					"Content-type": "application/json",
+  					apikey: SUPABASE_ANON_KEY,
+  					// 사용자 인증 정보(토큰)를 함께 전송
+  					// 로그아웃 : 누가 로그아웃을 하는지에 대한 정보(토큰)가 필요
+  					Authorization: `Bearer ${getState().auth.token}`,
+  				},
+  			};
+  			const response = await axios(config);
+  			console.log("로그아웃 성공");
+  			return response.data;
+  		} catch (error) {
+  			console.error(error); // (임시) 디버깅용 코드
+  			return rejectWithValue(error["response"]["data"]);
+  		}
+  	}
+  );
+
+  // 비동기 처리 3개의 상태: 대기, 성공, 실패(거절)
+
+  // 초기 상태
+  const initialState = {
+  	token: null, //액세스 토큰 관리 상태
+  	error: null, //에러 여부 관리 상태
+  	isSignup: false, //회원가입 성공 여부 관리 상태
+  };
+
+  // 슬라이스(reducer + action) 생성
+  const authSlice = createSlice({
+  	name: "auth",
+  	initialState: initialState,
+  	reducers: {
+  		// 회원가입 성공 여부를 초기화(false)
+  		resetIsSignup: (state) => {
+  			state.isSignup = false;
+  		},
+  	},
+  	// 위에서 정의한 비동기 처리 함수(액션)를 처리할 reducer
+  	extraReducers: (builder) => {
+  		// 각 비동기처리에 대한
+  		// 대기(pending)/ 성공(fulfilled) /실패(reject)
+  		// 처리 로직
+  		builder
+  			.addCase(signup.fulfilled, (state) => {
+  				// signup 비동기 처리가 성공(fullfilled)일 때 실행되는 콜백 함수
+  				state.isSignup = true;
+  			})
+  			.addCase(signup.rejected, (state, action) => {
+  				// action.payload는 어디서 왔을까?
+  				// return rejectWithValue(error.res.data);
+  				state.error = action.payload.error;
+  			})
+  			.addCase(login.fulfilled, (state, action) => {
+  				// login 비동기 처리가 성공(fullfilled)일 때 실행되는 콜백 함수
+  				state.token = action.payload.access_token;
+  			})
+  			.addCase(logout.fulfilled, (state) => {
+  				// logout 비동기 처리가 성공일 때
+  				// token 상태 초기화
+  				console.log("로그아웃 성공");
+  				state.token = null;
+  			});
+  	},
+  });
+
+  // 액션과 리듀서, 비동기 처리 액션 내보내기
+  export const { resetIsSignup } = authSlice.actions;
+  export default authSlice.reducer;
+  export { signup, login, logout };
+  ```
+- `store/index.js`
+  ```jsx
+  // configureStore 함수
+  // 리듀서를 받아서 스토어를 생성하는 함수
+  import { configureStore } from "@reduxjs/toolkit";
+  // 리듀서 불러오기
+  import counterReducer from "./counterSlice";
+  // 인증 리듀서 불러오기
+  import authReducer from "./authSlice";
+  // Redux Persist 모듈
+  import { persistStore, persistReducer } from "redux-persist";
+  // 로컬 스토리지
+  import storage from "redux-persist/lib/storage";
+  // Redux Persist 모듈 불러오기
+  import {
+  	FLUSH,
+  	REHYDRATE,
+  	PAUSE,
+  	PERSIST,
+  	PURGE,
+  	REGISTER,
+  } from "redux-persist";
+
+  // Persist Reducer 설정 변수
+  const authPersistConfig = {
+  	key: "auth", //로컬 스토리지 내 속성명(식별자)
+  	storage: storage, //어떤 웹 저장소를 사용할 것인가? 로컬스토리지
+  	whitelist: ["token"], //어떤 상태를 저장할 것인가? token 상태만 저장
+  };
+
+  // Persist Reducer 생성
+  // PersistReducer: 지속가능한 리듀서를 생성하는 함수
+  // authPersistConfig: 설정
+  // authReducer: 원본 리듀서
+  const persistAuthReducer = persistReducer(authPersistConfig, authReducer);
+
+  // 스토어 생성
+  export const store = configureStore({
+  	reducer: {
+  		counter: counterReducer,
+  		auth: persistAuthReducer,
+  	},
+  	// middleware 속성 추가
+  	middleware: (getDefaultMiddleware) =>
+  		getDefaultMiddleware({
+  			serializableCheck: {
+  				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+  			},
+  		}),
+  });
+
+  // Persist 스토어 생성 및 내보내기
+  export const persistor = persistStore(store);
+  ```
+- `main.jsx`
+  ```jsx
+  import { StrictMode } from "react";
+  import { createRoot } from "react-dom/client";
+  import "./index.css";
+  // Provider 컴포넌트 불러오기
+  // Redux 스토어 설정을 주입(제공)하는 컴포넌트
+  import { Provider } from "react-redux";
+  // 스토어(store) 설정
+  import { store } from "./store";
+  import { RouterProvider } from "react-router-dom";
+  import router from "./router";
+  // persist 스토어 적용
+  import { PersistGate } from "redux-persist/integration/react";
+  import { persistor } from "./store";
+
+  createRoot(document.getElementById("root")).render(
+  	<StrictMode>
+  		<Provider store={store}>
+  			{/* Persist Gate 적용 */}
+  			<PersistGate persistor={persistor}>
+  				{/* Router는 반드시 Persist Gate 사이에 추가할 것 */}
+  				<RouterProvider router={router}></RouterProvider>
+  			</PersistGate>
+  		</Provider>
+  	</StrictMode>
+  );
+  ```
+
+---
+
+## ✅ 결론: 이 구조의 강점
+
+- 🔒 **보안성**: 인증 토큰을 안전하게 관리
+- 🔁 **새로고침 유지**: `redux-persist`로 로그인 유지 가능
+- 🧼 **분리된 구조**: 레이아웃, 페이지, 스토어 명확 분리
+- 🔧 **확장성**: 사용자 정보 저장, 프로필 수정 등 기능 확장 용이
+
+---
+
+## ✅ Axios 인스턴스 및 요청 인터셉터 정리
+
+### 📌 1. axios 인스턴스 파일 생성
+
+**`src/api/index.js`**
+
+```jsx
+import axios from "axios";
+
+const axiosInstance = axios.create({
+	baseURL: import.meta.env.VITE_SUPABASE_URL, // .env에서 가져옴
+	headers: {
+		"Content-Type": "application/json",
+		apikey: import.meta.env.VITE_SUPABASE_ANON_KEY,
+	},
+	withCredentials: false, // Supabase 인증 요청 시 쿠키 필요 없으면 false
+});
+
+export default axiosInstance;
+```
+
+- ✅ baseURL 설정 → 각 요청마다 전체 URL 작성 필요 없음
+- ✅ apikey와 Content-Type → 반복하지 않아도 됨
+- ✅ `Authorization`은 **인터셉터** 또는 각 요청 시 설정 가능
+
+---
+
+### 📌 2. 인증 API 함수 리팩토링
+
+**`src/api/auth.js`**
+
+### ✅ 회원가입 요청
+
+```jsx
+import axiosInstance from "./index";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
+export const signup = createAsyncThunk(
+	"auth/signup",
+	async (data, { rejectWithValue }) => {
+		try {
+			const config = {
+				url: "/auth/v1/signup",
+				method: "POST",
+				data: {
+					email: data.email,
+					password: data.password,
+				},
+			};
+			const response = await axiosInstance(config);
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+```
+
+---
+
+### ✅ 로그인 요청
+
+```jsx
+export const login = createAsyncThunk(
+	"auth/login",
+	async (data, { rejectWithValue }) => {
+		try {
+			const config = {
+				url: "/auth/v1/token?grant_type=password",
+				method: "POST",
+				data: {
+					email: data.email,
+					password: data.password,
+				},
+			};
+			const response = await axiosInstance(config);
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+```
+
+---
+
+### ✅ 로그아웃 요청
+
+```jsx
+export const logout = createAsyncThunk(
+	"auth/logout",
+	async (_, { rejectWithValue }) => {
+		try {
+			const config = {
+				url: "/auth/v1/logout",
+				method: "POST",
+			};
+			const response = await axiosInstance(config);
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+```
+
+---
+
+## 🧠 Axios 인스턴스 적용의 장점
+
+| 항목         | 기존 방식             | 인스턴스 적용                  |
+| ------------ | --------------------- | ------------------------------ |
+| ✅ API URL   | 각 요청마다 전체 작성 | `baseURL`로 생략 가능          |
+| ✅ 공통 헤더 | 중복 작성 필요        | 한 번만 설정                   |
+| ✅ 코드량    | 많음                  | 간결해짐                       |
+| ✅ 유지보수  | 불편                  | **변경점 1곳에서만 관리 가능** |
+
+---
+
+## ⚠️ 추가 팁: Authorization 헤더 처리
+
+로그인된 사용자의 토큰을 자동으로 붙이려면 **인터셉터 사용** 권장합니다:
+
+```jsx
+import store from "../store"; // redux 스토어 import
+
+axiosInstance.interceptors.request.use((config) => {
+	const token = store.getState().auth.token;
+	if (token) {
+		config.headers.Authorization = `Bearer ${token}`;
+	}
+	return config;
+});
+```
+
+이 코드를 `src/api/index.js` 하단에 추가하면, `logout` 요청처럼 Authorization 필요 시 자동으로 적용됩니다.
+
+## 🔄 인터셉터 = 미들웨어처럼 작동
+
+- 요청이 **서버에 전달되기 전에 가로채서(Intercept)** 필요한 설정을 자동으로 붙임
+- 이를 통해 코드가 **더 깔끔하고 안정적**이 됨
+- 특히 로그인 후 토큰을 Redux에 저장해놓고, **자동으로 헤더에 붙여야 하는 앱에 적합**
+
+---
+
+## 🧪 예시 시나리오 흐름
+
+| 동작     | 요청 경로                            | 헤더 구성              | 인스턴스 활용     |
+| -------- | ------------------------------------ | ---------------------- | ----------------- |
+| 회원가입 | `/auth/v1/signup`                    | apikey 포함            | O                 |
+| 로그인   | `/auth/v1/token?grant_type=password` | apikey 포함            | O                 |
+| 로그아웃 | `/auth/v1/logout`                    | apikey + Authorization | O (인터셉터 추천) |
+
+---
+
+## 📦 최종 폴더 구조 예시
+
+```
+src/
+├── api/
+│   ├── index.js         ← axios 인스턴스 설정
+│   └── auth.js          ← 인증 API 함수 모음
+├── store/
+│   └── authSlice.js     ← createAsyncThunk 사용
+
+```

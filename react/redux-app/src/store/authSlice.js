@@ -3,7 +3,6 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { act } from "react";
 
 // 로그인 요청을 보낼 인증 서버에 대한 정보
 const SUPABASE_URL = "https://jfsjmxtokcazzpykrxwp.supabase.co";
@@ -41,7 +40,7 @@ const signup = createAsyncThunk(
 		} catch (error) {
 			// 비동기처리를 실패했을 때의 데이터
 			console.log("signup error:", error.res.data);
-			return rejectWithValue(error.res.data);
+			return rejectWithValue(error.response.data);
 		}
 	}
 );
@@ -71,7 +70,34 @@ const login = createAsyncThunk(
 			return res.data;
 		} catch (error) {
 			console.log("login error:", error.res.data);
-			return rejectWithValue(error.res.data);
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+
+// 로그아웃 비동기 처리 액션
+const logout = createAsyncThunk(
+	"auth/logout",
+	async (_, { rejectWithValue, getState }) => {
+		try {
+			// axios 요청 설정(config)
+			const config = {
+				url: `${SUPABASE_URL}/auth/v1/logout`,
+				method: "POST",
+				headers: {
+					"Content-type": "application/json",
+					apikey: SUPABASE_ANON_KEY,
+					// 사용자 인증 정보(토큰)를 함께 전송
+					// 로그아웃 : 누가 로그아웃을 하는지에 대한 정보(토큰)가 필요
+					Authorization: `Bearer ${getState().auth.token}`,
+				},
+			};
+			const response = await axios(config);
+			console.log("로그아웃 성공");
+			return response.data;
+		} catch (error) {
+			console.error(error); // (임시) 디버깅용 코드
+			return rejectWithValue(error["response"]["data"]);
 		}
 	}
 );
@@ -113,6 +139,12 @@ const authSlice = createSlice({
 			.addCase(login.fulfilled, (state, action) => {
 				// login 비동기 처리가 성공(fullfilled)일 때 실행되는 콜백 함수
 				state.token = action.payload.access_token;
+			})
+			.addCase(logout.fulfilled, (state) => {
+				// logout 비동기 처리가 성공일 때
+				// token 상태 초기화
+				console.log("로그아웃 성공");
+				state.token = null;
 			});
 	},
 });
@@ -120,4 +152,4 @@ const authSlice = createSlice({
 // 액션과 리듀서, 비동기 처리 액션 내보내기
 export const { resetIsSignup } = authSlice.actions;
 export default authSlice.reducer;
-export { signup, login };
+export { signup, login, logout };
