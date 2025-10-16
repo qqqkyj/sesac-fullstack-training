@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function StreamChat() {
-  return (
-    <div>StreamChat</div>
-  )
+	return <div>StreamChat</div>;
 }
