@@ -68,6 +68,7 @@
 - **2025-10-14** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - Router, useSearchParams, Router모듈화, Not found 처리](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/react-router-app?#-react-usesearchparams-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC)
 - **2025-10-15** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - Redux, React Redux 비동기 처리와 사용자 인증](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/react-router-app?#-react-usesearchparams-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC)
 - **2025-10-16** : [컴포넌트 기반 웹 UI 구현을 위한 React 고급 - React Redux 비동기 처리와 사용자 인증 2](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/redux-app#-redux-%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%B2%98%EB%A6%AC--%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9D%B8%EC%A6%9D-%EC%A0%95%EB%A6%AC)
+- **2025-10-16** : [Gemini API - Google Gemini API 활용 및 Chat Bot](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/chat-bot-app#gemini-api-key-%EB%B0%9C%EA%B8%89-%EB%B0%8F-%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95-%EA%B0%80%EC%9D%B4%EB%93%9C)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
