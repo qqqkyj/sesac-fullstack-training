@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { logout } from "../store/authSlice";
 import { useEffect, useRef, useState } from "react";
 // chat 객체 불러오기
-import { chat } from "../utils/genai";
+import { chat, config } from "../utils/genai";
 import ChatMessage from "./ChatMessage";
 import ChatForm from "../components/ChatForm";
 
@@ -60,6 +60,7 @@ export default function ChatContainer() {
 			// AI 응답 생성
 			const stream = await chat.sendMessageStream({
 				message: prompt,
+				config: config,
 			});
 
 			// 스트림 응답을 위한 빈 AI 메시지 먼저 추가
@@ -115,26 +116,26 @@ export default function ChatContainer() {
 
 	return (
 		<div>
-			<div>
-				{decodeToken ? (
-					`이메일: ${decodeToken.email}`
-				) : (
-					<div>
-						<Link to="/login">로그인</Link>
-						<button></button>
+			<div className={messages.length > 0 ? "hidden" : "init"}>
+				<div className="flex flex-col items-center justify-center h-full text-center py-12">
+					<h3 className="text-2xl font-semibold text-gray-900 mb-4">
+						AI 메모 생성기
+					</h3>
+					<p className="text-lg text-gray-600 mb-6 max-w-md">
+						자연어로 할 일을 입력하면 <br></br> AI가 자동으로 메모를 생성합니다.
+					</p>
+					<div className="bg-gray-50 p-6 rounded-lg max-w-lg">
+						<h4 className="font-semibold text-gray-900 mb-3">예시</h4>
+						<div className="space-y-2 text-sm text-gray-600">
+							<p>"내일 오후 3시에 회의 준비하기"</p>
+							<p>"다음 주까지 프로젝트 보고서 작성"</p>
+							<p>"금요일에 병원 예약하기"</p>
+						</div>
 					</div>
-				)}
-				<div>
-					<button
-						className="border-px-4 py-2 border border-gray-300 cursor-pointer"
-						onClick={() => {
-							handleLogout();
-						}}
-					>
-						로그아웃
-					</button>
 				</div>
 			</div>
+
+			<hr className="text-gray-300 mb-6 flex-shrink-0" />
 
 			{/* 메시지 표현 영역 */}
 			<div>

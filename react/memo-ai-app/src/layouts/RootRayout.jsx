@@ -12,7 +12,6 @@ import { logout } from "../store/authSlice";
 export default function RootLayout() {
 	// 전역상태 token
 	const token = useSelector((state) => state.auth.token);
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	// 로그인 검증 로직
@@ -22,7 +21,7 @@ export default function RootLayout() {
 		if (token) {
 			setDecodeToken(jwtDecode(token));
 		}
-	}, [token, navigate]);
+	}, [token]);
 
 	function handleLogout() {
 		dispatch(logout());
