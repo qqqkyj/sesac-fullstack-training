@@ -2,7 +2,7 @@
 
 ### 🎬 시연 영상
 
-![alt text](image.png)
+![alt text](../memo-ai-app/ai-memo-app.gif)
 
 ---
 
@@ -20,7 +20,7 @@
 ## **2. 페이지 구성**
 
 > 최소 페이지 구성, 필요 시 추가 가능
-> 
+
 - **서비스 소개 페이지**: 프로젝트 목적과 기능 소개
 - **로그인 페이지**: 사용자 로그인
 - **회원가입 페이지**: 사용자 회원가입
@@ -80,10 +80,10 @@
 
 ```jsx
 const memo = {
-  id: 1,
-  title: "메모 제목",
-  content: "메모 내용",
-  createdAt: "2025-01-01",
+	id: 1,
+	title: "메모 제목",
+	content: "메모 내용",
+	createdAt: "2025-01-01",
 };
 
 // 로컬 스토리지에 저장
@@ -128,7 +128,7 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+	plugins: [react(), tailwindcss()],
 });
 ```
 
