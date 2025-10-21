@@ -31,7 +31,6 @@ export default function Profile() {
 
 	return (
 		<div>
-			이메일 :
 			{decodeToken ? (
 				`이메일: ${decodeToken.email}`
 			) : (

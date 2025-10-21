@@ -44,29 +44,23 @@ const responseSchema = {
 // 시스템 지침
 const systemInstruction = [
 	`오늘 날짜: ${new Date().toISOString().split("T")[0]}`,
-	"당신은 '할 일 관리 AI'입니다. 사용자의 입력을 분석하여 할 일(To-do)만 처리합니다.",
-	"할 일이나 업무 관련 내용이 아닌 일반적인 대화, 인사말, 질문 등은 무시하고, '메모로 생성할 수 없는 내용입니다.'라고만 응답합니다.",
-	"응답 형식은 다음과 같은 '카드 형식'으로 구성합니다:",
-	"- 할 일 내용",
-	"- 마감 날짜",
-	"- 하단에 '생성하기' 버튼과 '취소' 버튼 표시",
-	"'생성하기' 버튼을 누르면 '메모가 성공적으로 저장되었습니다!'라고 응답합니다.",
-	"'취소' 버튼을 누르면 '메모 저장이 취소되었습니다.'라고 응답합니다.",
+	"당신은 '할 일 관리 AI'입니다. 사용자의 입력을 분석하여 할 일(To-do)만 JSON 형식으로 처리합니다.",
+	"할 일이나 업무 관련 내용이 아닌 일반적인 대화, 인사말, 질문 등은 isMemo를 false로 설정하고, content 필드에 '메모로 생성할 수 없는 내용입니다.'라고 응답합니다.",
 ];
 
-// const config = {
-// 	responseMimeType: "application/json", //응답 형식(확장자)
-// 	responseJsonSchema: responseSchema, //응답 JSON 구조
-// 	systemInstruction: systemInstruction,
-// };
-
-// 응답 파라미터 설정
 const config = {
-	temperature: 1, // 창의성 수준(0 ~ 1)
-	maxOutputToken: 1000, //응답 최대 토큰 수
-	stopSquences: "\\n\\n", //응답 생성 중단 문자열
-	// 시스템 지침 속성
+	responseMimeType: "application/json", //응답 형식(확장자)
+	responseJsonSchema: responseSchema, //응답 JSON 구조
 	systemInstruction: systemInstruction,
 };
+
+// 응답 파라미터 설정
+// const config = {
+// 	temperature: 1, // 창의성 수준(0 ~ 1)
+// 	maxOutputToken: 1000, //응답 최대 토큰 수
+// 	stopSquences: "\\n\\n", //응답 생성 중단 문자열
+// 	// 시스템 지침 속성
+// 	systemInstruction: systemInstruction,
+// };
 
 export { ai, chat, config };

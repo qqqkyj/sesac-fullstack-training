@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { logout } from "../store/authSlice";
+import { addMemo } from "../store/memoSlice";
 import { useEffect, useRef, useState } from "react";
 // chat 객체 불러오기
 import { chat, config } from "../utils/genai";
 import ChatMessage from "./ChatMessage";
 import ChatForm from "../components/ChatForm";
+import MemoCard from "./MemoCard";
 
 export default function ChatContainer() {
 	// 전역상태 token
@@ -48,11 +50,12 @@ export default function ChatContainer() {
 	const [prompt, setPrompt] = useState(""); // 사용자 입력 요소 값
 	const [messages, setMessages] = useState([]); // 사용자 - AI 채팅 메시지 내역
 	const [isLoading, setIsLoading] = useState(false); // AI 요청 응답 로딩 상태
+	const [pendingMemos, setPendingMemos] = useState([]); // AI가 생성한 JSON 메모 후보
 
 	//useEffect 훅을 사용해서 메시지 내역 상태(message)가 변경될 때 스크롤 이동
 	useEffect(() => {
 		messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-	}, [messages]);
+	}, [messages, pendingMemos]);
 
 	//응답 생성 함수
 	async function generateAiResponse() {
@@ -73,23 +76,49 @@ export default function ChatContainer() {
 				// 스트림 청크 누적
 				accumulatedResponse += chunk.text || "";
 
-				// 메시지 상태 변경(함수형 업데이트)
-				// prev 매개변수 : 이전 상태 데이터
-				setMessages((prev) => {
-					// newMessages : 새로운 배열 생성(복사)
-					const newMessages = [...prev];
+				// // 메시지 상태 변경(함수형 업데이트)
+				// // prev 매개변수 : 이전 상태 데이터
+				// setMessages((prev) => {
+				// 	// newMessages : 새로운 배열 생성(복사)
+				// 	const newMessages = [...prev];
 
-					// lastMessage : 마지막 메시지 메모리 주소 참조
-					const lastMessage = newMessages[newMessages.length - 1];
+				// 	// lastMessage : 마지막 메시지 메모리 주소 참조
+				// 	const lastMessage = newMessages[newMessages.length - 1];
 
-					// AI 메시지인 경우 누적된 청크로 마지막 메세지 변경
-					if (lastMessage["role"] === "ai") {
-						lastMessage.content = accumulatedResponse;
-					}
+				// 	// AI 메시지인 경우 누적된 청크로 마지막 메세지 변경
+				// 	if (lastMessage["role"] === "ai") {
+				// 		lastMessage.content = accumulatedResponse;
+				// 	}
 
-					// 마지막 메세지만 변경된 새로운 배열 반환
-					return newMessages;
-				});
+				// 	// 마지막 메세지만 변경된 새로운 배열 반환
+				// 	return newMessages;
+				// });
+			}
+
+			// 최종 AI 응답 JSON 파싱
+			try {
+				const parsed = JSON.parse(accumulatedResponse);
+				// isMemo가 true이면 pendingMemos에 추가
+				if (parsed.isMemo) {
+					// 1️⃣ 안내 메시지
+					setMessages((prev) => [
+						...prev,
+						{
+							role: "ai",
+							content: "사용자의 입력을 처리했습니다. 아래 메모를 생성할까요?",
+						},
+					]);
+
+					// 2️⃣ 메모 카드
+					setPendingMemos((prev) => [...prev, parsed]);
+				} else {
+					setMessages((prev) => [
+						...prev,
+						{ role: "ai", content: "❌ 메모로 생성할 수 없는 내용입니다." },
+					]);
+				}
+			} catch (err) {
+				console.error("JSON 파싱 실패:", err);
 			}
 		} catch (error) {
 			console.error(error);
@@ -113,6 +142,27 @@ export default function ChatContainer() {
 		await generateAiResponse();
 		setIsLoading(false);
 	}
+
+	// 메모 생성
+	const handleConfirmMemo = (memo) => {
+		dispatch(addMemo(memo));
+		setPendingMemos((prev) => prev.filter((m) => m !== memo));
+		// AI 답변 메시지로 추가
+		setMessages((prev) => [
+			...prev,
+			{ role: "ai", content: "✅ 메모가 생성되었습니다." },
+		]);
+	};
+
+	// 메모 취소
+	const handleCancelMemo = (memo) => {
+		setPendingMemos((prev) => prev.filter((m) => m !== memo));
+		// AI 답변 메시지로 추가
+		setMessages((prev) => [
+			...prev,
+			{ role: "ai", content: "⚠️ 메모가 취소되었습니다." },
+		]);
+	};
 
 	return (
 		<div>
@@ -144,6 +194,18 @@ export default function ChatContainer() {
 				))}
 				{/* 하단 스크롤 유지를 위한 빈 div */}
 				<div ref={messagesEndRef}></div>
+			</div>
+
+			{/* AI가 생성한 메모 카드 */}
+			<div>
+				{pendingMemos.map((memo, index) => (
+					<MemoCard
+						key={index}
+						memo={memo}
+						onConfirm={() => handleConfirmMemo(memo)}
+						onCancel={() => handleCancelMemo(memo)}
+					/>
+				))}
 			</div>
 
 			{/* 사용자의 프롬프트 작성 폼 컴포넌트 */}

@@ -1,52 +1,137 @@
-// 로그아웃 버틈
-// 로그인을 한 상태라면 사용자 정보를 출력
-// (정상적으로 로그인 했을 경우)사용자 정보는 전역 상태 token에 저장된 상태
-
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-
-import { jwtDecode } from "jwt-decode";
-import { useEffect, useState } from "react";
-import { logout } from "../store/authSlice";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleMemo, deleteMemo } from "../store/memoSlice";
 
 export default function Profile() {
-	// 전역상태 token
-	const token = useSelector((state) => state.auth.token);
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const memos = useSelector((state) => state.memo.list);
 
-	// 로그인 검증 로직
-	// 사용자 정보 관리 상태
-	const [decodeToken, setDecodeToken] = useState(null);
-	useEffect(() => {
-		if (token) {
-			setDecodeToken(jwtDecode(token));
-		}
-	}, [token]);
+	// 상태: 필터 (all, incomplete, complete)
+	const [filter, setFilter] = useState("all");
 
-	function handleLogout() {
-		console.log("handleLogout시작");
-		dispatch(logout());
-	}
+	const handleToggle = (id) => {
+		dispatch(toggleMemo(id));
+	};
+
+	const handleDelete = (id) => {
+		dispatch(deleteMemo(id));
+	};
+
+	// 필터링된 메모
+	const filteredMemos = memos.filter((memo) => {
+		if (filter === "incomplete") return !memo.completed;
+		if (filter === "complete") return memo.completed;
+		return true; // all
+	});
 
 	return (
-		<div>
-			이메일 :
-			{decodeToken ? (
-				`이메일: ${decodeToken.email}`
-			) : (
-				<Link to="/login">로그인</Link>
-			)}
-			<div>
+		<div className="max-w-3xl mx-auto p-6 bg-gray-50 min-h-screen">
+			<h2 className="text-3xl font-bold mb-6 text-center">📝 메모 목록</h2>
+
+			{/* 필터 버튼 */}
+			<div className="flex justify-center mb-6 space-x-4">
 				<button
-					className="border-2"
-					onClick={() => {
-						handleLogout();
-					}}
+					onClick={() => setFilter("all")}
+					className={`px-4 py-2 rounded-md font-semibold ${
+						filter === "all"
+							? "bg-blue-500 text-white"
+							: "bg-gray-200 text-gray-700 hover:bg-gray-300"
+					}`}
 				>
-					로그아웃
+					전체 ({memos.length})
+				</button>
+				<button
+					onClick={() => setFilter("incomplete")}
+					className={`px-4 py-2 rounded-md font-semibold ${
+						filter === "incomplete"
+							? "bg-blue-500 text-white"
+							: "bg-gray-200 text-gray-700 hover:bg-gray-300"
+					}`}
+				>
+					미완료 ({memos.filter((m) => !m.completed).length})
+				</button>
+				<button
+					onClick={() => setFilter("complete")}
+					className={`px-4 py-2 rounded-md font-semibold ${
+						filter === "complete"
+							? "bg-blue-500 text-white"
+							: "bg-gray-200 text-gray-700 hover:bg-gray-300"
+					}`}
+				>
+					완료 ({memos.filter((m) => m.completed).length})
 				</button>
 			</div>
+
+			{/* 메모 리스트 */}
+			{filteredMemos.length === 0 ? (
+				<p className="text-gray-500 text-center mt-12 whitespace-pre-line">
+					{filter === "all"
+						? "📝 아직 메모가 없습니다.\n메모 작성 페이지에서 새로운 할 일을 만들어보세요."
+						: filter === "incomplete"
+						? "📝 미완료 메모가 없습니다.\n다른 필터를 선택해보세요."
+						: "📝 완료된 메모가 없습니다.\n다른 필터를 선택해보세요."}
+				</p>
+			) : (
+				<div className="space-y-4">
+					{filteredMemos.map((memo) => (
+						<div
+							key={memo.id}
+							className="bg-white rounded-lg shadow-md p-5 border border-gray-200 hover:shadow-lg transition"
+						>
+							<div className="flex justify-between items-start">
+								<div className="flex items-center space-x-3">
+									<input
+										type="checkbox"
+										checked={memo.completed}
+										onChange={() => handleToggle(memo.id)}
+										className="h-5 w-5 accent-blue-500"
+									/>
+									<span
+										className={`font-semibold text-gray-800 ${
+											memo.completed ? "line-through text-gray-400" : ""
+										}`}
+									>
+										{memo.content}
+									</span>
+								</div>
+								<button
+									onClick={() => handleDelete(memo.id)}
+									className="text-red-500 hover:text-red-700 font-semibold"
+								>
+									삭제
+								</button>
+							</div>
+
+							<div className="mt-3 text-sm text-gray-600 space-y-1">
+								<p>
+									<strong>마감일:</strong> {memo.dueDate || "-"}
+								</p>
+								{memo.priority && (
+									<p>
+										<strong>우선순위:</strong>{" "}
+										<span
+											className={`font-semibold ${
+												memo.priority === "높음"
+													? "text-red-500"
+													: memo.priority === "중간"
+													? "text-yellow-500"
+													: "text-green-500"
+											}`}
+										>
+											{memo.priority}
+										</span>
+									</p>
+								)}
+								{memo.category && (
+									<p>
+										<strong>카테고리:</strong> {memo.category}
+									</p>
+								)}
+							</div>
+						</div>
+					))}
+				</div>
+			)}
 		</div>
 	);
 }

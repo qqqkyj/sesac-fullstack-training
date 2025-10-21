@@ -3,6 +3,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 // 인증 리듀서 불러오기
 import authReducer from "./authSlice";
+// 메모 리듀서 불러오기
+import memoReducer from "./memoSlice";
 // Redux Persist 모듈
 import { persistStore, persistReducer } from "redux-persist";
 // 로컬 스토리지
@@ -34,6 +36,7 @@ const persistAuthReducer = persistReducer(authPersistConfig, authReducer);
 export const store = configureStore({
 	reducer: {
 		auth: persistAuthReducer,
+		memo: memoReducer,
 	},
 	// middleware 속성 추가
 	middleware: (getDefaultMiddleware) =>
