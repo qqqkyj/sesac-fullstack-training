@@ -209,3 +209,177 @@
 ![alt text](image-23.png)
 
 ![alt text](image-24.png)
+
+---
+
+# ⚙️ 기본 SQL 실행
+
+데이터베이스를 **정의·조작·제어**하기 위한 표준 언어
+
+---
+
+## 🧭 명령어 분류
+
+| 분류                      | 설명                                 | 주요 명령어                            |
+| ------------------------- | ------------------------------------ | -------------------------------------- |
+| **DDL (데이터 정의어)**   | 데이터 구조를 생성, 수정, 삭제       | `CREATE`, `ALTER`, `DROP`              |
+| **DML (데이터 조작어)**   | 실제 데이터를 조회, 삽입, 수정, 삭제 | `SELECT`, `INSERT`, `UPDATE`, `DELETE` |
+| **DCL (데이터 제어어)**   | 데이터 접근 권한을 부여/회수         | `GRANT`, `REVOKE`                      |
+| **TCL (트랜잭션 제어어)** | 변경사항을 반영하거나 취소           | `COMMIT`, `ROLLBACK`                   |
+
+---
+
+## 🧮 데이터 타입 (Data Types)
+
+| 데이터 타입     | 설명                                   | 예시                  |
+| --------------- | -------------------------------------- | --------------------- |
+| `INT`           | 정수형                                 | 나이, 수량            |
+| `VARCHAR(n)`    | 가변 길이 문자열 (최대 n자)            | 이름, 이메일          |
+| `TEXT`          | 긴 텍스트 데이터                       | 게시글 내용           |
+| `DATE`          | 날짜                                   | `2025-10-21`          |
+| `DATETIME`      | 날짜 + 시간                            | `2025-10-21 15:30:00` |
+| `DECIMAL(m, n)` | 정확한 소수 (전체 m자리, 소수점 n자리) | 가격, 금액            |
+
+---
+
+## 🔒 제약 조건 (Constraints)
+
+| 제약 조건        | 설명                            |
+| ---------------- | ------------------------------- |
+| `PRIMARY KEY`    | 기본 키 (중복 불가, NULL 불가)  |
+| `FOREIGN KEY`    | 외래 키 (다른 테이블의 PK 참조) |
+| `NOT NULL`       | NULL 값 입력 불가               |
+| `UNIQUE`         | 중복 값 불가 (단, NULL 허용)    |
+| `DEFAULT value`  | 값이 없을 때 기본값 지정        |
+| `AUTO_INCREMENT` | 자동 증가 숫자 (MySQL 전용)     |
+
+## 🧱 SCHEMA 생성 예시 (`temp_db`)
+
+> 💡 Tip:
+>
+> - 명령문 끝에는 세미콜론(`;`)
+> - **키워드 대문자 권장** → `SELECT`, `FROM`, `WHERE`
+> - 주석
+>   - 한 줄: `- 주석`
+>   - 여러 줄: `/* 주석 내용 */`
+> - 번개 버튼:
+>   - 왼쪽 → 전체 실행
+>   - 오른쪽 → 커서 부분만 실행
+
+```sql
+-- world 데이터베이스 사용
+USE world;
+SELECT * FROM city;
+
+-- 새 데이터베이스 생성
+CREATE DATABASE temp_db;
+USE temp_db;
+
+-- DDL : 테이블 생성
+CREATE TABLE student (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL
+);
+
+-- 테이블 삭제
+DROP TABLE student;
+
+-- DML : 데이터 조작
+-- 데이터 추가 (Create)
+INSERT INTO student (name) VALUES ('kim');
+
+-- 데이터 조회 (Read)
+SELECT * FROM student;
+
+-- 데이터 수정 (Update)
+UPDATE student SET name = 'hong' WHERE id = 1;
+
+-- 데이터 삭제 (Delete)
+DELETE FROM student WHERE id = 1;
+```
+
+![alt text](image-25.png)
+
+![alt text](image-26.png)
+
+![alt text](image-27.png)
+
+---
+
+# 🧩 ERD (Entity Relationship Diagram)
+
+**ERD란?**  
+데이터베이스를 설계할 때 **데이터 구조를 시각적으로 표현한 설계도**  
+👉 집을 짓기 전 설계도를 그리듯, DB 설계 전 구조를 명확히 정의하는 단계
+
+---
+
+## 🏗️ 구성 요소
+
+### 🧱 **Entity (개체)**
+
+- 데이터베이스에 저장할 **정보의 단위**
+- **사각형**으로 표현
+- ex. `회원`, `상품`, `주문`, `카테고리`
+- **명사형으로 작성**
+
+### 📄 **Attribute (속성)**
+
+- 개체가 가지는 **세부 정보 항목**
+- 개체 내부에 목록으로 표시
+- 주요 속성:
+  - **PK (Primary Key)** : 각 행을 고유하게 식별
+  - **FK (Foreign Key)** : 다른 테이블의 PK를 참조
+
+### 🔗 **Relationship (관계)**
+
+- 개체 간의 **논리적 연관성**
+- **선(Line)** 으로 표현
+
+---
+
+## 🔄 관계 유형
+
+### 1️⃣ **1 : 1 관계 (One-to-One)**
+
+```
+회원 |-------| 회원프로필
+     1       1
+한 명의 회원은 하나의 프로필만 가짐
+```
+
+---
+
+### 🌱 **1 : N 관계 (One-to-Many)**
+
+```
+회원 |-------< 게시글
+     1         N
+한 명의 회원은 여러 개의 게시글을 작성할 수 있음
+```
+
+---
+
+### 🔁 **N : M 관계 (Many-to-Many)**
+
+```
+학생 >-------< 과목
+한 학생은 여러 과목을 수강
+한 과목에는 여러 학생이 등록
+```
+
+> ⚙️ 실제 DB에서는 중간 테이블(Junction Table) 로 1:N 관계 두 개로 분리하여 구현
+>
+> 예: `student_subject(student_id, subject_id)`
+
+https://app.diagrams.net/
+
+![alt text](image-28.png)
+
+![alt text](image-29.png)
+
+### MySQL Diagram
+
+![alt text](image-30.png)
+
+![alt text](image-31.png)
