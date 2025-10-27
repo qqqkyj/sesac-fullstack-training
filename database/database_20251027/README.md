@@ -490,3 +490,143 @@ LIMIT 10;
 | `ALL`               | 모든 조건 만족 시 TRUE         | 완전 비교       |
 | `EXISTS`            | 행 존재 여부만 확인            | 존재성 검증     |
 | `FROM (SELECT ...)` | 가상 테이블로 사용             | 집계, 통계 분석 |
+
+---
+
+# 🎬서브쿼리 실습 (Sakila 예제)
+
+> 아래 예제들은 sakila 데이터베이스를 기반으로
+>
+> 서브쿼리를 이용해 **조건 비교 / 데이터 필터링 / 집계** 등을 수행하는 연습입니다.
+
+---
+
+## 🎯 1️⃣ 평균 대여료(`rental_rate`)보다 비싼 영화 조회
+
+> 단일 행 서브쿼리 (Single-Row Subquery)
+>
+> 서브쿼리에서 평균 대여료(`AVG(rental_rate)`)를 구하고,
+>
+> 메인쿼리에서 그보다 비싼 영화만 필터링합니다.
+
+```sql
+USE sakila;
+
+SELECT
+    title, rental_rate
+FROM film
+WHERE rental_rate > (
+    SELECT ROUND(AVG(rental_rate), 2) FROM film
+)
+ORDER BY rental_rate DESC
+LIMIT 10;
+```
+
+📘 **설명**
+
+- `ROUND(AVG(rental_rate), 2)` → 평균 대여료를 소수 둘째 자리로 반올림
+- `>` → 평균보다 높은 값만 선택
+- `ORDER BY rental_rate DESC` → 비싼 영화부터 정렬
+- `LIMIT 10` → 상위 10개만 출력
+
+---
+
+## ⚔️ 2️⃣ ‘Action’ 카테고리에 속한 영화 조회
+
+> 다중 행 서브쿼리 (Multi-Row Subquery)
+>
+> 서브쿼리를 중첩해 “Action 카테고리의 film_id”를 찾고,
+>
+> 그 결과를 이용해 `film` 테이블에서 해당 영화 목록을 조회합니다.
+
+```sql
+SELECT
+    title
+FROM film
+WHERE film_id IN (
+    SELECT film_id
+    FROM film_category
+    WHERE category_id = (
+        SELECT category_id
+        FROM category
+        WHERE name = 'Action'
+    )
+);
+```
+
+📘 **설명**
+
+- **2단 서브쿼리**
+  1️⃣ `category` 테이블에서 ‘Action’의 `category_id` 찾기
+  2️⃣ `film_category`에서 해당 `category_id`에 속한 `film_id` 찾기
+- **메인쿼리** → `film` 테이블에서 `film_id`로 영화 제목 가져오기
+
+---
+
+## 👥 3️⃣ 대여 기록이 있는 고객만 조회
+
+> EXISTS 서브쿼리 (존재 여부 확인)
+>
+> `rental` 테이블에 고객의 대여 기록이 존재하면 참(`TRUE`)으로 간주합니다.
+
+```sql
+SELECT
+    first_name, last_name, email
+FROM customer
+WHERE EXISTS (
+    SELECT *
+    FROM rental
+    WHERE customer.customer_id = rental.customer_id
+);
+```
+
+📘 **설명**
+
+- `EXISTS`는 **행의 존재 여부만** 확인 (값 비교 X)
+- 조건을 만족하는 데이터가 하나라도 존재하면 `TRUE`
+- `EXISTS`는 `IN`보다 **성능이 더 좋음** (특히 대량 데이터 시)
+
+---
+
+## 📈 4️⃣ 고객별 대여 횟수 계산 후, 30회 이상 고객만 조회
+
+> FROM 절의 서브쿼리 (인라인 뷰)
+>
+> 서브쿼리에서 고객별 대여 횟수를 집계하고,
+>
+> 그 결과를 메인쿼리에서 조건 필터링합니다.
+
+```sql
+SELECT
+    c_name, c_id, c_count
+FROM (
+    SELECT
+        CONCAT(c.first_name, "_", c.last_name) AS c_name,
+        c.customer_id AS c_id,
+        COUNT(*) AS c_count
+    FROM customer c
+    INNER JOIN rental r
+        ON c.customer_id = r.customer_id
+    GROUP BY c.customer_id
+) AS customer_rental
+WHERE c_count >= 30
+ORDER BY c_count DESC;
+```
+
+📘 **설명**
+
+- `INNER JOIN` → 고객과 대여기록 연결
+- `COUNT(*)` → 고객별 대여 횟수 계산
+- `FROM (...)` → 결과를 **가상 테이블(customer_rental)** 로 활용
+- `WHERE c_count >= 30` → 대여 30회 이상인 고객만 표시
+
+---
+
+## 🧠 정리 요약
+
+| 구분             | 서브쿼리 위치       | 예제                   | 특징             |
+| ---------------- | ------------------- | ---------------------- | ---------------- |
+| 단일 행 서브쿼리 | `WHERE`             | 평균보다 비싼 영화     | 결과 1행         |
+| 다중 행 서브쿼리 | `WHERE IN`          | ‘Action’ 카테고리 영화 | 결과 여러 행     |
+| 존재 여부        | `WHERE EXISTS`      | 대여 기록이 있는 고객  | 존재만 확인      |
+| 인라인 뷰        | `FROM (SELECT ...)` | 30회 이상 대여 고객    | 가상 테이블 활용 |
