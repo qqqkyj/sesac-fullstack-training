@@ -225,7 +225,7 @@ ON f.language_id = l.language_id;
 SELECT
 	f.title AS 영화제목,
     c.name AS 카테고리,
-    f.replacement_cost AS 대여료
+    f.rental_rate AS 대여료
 FROM film f
 INNER JOIN film_category fc ON f.film_id = fc.film_id
 INNER JOIN category c ON fc.category_id = c.category_id;
@@ -253,13 +253,13 @@ LEFT JOIN rental r ON c.customer_id = r.customer_id;
 
 ```sql
 SELECT
-	CONCAT(c.first_name, "_", c.last_name) AS full_name,
-    COUNT(r.rental_id) AS rentalCnt
+	c.customer_id,
+    CONCAT(c.first_name, "_" ,c.last_name) AS full_name,
+    COUNT(*)
 FROM customer c
 LEFT JOIN rental r ON c.customer_id = r.customer_id
-GROUP BY full_name
-ORDER BY rentalCnt DESC;
-
+GROUP BY c.customer_id
+ORDER BY COUNT(*) DESC;
 ```
 
 ---
@@ -296,3 +296,197 @@ LIMIT 10;
 | **FULL OUTER JOIN** | 양쪽 모든 행     | MySQL은 UNION으로 구현 |
 | **SELF JOIN**       | 자기 자신        | 같은 테이블 비교       |
 | **MULTI JOIN**      | 3개 이상 테이블  | 단계별 결합            |
+
+---
+
+# 🧩 서브쿼리 (Subquery)
+
+> **서브쿼리(Subquery)**란
+>
+> 하나의 SQL 문 안에 포함된 **다른 SELECT 문**으로,
+>
+> **다른 쿼리의 결과를 조건으로 활용**할 때 사용합니다.
+
+---
+
+## 🧠 서브쿼리 종류
+
+| 구분                            | 설명                            | 반환 행 수 | 예시 키워드                  |
+| ------------------------------- | ------------------------------- | ---------- | ---------------------------- |
+| **단일 행 서브쿼리**            | 한 개의 결과만 반환             | 1개        | `=`, `>`, `<`, `>=`, `<=`    |
+| **다중 행 서브쿼리**            | 여러 개의 결과 반환             | 여러 행    | `IN`, `ANY`, `ALL`, `EXISTS` |
+| **인라인 뷰 (FROM절 서브쿼리)** | 서브쿼리를 가상 테이블처럼 사용 | 여러 행    | `FROM (SELECT ...) AS 별칭`  |
+
+---
+
+## 🧩 1️⃣ 단일 행 서브쿼리 (Single-Row Subquery)
+
+> 서브쿼리가 하나의 결과값만 반환할 때 사용합니다.
+
+```sql
+-- 서울의 인구보다 많은 도시 조회
+SELECT *
+FROM city
+WHERE Population > (
+    SELECT Population FROM city WHERE Name = 'SEOUL'
+);
+```
+
+```sql
+-- 평균 인구보다 많은 국가 조회
+SELECT
+    Name, Population
+FROM country
+WHERE Population > (
+    SELECT AVG(Population) FROM country
+)
+ORDER BY Population DESC;
+```
+
+---
+
+## 🧩 2️⃣ 다중 행 서브쿼리 (Multi-Row Subquery)
+
+> 서브쿼리가 여러 행을 반환할 때 사용합니다.
+>
+> `IN`, `NOT IN`, `ANY`, `ALL` 등을 함께 활용합니다.
+
+### ✅ `IN`
+
+```sql
+-- 아시아 대륙의 모든 도시 조회
+SELECT
+    Name, CountryCode, Population
+FROM city
+WHERE CountryCode IN (
+    SELECT Code FROM country WHERE Continent = 'Asia'
+);
+```
+
+---
+
+### ❌ `NOT IN`
+
+```sql
+-- 도시가 하나도 없는 국가 조회
+SELECT *
+FROM country
+WHERE Code NOT IN (
+    SELECT DISTINCT CountryCode FROM city
+);
+```
+
+---
+
+### 🟡 `ANY`
+
+```sql
+-- 유럽의 어떤 국가보다 인구가 많은 아시아 국가
+SELECT
+    Name AS 국가명,
+    Population AS 인구
+FROM country
+WHERE
+    Continent = 'Asia'
+    AND Population > ANY (
+        SELECT Population FROM country WHERE Continent = 'Europe'
+    )
+ORDER BY Population DESC
+LIMIT 10;
+```
+
+---
+
+### 🔵 `ALL`
+
+```sql
+-- 유럽의 모든 국가보다 인구가 많은 아시아 국가
+SELECT
+    Name AS 국가명,
+    Population AS 인구
+FROM country
+WHERE
+    Continent = 'Asia'
+    AND Population > ALL (
+        SELECT Population FROM country WHERE Continent = 'Europe'
+    )
+ORDER BY Population DESC;
+```
+
+---
+
+### 🟢 `EXISTS`
+
+```sql
+-- 도시가 등록된 국가만 조회 (존재 여부 확인)
+SELECT
+    Name AS 국가명,
+    Continent AS 대륙,
+    Population AS 인구
+FROM country co
+WHERE EXISTS (
+    SELECT 1 FROM city ci WHERE ci.CountryCode = co.Code
+)
+ORDER BY Population DESC
+LIMIT 10;
+```
+
+---
+
+## 🧩 3️⃣ FROM절 서브쿼리 (인라인 뷰)
+
+> 서브쿼리를 가상 테이블처럼 사용합니다.
+
+```sql
+SELECT *
+FROM (
+    SELECT Continent, COUNT(*) AS co_count
+    FROM country
+    GROUP BY Continent
+) AS continent_table
+WHERE co_count > 40;
+```
+
+---
+
+## ⚖️ 4️⃣ JOIN vs 서브쿼리
+
+> 같은 결과를 다른 방식으로 표현할 수 있습니다.
+
+```sql
+-- (1) 서브쿼리 방식: 아시아 국가의 도시
+SELECT Name
+FROM city
+WHERE CountryCode IN (
+    SELECT Code FROM country WHERE Continent = 'Asia'
+)
+LIMIT 10;
+```
+
+```sql
+-- (2) JOIN 방식
+SELECT ci.Name
+FROM city ci
+INNER JOIN country co ON ci.CountryCode = co.Code
+WHERE co.Continent = 'Asia'
+LIMIT 10;
+```
+
+| 비교 항목     | 서브쿼리                      | JOIN                     |
+| ------------- | ----------------------------- | ------------------------ |
+| **가독성**    | 간단한 조건일 때 좋음         | 여러 테이블 결합 시 명확 |
+| **성능**      | 상황에 따라 느릴 수 있음      | 인덱스 최적화에 유리     |
+| **사용 예시** | `WHERE`, `HAVING` 절에서 사용 | 다중 테이블 관계 조회    |
+
+---
+
+## 📘 핵심 요약
+
+| 키워드              | 의미                           | 사용 목적       |
+| ------------------- | ------------------------------ | --------------- |
+| `IN`                | 서브쿼리 결과 중 하나라도 일치 | 다중 행 비교    |
+| `NOT IN`            | 서브쿼리 결과와 일치하지 않음  | 제외 조건       |
+| `ANY`               | 하나라도 조건 만족 시 TRUE     | 부분 비교       |
+| `ALL`               | 모든 조건 만족 시 TRUE         | 완전 비교       |
+| `EXISTS`            | 행 존재 여부만 확인            | 존재성 검증     |
+| `FROM (SELECT ...)` | 가상 테이블로 사용             | 집계, 통계 분석 |
