@@ -630,3 +630,191 @@ ORDER BY c_count DESC;
 | 다중 행 서브쿼리 | `WHERE IN`          | ‘Action’ 카테고리 영화 | 결과 여러 행     |
 | 존재 여부        | `WHERE EXISTS`      | 대여 기록이 있는 고객  | 존재만 확인      |
 | 인라인 뷰        | `FROM (SELECT ...)` | 30회 이상 대여 고객    | 가상 테이블 활용 |
+
+---
+
+# ⚡ INDEX & VIEW 정리
+
+> 효율적인 데이터베이스 조회와 관리의 핵심 도구
+>
+> 👉 **INDEX(검색 성능 향상)** + **VIEW(가상 테이블)**
+
+---
+
+## 🧩 INDEX (인덱스)
+
+### 📖 1️⃣ 개념
+
+> **인덱스(index)**는 데이터베이스 검색 속도를 향상시키기 위한 자료구조입니다.
+>
+> 책의 "색인(index)"과 같은 개념으로, 원하는 데이터를 **빠르게 탐색**할 수 있게 합니다.
+
+---
+
+### ⚙️ 2️⃣ 특징
+
+| 구분          | 설명                                                                   |
+| ------------- | ---------------------------------------------------------------------- |
+| **목적**      | 검색 속도 향상, 효율적인 데이터 접근                                   |
+| **기본 구조** | B-Tree (Binary Tree)                                                   |
+| **적용 대상** | 자주 조회되는 컬럼 (`WHERE`, `JOIN`, `ORDER BY`에 자주 사용)           |
+| **단점**      | - INSERT/UPDATE/DELETE 시 인덱스 갱신 비용 발생- 너무 많으면 성능 저하 |
+
+---
+
+### 🧠 3️⃣ 주요 명령어 & 실습
+
+### 🔍 인덱스 조회
+
+```sql
+USE world;
+SHOW INDEX FROM city;
+```
+
+### 📋 테이블 구조 확인
+
+```sql
+DESC city;
+```
+
+### 🧱 인덱스 생성
+
+```sql
+CREATE INDEX idx_city_name ON city(Name);
+```
+
+> ✅ idx_city_name : 인덱스 이름
+>
+> ✅ `city(Name)` : 인덱스를 적용할 테이블과 컬럼
+
+### 🚀 인덱스 적용 여부 확인 (`EXPLAIN`)
+
+```sql
+EXPLAIN SELECT * FROM city WHERE Name = 'Seoul';
+```
+
+> EXPLAIN은 쿼리 실행 계획을 보여줍니다.
+>
+> `key` 컬럼에 `idx_city_name`이 표시되면 인덱스가 사용된 것!
+
+### 🗑️ 인덱스 삭제
+
+```sql
+DROP INDEX idx_city_name ON city;
+SHOW INDEX FROM city;
+```
+
+---
+
+### 🧩 인덱스 정리 요약
+
+| 명령어                                   | 설명                              |
+| ---------------------------------------- | --------------------------------- |
+| `SHOW INDEX FROM table`                  | 인덱스 목록 확인                  |
+| `CREATE INDEX idx_name ON table(column)` | 인덱스 생성                       |
+| `EXPLAIN SELECT ...`                     | 실행 계획 확인 (인덱스 사용 여부) |
+| `DROP INDEX idx_name ON table`           | 인덱스 삭제                       |
+
+---
+
+## 🧱 VIEW (뷰)
+
+### 📖 1️⃣ 개념
+
+> **뷰(View)**는 하나 이상의 테이블에서 데이터를 추출하여 만든
+>
+> **가상의 테이블(Virtual Table)** 입니다.
+>
+> 실제 데이터를 저장하지 않고, 정의된 **SELECT 문을 저장**한 객체입니다.
+
+---
+
+### ⚙️ 2️⃣ 뷰의 장점
+
+| 구분         | 설명                                          |
+| ------------ | --------------------------------------------- |
+| **재사용성** | 복잡한 쿼리를 뷰로 만들어 간단히 호출 가능    |
+| **보안성**   | 민감한 컬럼을 제외하고 접근 권한 부여 가능    |
+| **독립성**   | 원본 테이블 변경 시에도 동일한 구조 유지 가능 |
+
+---
+
+### 🧠 3️⃣ 주요 명령어 & 실습
+
+### ✅ 뷰 생성 (단순 뷰)
+
+```sql
+CREATE VIEW large_country AS
+SELECT *
+FROM country
+WHERE Population >= 50000000;
+```
+
+```sql
+SELECT * FROM large_country;
+```
+
+> large_country 뷰는 인구 5천만 이상 국가만 조회하는 가상 테이블입니다.
+
+---
+
+### ✅ 다중 테이블 조인 뷰
+
+```sql
+CREATE VIEW country_view AS
+SELECT
+    co.Name AS co_name,
+    ci.Name AS ci_name
+FROM country co
+INNER JOIN city ci
+ON co.Code = ci.CountryCode;
+
+SELECT * FROM country_view;
+```
+
+> country_view는 국가명과 도시명을 연결한 조인 뷰입니다.
+
+---
+
+### 🔎 뷰 목록 조회
+
+```sql
+SHOW FULL TABLES WHERE Table_type = 'VIEW';
+```
+
+### 🗑️ 뷰 삭제
+
+```sql
+DROP VIEW large_country;
+```
+
+---
+
+### 🧩 VIEW 정리 요약
+
+| 명령어                                     | 설명           |
+| ------------------------------------------ | -------------- |
+| `CREATE VIEW view_name AS SELECT ...`      | 뷰 생성        |
+| `SELECT * FROM view_name`                  | 뷰 데이터 조회 |
+| `SHOW FULL TABLES WHERE Table_type='VIEW'` | 뷰 목록 조회   |
+| `DROP VIEW view_name`                      | 뷰 삭제        |
+
+---
+
+## ⚙️ INDEX vs VIEW 비교
+
+| 항목                 | INDEX                | VIEW                     |
+| -------------------- | -------------------- | ------------------------ |
+| **목적**             | 검색 속도 향상       | 쿼리 단순화, 재사용      |
+| **저장 형태**        | 실제 인덱스 파일     | 가상 테이블 (SELECT 문)  |
+| **데이터 저장 여부** | O (메타 정보 저장)   | X (쿼리 정의만 저장)     |
+| **성능 영향**        | 검색 빠름, 수정 느림 | 실행 시 원본 테이블 접근 |
+| **활용 예시**        | 자주 조회되는 컬럼   | 복잡한 조인/집계 쿼리    |
+
+---
+
+💡 **추가 팁**
+
+- 인덱스는 “자주 검색되는 컬럼”에만 설정하세요.
+  너무 많으면 오히려 `INSERT`, `UPDATE`, `DELETE` 성능이 떨어집니다.
+- 뷰는 “공통 쿼리”나 “민감한 데이터 제외용”으로 사용하면 유지보수에 유리합니다.
