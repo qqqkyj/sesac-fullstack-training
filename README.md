@@ -72,8 +72,9 @@
 - **2025-10-21** : [Gemini API - Memo AI app 프로젝트](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/react/memo-ai-app#memo-ai-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8)
 - **2025-10-22** : [DB 기초 이론](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/database/database_20251022#-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EA%B8%B0%EB%B3%B8-%EA%B0%9C%EB%85%90)
 - **2025-10-23** : [ERD 작성을 통한 논리적 데이터 모델링](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/database/database_20251023#-%EC%A0%95%EA%B7%9C%ED%99%94normalization)
-- **2025-10-27** : [SQL을 활용한 데이터 조회 및 조작 - 기본](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/database/database_20251024#1%EF%B8%8F%E2%83%A3-%EA%B8%B0%EB%B3%B8-%EC%A1%B0%ED%9A%8C-select-where)
+- **2025-10-24** : [SQL을 활용한 데이터 조회 및 조작 - 기본](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/database/database_20251024#1%EF%B8%8F%E2%83%A3-%EA%B8%B0%EB%B3%B8-%EC%A1%B0%ED%9A%8C-select-where)
 - **2025-10-27** : [SQL을 활용한 데이터 조회 및 조작 - 고급](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/database/database_20251027#-mysql-join-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC)
+- **2025-10-28** : [SQL을 활용한 데이터 조회 및 조작 - 고급2](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/database/database_20251027#-mysql-join-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
