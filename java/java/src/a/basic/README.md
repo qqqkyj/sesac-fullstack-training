@@ -528,3 +528,280 @@ System.out.println(intC >> 1); // 61728
 | 비트     | &, &#124;, ^, ~, <<, >>, >>> | 정수형      | 2진수 단위 연산          |
 
 ---
+
+# 💡 **조건문 (Conditional Statements)**
+
+## ✅ **1️⃣ if 문**
+
+- 조건식이 **`boolean` 타입**이어야 함
+- 조건이 `true`일 때만 실행
+
+```java
+package a.basic;
+
+public class IfStatement {
+    public static void main(String[] args) {
+        int age = 20;
+
+        if (age >= 20) {
+            System.out.println("성인입니다.");
+        }
+    }
+}
+```
+
+📌 **설명**
+
+- `if` 뒤의 괄호 안에는 반드시 **논리식(true/false)**
+- 한 줄만 실행할 때도 `{}` 중괄호 사용 권장 (가독성, 유지보수용)
+
+---
+
+## ✅ **2️⃣ if-else 문**
+
+- 여러 조건을 순차적으로 검사할 때 사용
+- 위에서부터 차례대로 검사 → **처음으로 true인 블록만 실행**
+
+```java
+package a.basic;
+
+public class IfStatement {
+    public static void main(String[] args) {
+        int score = 80;
+
+        if (score >= 90) {
+            System.out.println("A");
+        } else if (score >= 80) {
+            System.out.println("B");
+        } else if (score >= 70) {
+            System.out.println("C");
+        } else {
+            System.out.println("재수강");
+        }
+    }
+}
+```
+
+📌 **설명**
+
+- `if` → `else if` → `else` 순서
+- 모든 조건이 `false`이면 `else` 블록 실행
+- 조건이 복잡할 경우, 중첩 `if`문보다 **논리 연산자( `&&`, `||` )** 활용이 가독성 좋음
+
+---
+
+## ✅ **3️⃣ switch 문**
+
+### 🧩 (1) 기본 switch (Java 13 이전)
+
+```java
+int num = 2;
+
+switch (num) {
+    case 1:
+        System.out.println("One");
+        break;
+    case 2:
+        System.out.println("Two");
+        break;
+    case 3:
+        System.out.println("Three");
+        break;
+    default:
+        System.out.println("기타");
+}
+```
+
+📌 **설명**
+
+- 각 `case` 실행 후 `break`문을 써야 **다음 case로 넘어가지 않음**
+- `break`를 빼먹으면 **fall-through** 발생 (다음 case 연속 실행됨)
+
+---
+
+### 🧩 (2) 향상된 switch (Java 14 이상)
+
+- `break` 생략 가능
+- `→`(화살표) 사용
+- 여러 case를 쉼표로 나열 가능
+- 값을 반환하는 **표현식**으로도 사용 가능
+
+```java
+package a.basic;
+
+public class IfStatement {
+    public static void main(String[] args) {
+        int month = 4;
+
+        String season = switch (month) {
+            case 3, 4, 5 -> "봄";
+            case 6, 7, 8 -> "여름";
+            case 9, 10, 11 -> "가을";
+            case 12, 1, 2 -> "겨울";
+            default -> "잘못된 월";
+        };
+
+        System.out.println(season); // 출력: 봄
+    }
+}
+```
+
+📌 **특징**
+
+| 항목        | 설명                                    |
+| ----------- | --------------------------------------- |
+| `->`        | `case` 실행 후 자동 종료 (break 불필요) |
+| 여러 case   | `case 3, 4, 5`처럼 쉼표로 묶기 가능     |
+| 표현식 사용 | `switch` 자체가 값을 반환할 수 있음     |
+| `default`   | 모든 case에 해당하지 않을 때 실행       |
+
+---
+
+## 🧠 **정리 요약**
+
+| 구분                  | 문법                       | 특징                           |
+| --------------------- | -------------------------- | ------------------------------ |
+| `if`                  | `if (조건) { ... }`        | 단일 조건 판단                 |
+| `if-else`             | `if ... else if ... else`  | 여러 조건 순차 판단            |
+| `switch`              | `switch (값) { case ... }` | 값 기반 분기 (정수, 문자열 등) |
+| `switch →` (Java 14+) | `case 1, 2 -> ...`         | 간결한 구문, break 불필요      |
+
+---
+
+- intellij에서 github 커밋
+  ![alt text](img/image-5.png)
+
+- 생성하고 커밋
+  ![alt text](img/image-6.png)
+- 원격 저장소 경로 설정
+  ![alt text](img/image-7.png)
+  ![alt text](img/image-8.png)
+
+# 💡 **조건문 실습 정리 (Practice.java)**
+
+https://github.com/SESAC-SD3/JAVA
+
+`git clone <저장소 주소>`
+
+```java
+package a.basic;
+
+import java.util.Scanner;
+
+public class Practice {
+    public static void main(String[] args) {
+
+        // ✅ 문제 1: 홀짝 판별
+        int num = 17;
+        String isEven = num % 2 == 0 ? "짝수" : "홀수";
+        System.out.printf("%d는 %s입니다.%n", num, isEven);
+
+        // ✅ 문제 2: 학점 계산
+        int score = 85;
+        String grade = score >= 90 ? "A" :
+                       score >= 80 ? "B" :
+                       score >= 70 ? "C" :
+                       score >= 60 ? "D" : "F";
+        System.out.println("학점: " + grade);
+
+        // ✅ 문제 3: 윤년 판별
+        int year = 2024;
+        System.out.println(year + "년은 윤년" +
+                (((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+                        ? "입니다." : "이 아닙니다."));
+
+        // ✅ 문제 4: 삼각형 유효성 검사
+        int a = 3, b = 4, c = 5;
+        boolean flag = (a > 0 && b > 0 && c > 0) && (c < a + b);
+        System.out.println("삼각형을 만들 수 " + (flag ? "있습니다." : "없습니다."));
+
+        // ✅ 문제 5: 계절 판별 (향상된 switch문)
+        int month = 7;
+        String season = switch (month) {
+            case 3, 4, 5 -> "봄";
+            case 6, 7, 8 -> "여름";
+            case 9, 10, 11 -> "가을";
+            case 12, 1, 2 -> "겨울";
+            default -> "";
+        };
+        System.out.printf(season.isEmpty()
+                ? "존재하지 않는 월입니다.%n"
+                : "%d월은 %s입니다.%n", month, season);
+
+        // ✅ 문제 6: 요일 판별
+        int day = 6;
+        String dayName = switch (day) {
+            case 1 -> "월";
+            case 2 -> "화";
+            case 3 -> "수";
+            case 4 -> "목";
+            case 5 -> "금";
+            case 6 -> "토";
+            case 7 -> "일";
+            default -> "";
+        };
+        System.out.printf(dayName.isEmpty()
+                ? "존재하지 않는 요일입니다.%n"
+                : "%d: %s요일은 %s입니다.%n",
+                day, dayName, (day == 6 || day == 7 ? "주말" : "평일"));
+
+        // ✅ 문제 7: BMI 계산 및 판정
+        double height = 175.0; // cm
+        double weight = 70.0;  // kg
+        double bmi = weight / (height / 100 * height / 100);
+        String result = bmi >= 25 ? "비만" :
+                        bmi >= 23 ? "과체중" :
+                        bmi >= 18.5 ? "정상 체중" : "저체중";
+        System.out.printf("BMI: %.2f%n%s입니다.%n", bmi, result);
+
+        // ✅ 문제 8: 최댓값 구하기
+        a = 10; b = 25; c = 17;
+        if (a > b && a > c) {
+            System.out.println("최댓값: " + a);
+        } else if (b > a && b > c) {
+            System.out.println("최댓값: " + b);
+        } else {
+            System.out.println("최댓값: " + c);
+        }
+
+        // ✅ 문제 9: 시험 합격 여부
+        int math = 70, english = 80, science = 45;
+        if (math >= 40 && english >= 40 && science >= 40) {
+            int avg = (math + english + science) / 3;
+            System.out.println(avg >= 60 ? "합격" : "불합격");
+        } else {
+            System.out.println("불합격(과목 낙제)");
+        }
+
+        // ✅ 문제 10: 할인율 계산
+        int price = 120000;
+        boolean isMember = true;
+        int discount = price >= 100000 ? 10 :
+                       price >= 50000 ? 5 : 0;
+        double total = isMember
+                ? price * (100 - discount) / 100 * 0.95
+                : price * (100 - discount) / 100.0;
+
+        System.out.println("원가: " + price + "원");
+        System.out.println("할인율: " + discount + "%");
+        System.out.println("최종 금액: " + total + "원");
+    }
+}
+```
+
+---
+
+## 📘 **문제 요약**
+
+| 번호 | 주제          | 주요 개념                 |
+| ---- | ------------- | ------------------------- |
+| 1    | 홀짝 판별     | 삼항 연산자               |
+| 2    | 학점 계산     | 중첩 삼항 연산자          |
+| 3    | 윤년 판별     | 논리 연산, 조건식         |
+| 4    | 삼각형 유효성 | 논리 AND 연산             |
+| 5    | 계절 판별     | `switch` (Java 14+ 문법)  |
+| 6    | 요일 판별     | `switch` + 주말/평일 판단 |
+| 7    | BMI 계산      | 수식, 조건 분기           |
+| 8    | 최댓값        | `if-else if` 조건문       |
+| 9    | 시험 합격     | 다중 조건 검사            |
+| 10   | 할인율 계산   | 중첩 삼항 + boolean 조건  |
