@@ -102,7 +102,7 @@ Java 개발에 자주 사용되는 IDE 비교 👇
 - **객체지향 설계(OOP)** 기반으로 대규모 프로젝트에 적합
 - 개발 환경은 **JDK + IDE(IntelliJ/Eclipse)** 조합으로 구성
 
-![alt text](image.png)
+![alt text](img/image.png)
 
 https://www.jetbrains.com/store/redeem/
 
@@ -117,21 +117,21 @@ https://www.jetbrains.com/store/redeem/
 ## 💡 **프로젝트 생성 및 IntelliJ 설정**
 
 - **Java 21 사용**
-  ![alt text](image-1.png)
+  ![alt text](img/image-1.png)
 
 📁 **설정 경로:**
 
 `파일 > 설정 > 모양 및 동작 > Presentation Assistant`
-![alt text](image-2.png)
+![alt text](img/image-2.png)
 
 - 코드 실행: **`Ctrl + Shift + F10`**
 - 디버깅:
   - **break point** 설정 후 상단의 🐞 버튼 클릭
   - `F8` → 다음 스텝 실행
-    ![alt text](image-3.png)
+    ![alt text](img/image-3.png)
 - **out 폴더**: 컴파일된 `.class` 파일을 **디컴파일(decompile)** 해서 확인 가능
 
-  ![alt text](image-4.png)
+  ![alt text](img/image-4.png)
 
 ---
 
@@ -444,7 +444,11 @@ System.out.println(strA.equals(strB));    // true (값 비교)
 
 ## 🔐 **5. 논리 연산자**
 
-![alt text](image-6.png)
+| 연산자       | 의미 | 설명                      |
+| ------------ | ---- | ------------------------- |
+| &&           | AND  | 모두 `true`일 때만 `true` |
+| &#124;&#124; | OR   | 하나라도 `true`면 `true`  |
+| !            | NOT  | 참 ↔ 거짓 반전            |
 
 ```java
 boolean a = true, b = false;
@@ -482,16 +486,45 @@ System.out.println(result); // 성인
 
 비트 단위(0과 1)로 연산합니다.
 
-![alt text](image-5.png)
+| 연산자 | 의미                    | 예시       | 결과    |
+| ------ | ----------------------- | ---------- | ------- |
+| &      | AND                     | 5 &#124; 3 | 1       |
+| &#124; | OR                      | 5 &#124; 3 | 7       |
+| ^      | XOR                     | 5 ^ 3      | 6       |
+| ~      | NOT                     | ~5         | -6      |
+| <<     | 왼쪽 시프트             | 5 << 1     | 10      |
+| >>     | 오른쪽 시프트           | 5 >> 1     | 2       |
+| >>>    | 부호 없는 오른쪽 시프트 | -5 >>> 1   | 큰 양수 |
 
 ```java
 int a = 14; // 1110
 int b = 6;  // 0110
 System.out.println(a & b); // 6
+
+// ex. num = 10; (1010)
+// num << 2 : 왼쪽으로 2칸 이동 => 40 (101000)
+// num >> 1 : 오른쪽으로 1칸 이동 => 5(101)
+int num = 10;
+System.out.println("num << 2 : " + (num << 2)); // 40
+System.out.println("num >> 1 : " + (num >> 1)); // 5
+
+int intC = 123456;
+System.out.println(intC << 1); // 246912
+System.out.println(intC >> 1); // 61728
 ```
 
 ---
 
 ## ✅ **정리 요약**
 
-![alt text](image-7.png)
+| 구분     | 대표 연산자                  | 반환형      | 특징                     |
+| -------- | ---------------------------- | ----------- | ------------------------ |
+| 산술     | +, -, \*, /, %               | 숫자형      | 기본 연산                |
+| 증감     | ++, --                       | 숫자형      | 전위/후위 구분           |
+| 복합대입 | +=, -= 등                    | 숫자형      | 자기 자신에 연산 후 대입 |
+| 비교     | ==, !=, >, < 등              | boolean     | 항상 true/false          |
+| 논리     | &&, &#124;&#124;, !          | boolean     | 조건 조합                |
+| 삼항     | ? :                          | 다양한 타입 | 조건에 따라 값 선택      |
+| 비트     | &, &#124;, ^, ~, <<, >>, >>> | 정수형      | 2진수 단위 연산          |
+
+---
