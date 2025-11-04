@@ -76,7 +76,8 @@
 - **2025-10-27** : [SQL을 활용한 데이터 조회 및 조작 - 고급](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/database/database_20251027#-mysql-join-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC)
 - **2025-10-28** : [SQL을 활용한 데이터 조회 및 조작 - 고급2](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/database/database_20251028#-transaction-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98)
 - **2025-10-28** : [AI Agent(Gemini) - MCP(Model Context Protocol)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/database/database_20251028#-mcp-model-context-protocol)
-- **2025-11-03** : [Java 기초 - 변수, 연산자, 조건문](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/a/basic#-java---%EA%B8%B0%EC%B4%88)
+- **2025-11-03** : [Java 기초 - 변수, 연산자, 조건문](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/a/basic/practice#-java---%EA%B8%B0%EC%B4%88)
+- **2025-11-04** : [Java 기초 - 반복문, 배열](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/a/basic/practice2#-%EB%B0%98%EB%B3%B5%EB%AC%B8-loops)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
