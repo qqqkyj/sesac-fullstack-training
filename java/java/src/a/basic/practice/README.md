@@ -102,7 +102,7 @@ Java 개발에 자주 사용되는 IDE 비교 👇
 - **객체지향 설계(OOP)** 기반으로 대규모 프로젝트에 적합
 - 개발 환경은 **JDK + IDE(IntelliJ/Eclipse)** 조합으로 구성
 
-![alt text](img/image.png)
+![alt text](../img/image.png)
 
 https://www.jetbrains.com/store/redeem/
 
@@ -117,21 +117,21 @@ https://www.jetbrains.com/store/redeem/
 ## 💡 **프로젝트 생성 및 IntelliJ 설정**
 
 - **Java 21 사용**
-  ![alt text](img/image-1.png)
+  ![alt text](../img/image-1.png)
 
 📁 **설정 경로:**
 
 `파일 > 설정 > 모양 및 동작 > Presentation Assistant`
-![alt text](img/image-2.png)
+![alt text](../img/image-2.png)
 
 - 코드 실행: **`Ctrl + Shift + F10`**
 - 디버깅:
   - **break point** 설정 후 상단의 🐞 버튼 클릭
   - `F8` → 다음 스텝 실행
-    ![alt text](img/image-3.png)
+    ![alt text](../img/image-3.png)
 - **out 폴더**: 컴파일된 `.class` 파일을 **디컴파일(decompile)** 해서 확인 가능
 
-  ![alt text](img/image-4.png)
+  ![alt text](../img/image-4.png)
 
 ---
 
@@ -669,13 +669,13 @@ public class IfStatement {
 ---
 
 - intellij에서 github 커밋
-  ![alt text](img/image-5.png)
+  ![alt text](../img/image-5.png)
 
 - 생성하고 커밋
-  ![alt text](img/image-6.png)
+  ![alt text](../img/image-6.png)
 - 원격 저장소 경로 설정
-  ![alt text](img/image-7.png)
-  ![alt text](img/image-8.png)
+  ![alt text](../img/image-7.png)
+  ![alt text](../img/image-8.png)
 
 # 💡 **조건문 실습 정리 (Practice.java)**
 
