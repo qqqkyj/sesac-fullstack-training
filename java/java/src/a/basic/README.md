@@ -712,7 +712,7 @@ public class Practice {
 
         // ✅ 문제 4: 삼각형 유효성 검사
         int a = 3, b = 4, c = 5;
-        boolean flag = (a > 0 && b > 0 && c > 0) && (c < a + b);
+        boolean flag = (a>0 && b>0 && c>0) && ((c < a+b) && (b < a+c) && (c < a+b));
         System.out.println("삼각형을 만들 수 " + (flag ? "있습니다." : "없습니다."));
 
         // ✅ 문제 5: 계절 판별 (향상된 switch문)

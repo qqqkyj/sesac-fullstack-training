@@ -40,7 +40,7 @@ public class Practice1 {
         - 가장 긴 변 < 나머지 두 변의 합
          */
         int a = 3, b = 4, c = 5;
-        boolean flag = (a>0 && b>0 && c>0) && (c < a+b);
+        boolean flag = (a>0 && b>0 && c>0) && ((c < a+b) && (b < a+c) && (c < a+b));
         System.out.println("삼각형을 만들 수 "+(flag?"있습니다.":"없습니다."));
 
         // 문제 5: 계절 판별
