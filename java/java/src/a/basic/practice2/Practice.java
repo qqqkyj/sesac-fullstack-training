@@ -89,6 +89,22 @@ public class Practice {
         }
         System.out.println(flag?"소수입니다.":"소수가 아닙니다.");
 
+        // 번외 문제: 1~num까지의 소수와 소수의 개수
+        int[] isPrimeArr = new int[num+1];
+        isPrimeArr[0] = 1;
+        isPrimeArr[1] = 1;
+        int cnt = 0;
+        for(int i=2; i<=num; i++){
+            if(isPrimeArr[i]!=1){
+                cnt++;
+                System.out.println(i);
+                for(int j=i; j<=num; j+=i){
+                    isPrimeArr[j] = 1;
+                }
+            }
+        }
+        System.out.println("1~"+num+"까지 소수의 개수: "+cnt);
+
         // 문제 8: 최대공약수 (GCD)
         int a = 48, b = 18;
         while(b != 0){
@@ -112,11 +128,11 @@ public class Practice {
         for(int i = 2; i < n; i++){
             array[i] = array[i-1] + array[i-2];
         }
-        System.out.printf("%d번째 피보나치 수: %d",n,array[n-1]);
+        System.out.printf("%d번째 피보나치 수: %d%n",n,array[n-1]);
 
         // 문제 11: 팩토리얼
         n = 5;
-        int result = 1;
+        long result = 1;
         for(int i=1; i<=n; i++){
             result *= i;
         }

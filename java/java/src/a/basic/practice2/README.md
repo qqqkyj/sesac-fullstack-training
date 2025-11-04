@@ -342,6 +342,26 @@ for(int i = 2; i <= Math.sqrt(num); i++){
 System.out.println(flag ? "소수입니다." : "소수가 아닙니다.");
 ```
 
+**번외 문제 (1 ~ num까지의 숫자 중 소수 구하기):**
+
+```java
+int[] isPrimeArr = new int[num+1];
+isPrimeArr[0] = 1;
+isPrimeArr[1] = 1;
+int cnt = 0;
+        
+for(int i=2; i<=num; i++){
+    if(isPrimeArr[i]!=1){
+        cnt++; // 소수의 개수
+        System.out.println(i); // 소수 출력
+        for(int j=i; j<=num; j+=i){
+            isPrimeArr[j] = 1;
+        }
+    }
+}
+System.out.println("1~"+num+"까지 소수의 개수: "+cnt);
+```
+
 ---
 
 ## 💯 문제 8. 최대공약수 (GCD)
@@ -389,7 +409,7 @@ System.out.printf("%d번째 피보나치 수: %d%n", n, array[n-1]);
 
 ```java
 int n = 5;
-int result = 1;
+long result = 1;
 for(int i = 1; i <= n; i++){
     result *= i;
 }
