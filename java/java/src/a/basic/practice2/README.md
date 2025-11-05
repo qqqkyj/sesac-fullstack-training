@@ -732,3 +732,207 @@ public class ArraysExample {
 | `Arrays.copyOfRange(arr, start, end)` | 범위 복사                    | `[start ~ end-1]`              |
 | `Arrays.equals(arr1, arr2)`           | 배열의 값 비교               | `true`/`false`                 |
 | `Arrays.deepToString(arr2D)`          | 다차원 배열 문자열 변환      | `[[1, 2], [3, 4]]`             |
+
+---
+
+## 📘 배열 실습 정리 (`Practice.java`)
+
+```java
+package a.basic.practice3;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Practice {
+    public static void main(String[] args) {
+
+        /*──────────────────────────────
+         🧩 문제 1. 배열 최댓값 / 최솟값
+        ──────────────────────────────*/
+        int[] numbers = {45, 23, 78, 12, 89, 34};
+
+        // 1-1. 정렬 이용
+        Arrays.sort(numbers);
+        System.out.println("최댓값: " + numbers[numbers.length - 1]);
+        System.out.println("최솟값: " + numbers[0]);
+        System.out.println();
+
+        // 1-2. 반복문 + Math 클래스 이용 (O(n))
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        for (int n : numbers) {
+            max = Math.max(max, n);
+            min = Math.min(min, n);
+        }
+        System.out.println("최댓값: " + max);
+        System.out.println("최솟값: " + min);
+        System.out.println();
+
+        /*──────────────────────────────
+         🧩 문제 2. 배열 뒤집기 (Reverse)
+        ──────────────────────────────*/
+        int[] arr = {1, 2, 3, 4, 5};
+        System.out.println("원본: " + Arrays.toString(arr));
+
+        // 2-1. swap 방식으로 뒤집기
+        for (int i = 0; i < arr.length / 2; i++) {
+            int tmp = arr[i];
+            arr[i] = arr[arr.length - 1 - i];
+            arr[arr.length - 1 - i] = tmp;
+        }
+        System.out.println("뒤집기: " + Arrays.toString(arr));
+        System.out.println();
+
+        // 2-2. 새로운 배열에 역순으로 저장
+        int[] arr2 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int[] reversed = new int[arr2.length];
+        for (int i = 0; i < arr2.length; i++) {
+            reversed[i] = arr2[arr2.length - 1 - i];
+        }
+        System.out.println("원본: " + Arrays.toString(arr2));
+        System.out.println("뒤집기: " + Arrays.toString(reversed));
+        System.out.println();
+
+        // 2-3. 투 포인터 방식 (left ↔ right)
+        int left = 0;
+        int right = arr2.length - 1;
+        while (left < right) {
+            int tmp = arr2[left];
+            arr2[left] = arr2[right];
+            arr2[right] = tmp;
+            left++;
+            right--;
+        }
+        System.out.println("원본 뒤집기(제자리 변경): " + Arrays.toString(arr2));
+        System.out.println();
+
+        /*──────────────────────────────
+         🧩 문제 3. 특정 값 찾기 (탐색)
+        ──────────────────────────────*/
+        int[] arr3 = {10, 20, 30, 40, 50};
+        int target = 30;
+
+        // 3-1. 정렬 후 binarySearch 이용
+        Arrays.sort(arr3);
+        int index = Arrays.binarySearch(arr3, target);
+        System.out.println("이진 탐색 결과 인덱스: " + (index >= 0 ? index : -1));
+        System.out.println();
+
+        // 3-2. 단순 반복문 탐색
+        int foundIndex = -1;
+        for (int i = 0; i < arr3.length; i++) {
+            if (arr3[i] == target) {
+                foundIndex = i;
+                break;
+            }
+        }
+        System.out.println("직접 탐색 인덱스: " + foundIndex);
+        System.out.println();
+
+        /*──────────────────────────────
+         🧩 문제 4. 배열 요소 개수 세기 (빈도수)
+        ──────────────────────────────*/
+        int[] arr4 = {1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 10};
+        Arrays.sort(arr4);
+
+        // 4-1. 정렬 후 연속된 값 카운트
+        int cnt = 0;
+        int targetNum = arr4[0];
+        for (int i = 0; i < arr4.length; i++) {
+            if (arr4[i] == targetNum) cnt++;
+            else {
+                System.out.println(targetNum + ": " + cnt + "개");
+                targetNum = arr4[i];
+                cnt = 1;
+            }
+        }
+        System.out.println(targetNum + ": " + cnt + "개");
+        System.out.println();
+
+        // 4-2. HashMap 이용 (값별 빈도 저장)
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int n : arr4) {
+            map.put(n, map.getOrDefault(n, 0) + 1);
+        }
+        for (int key : map.keySet()) {
+            System.out.println(key + ": " + map.get(key) + "개");
+        }
+        System.out.println();
+
+        // 4-3. Count 배열 이용 (단점: 큰 값이 있으면 공간 낭비)
+        int maxNum = Arrays.stream(arr4).max().getAsInt();
+        int[] count = new int[maxNum + 1];
+        for (int n : arr4) count[n]++;
+        System.out.println("카운트 배열: " + Arrays.toString(count));
+        System.out.println();
+
+        /*──────────────────────────────
+         🧩 문제 5. 2차원 배열 합계
+        ──────────────────────────────*/
+        int[][] matrix = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}
+        };
+
+        int sum = 0;
+        for (int[] row : matrix) {
+            for (int n : row) sum += n;
+        }
+        System.out.println("2차원 배열 합계: " + sum);
+        System.out.println();
+
+        /*──────────────────────────────
+         🧩 문제 6. 두 번째로 큰 수
+        ──────────────────────────────*/
+        int[] arr6 = {45, 23, 78, 12, 89, 34};
+
+        // 6-1. 정렬 이용
+        Arrays.sort(arr6);
+        System.out.println("두 번째로 큰 수(정렬): " + arr6[arr6.length - 2]);
+        System.out.println();
+
+        // 6-2. 정렬 없이 직접 탐색
+        int maxNum6 = Integer.MIN_VALUE;
+        int secondMax = Integer.MIN_VALUE;
+
+        for (int n : arr6) {
+            if (n > maxNum6) {
+                secondMax = maxNum6; // 기존 최대 → 두 번째로
+                maxNum6 = n;         // 새로운 최대 갱신
+            } else if (n > secondMax && n != maxNum6) {
+                secondMax = n;
+            }
+        }
+
+        System.out.println("두 번째로 큰 수(탐색): " + secondMax);
+        System.out.println();
+    }
+}
+```
+
+---
+
+## ✅ 실습 요약표
+
+| 문제 | 주제            | 주요 메서드 / 개념            | 핵심 포인트          |
+| ---- | --------------- | ----------------------------- | -------------------- |
+| 1    | 최댓값 / 최솟값 | `Arrays.sort()`, `Math.max()` | 정렬 vs 반복문       |
+| 2    | 배열 뒤집기     | swap, `while`, 새로운 배열    | 인덱스 조작 연습     |
+| 3    | 특정 값 찾기    | `binarySearch()`, 반복문      | 정렬된 배열에서 탐색 |
+| 4    | 요소 개수 세기  | `HashMap`, count 배열         | 빈도 계산, Map 활용  |
+| 5    | 2차원 배열 합계 | 중첩 for-each                 | 모든 요소 순회       |
+| 6    | 두 번째로 큰 수 | 정렬 / 비교식                 | 정렬 없이 탐색 가능  |
+
+---
+
+## 💡 추가 팁
+
+- `Arrays.stream()` 또는 `IntStream.of()`을 사용하면 **더 간결한 코드** 작성 가능
+  ```java
+  int max = Arrays.stream(numbers).max().getAsInt();
+  int min = Arrays.stream(numbers).min().getAsInt();
+  ```
+- `HashMap`은 문자열, 객체 등 다양한 타입의 카운트에도 유용함
+- 배열보다 유연한 구조가 필요할 경우 → `ArrayList` 활용

@@ -1,4 +1,4 @@
-package algorithm.chapter2;
+package z.algorithm.chapter2;
 //2-10. 봉우리
 /*
 5
