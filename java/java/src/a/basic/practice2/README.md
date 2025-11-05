@@ -652,3 +652,83 @@ for(int[] row : jagged){
 | 길이        | `arr.length`                      | 배열 크기 확인         |
 | 반복        | `for` / `for-each`                | 모든 요소 순회         |
 | 다차원 배열 | `int[][] matrix = new int[3][3];` | 2차원 구조 표현 가능   |
+
+---
+
+## 💡 `java.util.Arrays` 클래스 정리
+
+배열을 다루는 다양한 유틸리티 메서드를 제공하는 클래스입니다.
+
+```java
+import java.util.Arrays;
+
+public class ArraysExample {
+    public static void main(String[] args) {
+        int[] nums = {5, 2, 1, 7, 8};
+
+        // 1. toString() - 배열을 문자열로 출력
+        System.out.println(nums); // [I@b4c966a (주소값)
+        System.out.println(Arrays.toString(nums)); // [5, 2, 1, 7, 8]
+
+        // 2. sort() - 정렬
+        Arrays.sort(nums);
+        System.out.println(Arrays.toString(nums)); // [1, 2, 5, 7, 8]
+
+        // 3. binarySearch() - 이진 탐색 (정렬된 배열에서만 사용)
+        int idx = Arrays.binarySearch(nums, 7);
+        System.out.println(idx); // 7의 인덱스
+
+        // 4. fill() - 배열의 모든 요소를 동일한 값으로 채움
+        int[] filled = new int[10];
+        Arrays.fill(filled, 99);
+        System.out.println(Arrays.toString(filled)); // [99, 99, 99, 99, 99, 99, 99, 99, 99, 99]
+
+        // 5. copyOf() - 깊은 복사(새로운 배열 생성)
+        int[] origin = {1, 2, 3, 4, 5};
+        int[] copied = Arrays.copyOf(origin, origin.length);
+        System.out.println(Arrays.toString(copied)); // [1, 2, 3, 4, 5]
+
+        // 얕은 복사(참조 복사) - 같은 주소를 가리킴
+        int[] copied2 = origin;
+        origin[0] = 100;
+        System.out.println(Arrays.toString(origin));  // [100, 2, 3, 4, 5]
+        System.out.println(Arrays.toString(copied));  // [1, 2, 3, 4, 5]
+        System.out.println(Arrays.toString(copied2)); // [100, 2, 3, 4, 5]
+        System.out.println(origin.equals(copied));  // false (다른 객체)
+        System.out.println(origin.equals(copied2)); // true (같은 주소)
+
+        // 6. copyOfRange() - 범위 복사 (start ~ end-1)
+        int[] ranged = Arrays.copyOfRange(origin, 1, 3);
+        System.out.println(Arrays.toString(ranged)); // [2, 3]
+
+        // 7. equals() - 배열의 값 비교
+        int[] arrA = {1, 2, 3};
+        int[] arrB = {1, 2, 3};
+        System.out.println(arrA == arrB); // false (주소 다름)
+        System.out.println(Arrays.equals(arrA, arrB)); // true (값 같음)
+
+        // 8. deepToString() - 다차원 배열 출력
+        int[][] mat = {{1, 2}, {3, 4}};
+        System.out.println(Arrays.toString(mat));       // [[I@..., [I@...]
+        System.out.println(Arrays.deepToString(mat));   // [[1, 2], [3, 4]]
+
+        // ⚠️ 가변 길이 배열이 필요할 경우 → ArrayList 사용
+        // origin[99] = 100; // ArrayIndexOutOfBoundsException 발생
+    }
+}
+```
+
+---
+
+### ✅ 주요 메서드 요약표
+
+| 메서드                                | 설명                         | 예시                           |
+| ------------------------------------- | ---------------------------- | ------------------------------ |
+| `Arrays.toString(arr)`                | 1차원 배열을 문자열로 변환   | `[1, 2, 3]`                    |
+| `Arrays.sort(arr)`                    | 오름차순 정렬                | `[1, 2, 3, 4]`                 |
+| `Arrays.binarySearch(arr, key)`       | 정렬된 배열에서 이진 탐색    | `Arrays.binarySearch(nums, 7)` |
+| `Arrays.fill(arr, value)`             | 모든 요소를 지정 값으로 채움 | `[99, 99, 99]`                 |
+| `Arrays.copyOf(arr, len)`             | 배열 복사 (깊은 복사)        | 새 배열 생성                   |
+| `Arrays.copyOfRange(arr, start, end)` | 범위 복사                    | `[start ~ end-1]`              |
+| `Arrays.equals(arr1, arr2)`           | 배열의 값 비교               | `true`/`false`                 |
+| `Arrays.deepToString(arr2D)`          | 다차원 배열 문자열 변환      | `[[1, 2], [3, 4]]`             |
