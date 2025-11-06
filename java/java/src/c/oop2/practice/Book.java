@@ -7,19 +7,17 @@ public class Book {
     private String isbn;
 
     public Book(String title, String author) {
-        this.title = title;
-        this.author = author;
-        this.price = 0;
-        this.isbn = null;
+        this(title, author, 0, null);
     }
 
     public Book(String title, String author, int price) {
-        this(title, author);
-        this.price = price;
+        this(title, author, price, null);
     }
 
     public Book(String title, String author, int price, String isbn) {
-        this(title, author, price);
+        this.title = title;
+        this.author = author;
+        this.price = price;
         this.isbn = isbn;
     }
 
@@ -57,6 +55,7 @@ public class Book {
     }
 
     public void applyDiscount(int amount, boolean isPercent){
-        if(isPercent){  applyDiscount(amount); }
+        if(isPercent){  applyDiscount(amount); }// 할인률 적용
+        else{ setPrice(getPrice() - amount);  }// 금액 할인 적용
     }
 }

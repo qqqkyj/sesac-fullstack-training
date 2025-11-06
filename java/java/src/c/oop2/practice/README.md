@@ -216,3 +216,242 @@ public class MethodType {
 | **static 메서드**   | 객체 없이 호출, static 필드만 접근 가능 |
 
 ---
+
+## 📦 패키지 (Package)
+
+### ✅ 정의
+
+> 관련된 클래스들을 그룹화하여 관리하는 네임스페이스(namespace)
+>
+> → 클래스 이름 충돌 방지, 코드 구조화 및 관리 용이
+
+```java
+package c.oop2;
+
+import java.util.*;
+// import java.util.ArrayList;
+// import java.util.HashMap;
+
+public class PackageExample {
+    public static void main(String[] args) {
+        String.join(",");
+        ArrayList<String> list = new ArrayList<>();
+        HashMap<String, String> map = new HashMap<>();
+    }
+}
+```
+
+---
+
+## 💡 패키지가 필요한 이유
+
+| 이유                    | 설명                                                 |
+| ----------------------- | ---------------------------------------------------- |
+| **이름 충돌 방지**      | 동일한 클래스명이라도 다른 패키지에 있으면 구분 가능 |
+| **접근 제어**           | 접근제어자와 함께 사용해 캡슐화 구현                 |
+| **코드 구조화 및 관리** | 대규모 프로젝트의 코드 조직화에 유리                 |
+
+예시 구조:
+
+```java
+com/example/
+├── user/
+│   ├── User.java
+│   ├── UserService.java
+│   └── UserRepository.java
+├── product/
+│   ├── Product.java
+│   └── ProductService.java
+└── utils/
+    ├── Validator.java
+    └── DateFormatter.java
+```
+
+---
+
+## 🧭 패키지 네이밍 규칙
+
+| 규칙                     | 설명                                | 예시                                        |
+| ------------------------ | ----------------------------------- | ------------------------------------------- |
+| **소문자 사용**          | 클래스와 구분 위해 모두 소문자 사용 | `package com.example.myapp;`                |
+| **역방향 도메인명 사용** | 도메인 소유자 기반 네임스페이스     | `org.apache.commons` / `io.github.username` |
+| **의미 있는 이름 사용**  | 클래스 역할이 명확히 드러나야 함    | `package com.example.utils;`                |
+| **예약어 사용 금지**     | Java 예약어는 패키지명으로 불가     | ❌ `package int.class;`                     |
+
+---
+
+## 🧩 일반적인 패키지 구조
+
+### 🏗️ 1️⃣ 계층별 구조 (Layered Architecture)
+
+> 역할(Controller, Service, Repository, Model)에 따라 구분
+
+```
+com/example/myapp/
+├── controller/
+│   ├── UserController.java
+│   └── ProductController.java
+├── service/
+│   ├── UserService.java
+│   └── ProductService.java
+├── repository/
+│   ├── UserRepository.java
+│   └── ProductRepository.java
+└── model/
+    ├── User.java
+    └── Product.java
+```
+
+---
+
+### 🧠 2️⃣ 기능별 구조 (Feature-based)
+
+> 기능 단위로 묶어 관리 — 독립적인 모듈 구성에 유리
+
+```
+com/example/myapp/
+├── user/
+│   ├── User.java
+│   ├── UserController.java
+│   ├── UserService.java
+│   └── UserRepository.java
+└── product/
+    ├── Product.java
+    ├── ProductController.java
+    ├── ProductService.java
+    └── ProductRepository.java
+```
+
+---
+
+## ✅ 요약 정리
+
+| 항목            | 내용                                                    |
+| --------------- | ------------------------------------------------------- |
+| **정의**        | 관련 클래스들을 그룹화하는 네임스페이스                 |
+| **목적**        | 이름 충돌 방지, 접근 제어, 코드 구조화                  |
+| **네이밍 규칙** | 소문자, 역방향 도메인명, 의미 있는 이름                 |
+| **구조 유형**   | 계층별 구조 / 기능별 구조                               |
+| **import 문**   | 다른 패키지 클래스 사용 시 필요 (`import java.util.*;`) |
+
+---
+
+## 🔐 접근 제어자 (Access Modifier)
+
+### ✅ 개념
+
+> 클래스, 필드, 메서드 등에 대한 접근 범위를 제한하는 키워드
+>
+> → 객체지향의 **정보 은닉(Information Hiding)** 구현 수단
+
+---
+
+### 📋 Java의 4가지 접근 제어자
+
+| 접근 제어자          | 같은 클래스 | 같은 패키지 | 자식 클래스 | 전체(외부) | 설명                                  |
+| -------------------- | ----------- | ----------- | ----------- | ---------- | ------------------------------------- |
+| `private`            | ✅          | ❌          | ❌          | ❌         | 클래스 내부에서만 접근 가능           |
+| (default) _(명시 X)_ | ✅          | ✅          | ❌          | ❌         | 같은 패키지 내에서만 접근 가능        |
+| `protected`          | ✅          | ✅          | ✅          | ❌         | 상속 관계의 자식 클래스에서 접근 가능 |
+| `public`             | ✅          | ✅          | ✅          | ✅         | 모든 곳에서 접근 가능                 |
+
+---
+
+### 💻 예시 코드
+
+```java
+package c.oop2;
+
+public class AccessModifier {
+    public static void main(String[] args) {
+        PrivateClass pc = new PrivateClass(10);
+        pc.resetValue();          // public 메서드 → 접근 가능
+        pc.value2 = "test msg";   // public 필드 → 접근 가능
+
+        System.out.println(pc.getValue()); // getter 통해 접근
+        System.out.println(pc.value2);
+    }
+}
+```
+
+```java
+package c.oop2;
+
+public class PrivateClass {
+    private int value;      // 외부 직접 접근 불가
+    public String value2;   // 외부 접근 가능
+
+    public PrivateClass(int value) {
+        this.value = value;
+    }
+
+    public void resetValue() {
+        this.value = 0;
+    }
+
+    public int getValue() {
+        return value;
+    }
+}
+```
+
+---
+
+## 🧱 캡슐화 (Encapsulation)
+
+### ✅ 개념
+
+> **데이터(필드)**와 **메서드(기능)**를 하나로 묶고,
+>
+> 외부에서 **직접 접근을 제한**하여 데이터를 보호하는 기법
+
+---
+
+### 💡 구현 방법
+
+1. **필드를 `private`으로 선언**
+2. **외부 접근은 `getter` / `setter` 메서드로 제한**
+
+```java
+public class Rectangle {
+    private int width;
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        if (width <= 0) {
+            throw new IllegalArgumentException("너비는 0보다 커야 합니다.");
+        }
+        this.width = width;
+    }
+}
+```
+
+---
+
+### 🌟 캡슐화의 장점
+
+| 장점                    | 설명                                       |
+| ----------------------- | ------------------------------------------ |
+| **데이터 무결성 보장**  | 잘못된 값의 직접 수정 방지                 |
+| **유지보수 용이**       | 내부 구현 변경 시 외부 코드 영향 최소화    |
+| **부가 기능 추가 용이** | setter/getter 안에 검증, 로그 등 추가 가능 |
+| **보안성 향상**         | 민감한 데이터 외부 접근 차단 가능          |
+
+---
+
+## ✅ 요약 정리
+
+| 항목                 | 내용                                           |
+| -------------------- | ---------------------------------------------- |
+| **접근 제어자 종류** | `private`, (default), `protected`, `public`    |
+| **private**          | 클래스 내부에서만 접근 가능                    |
+| **default**          | 같은 패키지 내에서 접근 가능                   |
+| **protected**        | 자식 클래스에서도 접근 가능                    |
+| **public**           | 어디서나 접근 가능                             |
+| **캡슐화 핵심**      | 데이터는 `private`, 접근은 `getter/setter`     |
+| **장점**             | 데이터 보호, 유지보수성 향상, 코드 안정성 증가 |
+
+---

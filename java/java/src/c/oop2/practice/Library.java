@@ -12,50 +12,46 @@ public class Library {
     }
 
     public void addBook(Book book){
-        if(this.bookCount == this.books.length){
+        if(bookCount >= books.length){
             System.out.println("더 이상 책을 추가할 수 없습니다.");
         }else{
-            this.books[this.bookCount++] = book;
+            books[bookCount] = book;
+            bookCount++;
         }
     }
 
     public void addBook(String title, String author){
-        Book book = new Book(title, author);
-        addBook(book);
+        addBook(new Book(title, author));
     }
 
     public void addBook(String title, String author, int price){
-        Book book = new Book(title, author, price);
-        addBook(book);
+        addBook(new Book(title, author, price));
     }
 
-    public void searchByTitle(String title){
-        for(Book book : this.books){
-            if(book != null && book.getTitle().toLowerCase().contains(title.toLowerCase())){
-                book.displayInfo();
-            }
+    public void searchByTitle(String keyword){
+        for(int i=0; i<bookCount; i++){
+            if(books[i].getTitle().toLowerCase().contains(keyword.toLowerCase()))
+                books[i].displayInfo();
         }
     }
 
-    public void searchByAuthor(String author){
-        for(Book book : this.books){
-            if(book != null && book.getAuthor().toLowerCase().contains(author.toLowerCase())){
-                book.displayInfo();
-            }
+    public void searchByAuthor(String keyword){
+        for(int i=0; i<bookCount; i++){
+            if(books[i].getAuthor().toLowerCase().contains(keyword.toLowerCase()))
+                books[i].displayInfo();
         }
     }
 
     public void displayAllBooks(){
-        for(Book book : this.books){
-            if(book != null)book.displayInfo(true);
-            else break;
+        for(int i=0; i<bookCount; i++){
+            books[i].displayInfo();
         }
     }
 
     public int getTotalPrice(){
         int total = 0;
-        for(Book book : this.books){
-            if (book != null)total+=book.getPrice();
+        for(int i=0; i<bookCount; i++){
+            total+=books[i].getPrice();
         }
         return total;
     }
@@ -70,8 +66,8 @@ public class Library {
     }
 
     public void applyDiscountToAll(int percent){
-        for(Book book : this.books){
-            if(book != null) book.applyDiscount(percent);
+        for(int i=0; i<bookCount; i++){
+            books[i].applyDiscount(percent);
         }
     }
 }

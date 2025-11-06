@@ -15,5 +15,10 @@ public class Main {
         Rectangle r1 = new Rectangle();
         Rectangle r2 = new Rectangle(10);
         Rectangle r3 = new Rectangle(10, 30);
+
+        User u = new User("홍길동", 30);
+        u.setName("김길동");
+        u.setAge(27);
+        System.out.println(u.getName() + " " + u.getAge());
     }
 }
