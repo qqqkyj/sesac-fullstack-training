@@ -455,3 +455,208 @@ public class Rectangle {
 | **장점**             | 데이터 보호, 유지보수성 향상, 코드 안정성 증가 |
 
 ---
+
+# 💡 **정적 멤버 (Static Member)**
+
+### 📘 개념
+
+- `static` 키워드를 사용하여 **클래스 레벨의 멤버**를 선언
+- 인스턴스(객체)에 속하지 않고, **클래스 자체에 속함**
+
+---
+
+### 🔍 인스턴스 멤버 vs 정적 멤버
+
+| 구분      | 인스턴스 멤버              | 정적 멤버 (`static`)      |
+| --------- | -------------------------- | ------------------------- |
+| 소속      | 각 객체(인스턴스)에 속함   | 클래스 전체에 속함        |
+| 개수      | 객체마다 별도로 존재       | 클래스당 하나만 존재      |
+| 접근 방법 | 객체 생성 후 `this`로 접근 | 클래스 이름으로 직접 접근 |
+| 사용 시점 | 객체 생성 필요             | 객체 생성 없이 사용 가능  |
+
+---
+
+### 🧩 예제
+
+```java
+package c.oop2;
+
+public class Student {
+    private String name;
+    private int score;
+
+    private static int totalStudent = 0;
+    private static int totalScore = 0;
+
+    public Student(String name, int score) {
+        this.name = name;
+        this.score = score;
+        totalStudent++;
+        totalScore += score;
+    }
+
+    public static int getTotalStudent() {
+        return totalStudent;
+    }
+
+    public static double getAverageScore() {
+        return (double) totalScore / totalStudent;
+    }
+
+    // Getter & Setter
+    public String getName() { return name; }
+    public int getScore() { return score; }
+    public void setName(String name) { this.name = name; }
+    public void setScore(int score) { this.score = score; }
+}
+```
+
+```java
+package c.oop2;
+
+public class StudentMain {
+    public static void main(String[] args) {
+        Student s1 = new Student("kim", 100);
+        Student s2 = new Student("lee", 30);
+        Student s3 = new Student("jack", 70);
+
+        System.out.println(s1.getName());                // kim
+        System.out.println(Student.getTotalStudent());   // 3
+        System.out.println(Student.getAverageScore());   // 66.666...
+    }
+}
+```
+
+---
+
+# 💡 **싱글톤 패턴 (Singleton Pattern)**
+
+### 📘 개념
+
+- **클래스의 인스턴스가 오직 하나만 생성**되도록 보장하는 디자인 패턴
+- 주로 **공유 리소스**(DB 연결, 설정, 캐시 등)에 사용
+
+---
+
+### 🧱 구현 방법
+
+```java
+package c.oop2;
+
+// 공유 리소스
+public class Singleton {
+    // 1. 클래스 내부에서 단 하나의 인스턴스를 저장
+    private static Singleton instance = null;
+
+    // 2. 생성자를 private으로 → 외부에서 new 불가
+    private Singleton() {}
+
+    // 3. 인스턴스를 얻는 public static 메서드
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton(); // 최초 1회만 생성
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
+
+```java
+package c.oop2;
+
+public class SingletonMain {
+    public static void main(String[] args) {
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
+        System.out.println(s1 == s2); // true → 같은 인스턴스
+    }
+}
+```
+
+---
+
+### ✅ 장점
+
+- 메모리 절약 (인스턴스 1개만 존재)
+- 전역 접근 가능 (`getInstance()`로 어디서든 접근)
+- 공유 리소스 관리 용이
+
+### ⚠️ 단점
+
+- 테스트 어려움 (상태 공유로 인한 격리 어려움)
+- 전역 상태로 인해 **결합도 증가**
+- 멀티스레드 환경에서 **동기화 주의 필요**
+
+### 💡 사용 예시
+
+- 애플리케이션 설정
+- 로깅 시스템
+- 데이터베이스 연결 풀
+- 캐시
+- 스레드 풀
+
+---
+
+# 💡 **ENUM (열거형)**
+
+### 📘 개념
+
+- **관련된 상수들을 하나의 타입으로 묶은 것**
+- 코드의 **가독성과 안정성**을 높임
+
+---
+
+### 🧩 예제
+
+```java
+package c.oop2;
+
+public enum Direction {
+    NORTH, EAST, SOUTH, WEST;
+}
+```
+
+```java
+package c.oop2;
+
+import java.util.Arrays;
+
+public class EnumExample {
+    public static void main(String[] args) {
+        Direction direction = Direction.WEST;
+
+        System.out.println(direction);                  // WEST
+        System.out.println(direction.name());           // "WEST"
+        System.out.println(direction.ordinal());        // 3 (인덱스)
+        System.out.println(Arrays.toString(Direction.values())); // [NORTH, EAST, SOUTH, WEST]
+        System.out.println(Direction.valueOf("NORTH")); // NORTH
+    }
+}
+```
+
+---
+
+### 🧭 요약
+
+| 기능                | 설명                       |
+| ------------------- | -------------------------- |
+| `name()`            | 열거형 상수의 이름 반환    |
+| `ordinal()`         | 선언 순서(0부터 시작) 반환 |
+| `values()`          | 모든 상수를 배열로 반환    |
+| `valueOf("문자열")` | 해당 이름의 상수를 반환    |
+
+---
+
+✅ **정리 요약**
+
+| 개념        | 키워드      | 핵심 포인트                          |
+| ----------- | ----------- | ------------------------------------ |
+| 정적 멤버   | `static`    | 클래스당 하나, 객체 없이 접근 가능   |
+| 싱글톤 패턴 | `Singleton` | 인스턴스 단 하나, 전역 공유 가능     |
+| 열거형      | `enum`      | 상수 묶음, 안전하고 가독성 높은 코드 |
+
+---
