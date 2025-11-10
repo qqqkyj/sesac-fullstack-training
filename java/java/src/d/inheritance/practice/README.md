@@ -625,3 +625,206 @@ if (a instanceof Dog3) {
 | **핵심 키워드**          | `extends`, `@Override`, `instanceof`                    |
 
 ---
+
+## 🧩 **instanceof 연산자**
+
+### ✅ 개념
+
+- 객체가 **특정 타입인지 확인**할 때 사용하는 연산자
+- 상속 구조에서 **안전한 다운캐스팅**을 위해 자주 사용됨
+
+### 🔹 사용법
+
+```java
+object instanceof Type
+```
+
+- 결과값:
+  - `true` → 해당 타입이거나 **그 하위 타입**
+  - `false` → 해당 타입이 아님
+
+---
+
+### 📘 예제
+
+```java
+public class PhoneProcessor {
+    public static void usePhone(Phone phone) {
+        phone.powerOn();  // ✅ 다형성
+
+        if (phone instanceof iPhone) {
+            iPhone iPhone = (iPhone) phone;
+            iPhone.useFaceID(); // iPhone 전용 기능
+        } else if (phone instanceof Galaxy) {
+            Galaxy galaxy = (Galaxy) phone;
+            galaxy.useSPen();   // Galaxy 전용 기능
+        }
+    }
+
+    public static void main(String[] args) {
+        Phone[] phones = {
+            new iPhone(),
+            new Galaxy(),
+            new iPhone()
+        };
+
+        for (Phone phone : phones) {
+            usePhone(phone);
+            System.out.println();
+        }
+    }
+}
+```
+
+### 🧠 동작 설명
+
+1. `usePhone()`은 `Phone` 타입 하나로 모든 하위 객체 처리 가능 (다형성)
+2. 실제 객체 타입이 무엇인지 `instanceof`로 확인
+3. 안전하게 다운캐스팅 후, 각 객체의 고유 기능 사용 가능
+
+---
+
+### ⚙️ 실행 결과 (예시)
+
+```
+iPhone is powering on!
+using FaceID
+
+Galaxy is powering on!
+using SPen
+
+iPhone is powering on!
+using FaceID
+```
+
+---
+
+### 🧠 요약
+
+| 구분          | 설명                       |
+| ------------- | -------------------------- |
+| **연산자**    | `instanceof`               |
+| **목적**      | 객체 타입 검사             |
+| **반환값**    | boolean (`true` / `false`) |
+| **주요 용도** | 다운캐스팅 전 타입 체크    |
+| **주의점**    | 상속 관계에서만 의미 있음  |
+
+---
+
+## ⚡ **정적 바인딩(Static Binding) vs 동적 바인딩(Dynamic Binding)**
+
+### 📘 개념 비교
+
+| 구분          | 정적 바인딩 (Static Binding) | 동적 바인딩 (Dynamic Binding) |
+| ------------- | ---------------------------- | ----------------------------- |
+| **시점**      | 컴파일 타임                  | 런타임                        |
+| **대상**      | 오버로딩된 메서드, 필드      | 오버라이딩된 메서드           |
+| **결정 기준** | 참조 변수의 타입             | 실제 객체의 타입              |
+| **성능**      | 빠름                         | 상대적으로 느림               |
+| **대표 예시** | 필드, 오버로딩               | 오버라이딩 (다형성)           |
+
+---
+
+## 🐾 **동적 바인딩 예제**
+
+```java
+class Animal {
+    void makeSound() {
+        System.out.println("동물 소리");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void makeSound() {
+        System.out.println("멍멍!");
+    }
+}
+
+class Cat extends Animal {
+    @Override
+    void makeSound() {
+        System.out.println("야옹!");
+    }
+}
+
+public class DynamicBinding {
+    public static void main(String[] args) {
+        Animal[] animals = {
+            new Dog(),
+            new Cat(),
+            new Dog()
+        };
+
+        for (Animal animal : animals) {
+            // 컴파일 시점: Animal.makeSound() 호출 계획 (정적 바인딩)
+            // 런타임 시점: 실제 객체의 makeSound() 실행 (동적 바인딩)
+            animal.makeSound();
+        }
+    }
+}
+```
+
+### 🧠 실행 결과
+
+```
+멍멍!
+야옹!
+멍멍!
+```
+
+📍
+
+- **컴파일 시점**에는 `Animal`의 `makeSound()`가 호출될 것처럼 보이지만
+- **실행 시점**에는 실제 객체(`Dog`, `Cat`)의 오버라이딩된 메서드가 실행됨
+  → 이것이 **동적 바인딩(Dynamic Binding)**
+
+---
+
+## 📘 **정적 바인딩 예제 (필드)**
+
+```java
+class Parent {
+    String field = "Parent field";
+}
+
+class Child extends Parent {
+    String field = "Child field";
+}
+
+public class FieldBinding {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        System.out.println(p.field);  // Parent field → 정적 바인딩
+
+        Child c = (Child) p;
+        System.out.println(c.field);  // Child field
+    }
+}
+```
+
+### 🧠 실행 결과
+
+```
+Parent field
+Child field
+```
+
+📍
+
+- \*필드(Field)\*\*는 오버라이딩이 불가능하므로
+  **참조 타입 기준으로 접근** → **정적 바인딩**
+
+---
+
+## 🔍 정리 요약
+
+| 구분              | 설명                                        |
+| ----------------- | ------------------------------------------- |
+| **instanceof**    | 객체 타입 확인 연산자 (`true`/`false` 반환) |
+| **정적 바인딩**   | 컴파일 시점에 결정 (필드, 오버로딩)         |
+| **동적 바인딩**   | 런타임 시점에 결정 (오버라이딩된 메서드)    |
+| **다형성과 관계** | 다형성은 **동적 바인딩**을 통해 구현됨      |
+| **주의사항**      | 다운캐스팅 시 `instanceof`로 타입 체크 필수 |
+
+---

@@ -47,6 +47,11 @@ public class PloyMain {
         Animal3[] animals = {new Dog3(), new Cat3(), new Bird3(), new Rabbit3()};
         for(Animal3 animal : animals){
             soundAnimal(animal);
+            System.out.println(animal instanceof Animal3);
+            System.out.println(animal instanceof Dog3);
+            System.out.println(animal instanceof Cat3);
+            System.out.println(animal instanceof Bird3);
+            System.out.println(animal instanceof Rabbit3);
         }
 
         Animal3 a = new Dog3();//업캐스팅
