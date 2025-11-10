@@ -237,3 +237,165 @@ public class SuperMain {
 | **주의점**      | 단일 상속만 가능, private 접근 불가      |
 
 ---
+
+# 💡 **final & Object 클래스 정리**
+
+## 🔒 **final 키워드**
+
+`final`은 **상속과 오버라이딩을 제어**하고, **불변성**을 보장하기 위해 사용됩니다.
+
+### ✅ 사용 목적
+
+| 사용 위치  | 의미                              |
+| ---------- | --------------------------------- |
+| **변수**   | 값을 변경할 수 없음 (상수로 사용) |
+| **메서드** | 오버라이딩 불가                   |
+| **클래스** | 상속 불가                         |
+
+### 🧩 주요 특징
+
+- `final` **메서드** → 자식 클래스에서 **재정의(오버라이딩)** 할 수 없음
+- `final` **클래스** → 다른 클래스가 **상속할 수 없음**
+- **불변성 보장** → 값이나 동작을 변경하지 못하도록 보호
+- **보안 강화** 및 **설계 의도 명확화**에 사용됨
+
+### 📘 예시
+
+```java
+final class Constants {
+    final int MAX_VALUE = 100;
+}
+
+// ❌ 상속 불가
+// class ExtendedConstants extends Constants { } // 컴파일 에러 발생
+
+class Base {
+    final void print() {
+        System.out.println("Cannot override this method.");
+    }
+}
+
+class Derived extends Base {
+    // ❌ 오버라이딩 불가
+    // void print() { ... } // 컴파일 에러 발생
+}
+```
+
+---
+
+## 🧱 **Object 클래스**
+
+자바에서 **모든 클래스는 암묵적으로 `Object` 클래스를 상속**합니다.
+
+즉, `Object`는 **클래스 계층 구조의 최상위 클래스**입니다.
+
+```java
+class MyClass {
+    // 내부적으로는 class MyClass extends Object
+}
+```
+
+---
+
+### 🧩 **Object 클래스의 주요 메서드**
+
+| 메서드               | 설명                                                      |
+| -------------------- | --------------------------------------------------------- |
+| `toString()`         | 객체의 문자열 표현 반환                                   |
+| `equals(Object obj)` | 객체의 **내용(동등성)** 비교                              |
+| `hashCode()`         | 객체의 **해시 코드** 반환 (equals와 함께 오버라이드 권장) |
+| `getClass()`         | 객체의 클래스 타입 정보 반환                              |
+| `clone()`            | 객체 복사 (얕은 복사)                                     |
+
+---
+
+## 🧪 **예제: Object 메서드 오버라이딩**
+
+```java
+package d.inheritance;
+
+import java.util.Objects;
+
+class MyObject /* extends Object */ {
+    String name;
+    int value;
+
+    public MyObject(String name, int value) {
+        this.name = name;
+        this.value = value;
+    }
+
+    // ✅ 객체의 문자열 표현
+    @Override
+    public String toString() {
+        return "MyObject{" +
+                "name='" + name + '\'' +
+                ", value=" + value +
+                '}';
+    }
+
+    // ✅ 객체 동등성 비교
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        MyObject myObject = (MyObject) o;
+        return value == myObject.value && Objects.equals(name, myObject.name);
+    }
+
+    // ✅ equals()와 함께 항상 오버라이드해야 함
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, value);
+    }
+}
+
+public class ObjectMain {
+    public static void main(String[] args) {
+        MyObject obj = new MyObject("test", 100);
+        System.out.println(obj); // 자동으로 toString() 호출
+        // 출력: MyObject{name='test', value=100}
+
+        MyObject obj2 = new MyObject("test", 101);
+        System.out.println(obj.equals(obj2)); // false (값 비교)
+    }
+}
+```
+
+---
+
+## 🔍 실행 결과
+
+```
+MyObject{name='test', value=100}
+false
+```
+
+---
+
+## ⚙️ equals()와 hashCode()의 관계
+
+- `equals()`를 오버라이드하면 **항상 `hashCode()`도 함께 오버라이드**해야 합니다.
+- 그 이유는, 두 객체가 `equals()`로 같다고 판정되면
+  → 반드시 같은 `hashCode()` 값을 가져야 하기 때문입니다.
+
+| 메서드       | 역할                                                      |
+| ------------ | --------------------------------------------------------- |
+| `equals()`   | 객체의 **내용이 같은지** 비교                             |
+| `hashCode()` | 객체의 **식별 코드** 반환 (해시 기반 자료구조에서 사용됨) |
+
+---
+
+## 🧠 정리 요약
+
+| 구분                          | 설명                              |
+| ----------------------------- | --------------------------------- |
+| **`final` 변수**              | 값 변경 불가 (상수)               |
+| **`final` 메서드**            | 오버라이딩 불가                   |
+| **`final` 클래스**            | 상속 불가                         |
+| **`Object` 클래스**           | 자바 클래스 계층의 최상위 클래스  |
+| **`toString()`**              | 객체 정보를 문자열로 표현         |
+| **`equals()` / `hashCode()`** | 객체 동등성 비교 / 해시 코드 계산 |
+| **`getClass()`**              | 클래스 정보 반환                  |
+| **`clone()`**                 | 객체 복사                         |
+
+---
