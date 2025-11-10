@@ -81,6 +81,7 @@
 - **2025-11-05** : [ Java를 활용한 객체 지향 프로그래밍 - 클래스와 객체](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/b/oop#-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-oop-object-oriented-programming)
 - **2025-11-06** : [ Java를 활용한 객체 지향 프로그래밍 - 메서드와 오버로딩, 패키지, 접근제어와 캡슐화](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/c/oop2/practice#-%EB%A9%94%EC%84%9C%EB%93%9C-method)
 - **2025-11-07** : [ Java를 활용한 객체 지향 프로그래밍 - 정적멤버, 싱글톤 패턴, enum](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/java/java/src/c/oop2/practice/README.md#-%EC%A0%95%EC%A0%81-%EB%A9%A4%EB%B2%84-static-member)
+- **2025-11-10** : [ Java를 활용한 객체 지향 프로그래밍 - 상속, 다형성](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/d/inheritance/practice#-%EC%83%81%EC%86%8D-inheritance)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
