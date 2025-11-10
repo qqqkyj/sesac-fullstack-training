@@ -2,26 +2,30 @@ package d.inheritance.practice;
 
 class Account{
     String accountNumber;
-    double balance;
+    int balance;
 
-    public Account(String accountNumber, double balance) {
+    public Account(String accountNumber, int balance) {
         this.accountNumber = accountNumber;
         this.balance = balance;
     }
 
-    void deposit(double amount){
+    void deposit(int amount){
         balance += amount;
+        System.out.println(amount + "원 입금되었습니다.");
     }
 
-    void withdraw(double amount){
-        if(balance >= amount) balance -= amount;
+    void withdraw(int amount){
+        if(balance >= amount) {
+            balance -= amount;
+            System.out.println(amount + "원 출금되었습니다.");
+        }
     }
 }
 
 class SavingsAccount extends Account{
     double interestRate;
 
-    public SavingsAccount(String accountNumber, double balance, double interestRate) {
+    public SavingsAccount(String accountNumber, int balance, double interestRate) {
         super(accountNumber, balance);
         this.interestRate = interestRate;
     }
@@ -34,14 +38,18 @@ class SavingsAccount extends Account{
 class CheckingAccount extends Account{
     double overdraftLimit;
 
-    public CheckingAccount(String accountNumber, double balance, double overdraftLimit) {
+    public CheckingAccount(String accountNumber, int balance, double overdraftLimit) {
         super(accountNumber, balance);
         this.overdraftLimit = overdraftLimit;
     }
 
     @Override
-    void withdraw(double amount) {
-        if(balance + overdraftLimit >= amount) balance -= amount;
+    void withdraw(int amount) {
+        if(balance + overdraftLimit >= amount) {
+            balance -= amount;
+            System.out.println(amount + "원 출금되었습니다.");
+        }
+        else System.out.println("출금 한도를 초과했습니다. \n현재 인출 가능한 금액은 " + (int)(balance + overdraftLimit) + "원 입니다.");
     }
 }
 

@@ -9,13 +9,8 @@ class Vehicle{
         this.dailyRate = dailyRate;
     }
 
-    double calculateRentalCost(int days){
+    int calculateRentalCost(int days){
         return dailyRate*days;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 }
 
@@ -28,8 +23,10 @@ class Car extends Vehicle{
     }
 
     @Override
-    double calculateRentalCost(int days) {
-        return (dailyRate + 10000) * days;
+    int calculateRentalCost(int days) {
+        int baseCost = super.calculateRentalCost(days);
+        if(hasGPS) baseCost += 10000 * days;
+        return baseCost;
     }
 
     @Override
@@ -51,8 +48,10 @@ class Truck extends Vehicle{
     }
 
     @Override
-    double calculateRentalCost(int days) {
-        return (dailyRate + 5000 * capacity) * days;
+    int calculateRentalCost(int days) {
+        int baseCost = super.calculateRentalCost(days);
+        if(capacity > 0) return baseCost += 5000 * capacity * days;
+        else return baseCost;
     }
 
     @Override

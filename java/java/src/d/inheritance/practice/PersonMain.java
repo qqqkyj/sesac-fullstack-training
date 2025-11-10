@@ -26,7 +26,7 @@ class Student extends Person{
 
     @Override
     void introduce() {
-        System.out.printf("안녕하세요, 저는 %s입니다. %d살이고, 학번은 %d이며, %s을 전공합니다.%n",name, age, studentId, major);
+        System.out.printf("안녕하세요, 저는 %s입니다.%n나이는 %d살이고, 학번은 %d이며, %s을 전공합니다.%n",name, age, studentId, major);
     }
 }
 

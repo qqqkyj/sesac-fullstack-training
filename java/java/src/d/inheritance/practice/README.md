@@ -399,3 +399,229 @@ false
 | **`clone()`**                 | 객체 복사                         |
 
 ---
+
+# 💡 **다형성 (Polymorphism)**
+
+## 📘 개념
+
+- \*다형성(Polymorphism)\*\*이란
+  상위 타입의 참조 변수가 **하위 타입 객체를 참조할 수 있는 특성**을 말합니다.
+- “여러 형태(Poly + Morph)를 가진다”는 의미로,
+  하나의 타입으로 여러 객체를 **유연하게 처리**할 수 있습니다.
+
+---
+
+## 🧩 다형성의 장점
+
+| 특징              | 설명                                           |
+| ----------------- | ---------------------------------------------- |
+| **코드의 유연성** | 다양한 객체를 한 타입으로 다룰 수 있음         |
+| **확장성**        | 새로운 타입 추가 시 기존 코드 수정 최소화      |
+| **재사용성**      | 배열, 컬렉션 등으로 여러 객체를 일괄 관리 가능 |
+
+---
+
+## ⚙️ 업캐스팅 (Upcasting)
+
+### 🔹 정의
+
+- 하위 타입의 객체를 **상위 타입으로 참조**하는 것
+- 형 변환 **생략 가능 (자동 변환)**
+- **안전한 형변환** — 컴파일러가 타입 호환을 보장
+- 단, **하위 타입 고유 멤버에는 접근 불가**
+
+### 📘 예제
+
+```java
+package d.inheritance;
+
+class Animal3 {
+    void makeSound() {
+        System.out.println("소리를 냅니다.");
+    }
+}
+
+class Dog3 extends Animal3 {
+    @Override
+    void makeSound() {
+        System.out.println("멍멍!");
+    }
+}
+
+class Cat3 extends Animal3 {
+    @Override
+    void makeSound() {
+        System.out.println("야옹!");
+    }
+}
+
+class Bird3 extends Animal3 {
+    @Override
+    void makeSound() {
+        System.out.println("짹짹!");
+    }
+}
+
+class Rabbit3 extends Animal3 {
+    @Override
+    void makeSound() {
+        System.out.println("깡총!");
+    }
+}
+
+public class PolyMain {
+    public static void main(String[] args) {
+        // 다양한 하위 클래스 객체를 상위 타입(Animal3) 배열에 담기
+        Animal3[] animals = { new Dog3(), new Cat3(), new Bird3(), new Rabbit3() };
+
+        for (Animal3 animal : animals) {
+            soundAnimal(animal);
+        }
+    }
+
+    static void soundAnimal(Animal3 animal) {
+        animal.makeSound(); // 각 타입의 오버라이딩된 메서드 실행
+    }
+}
+```
+
+### 🧠 실행 결과
+
+```
+멍멍!
+야옹!
+짹짹!
+깡총!
+```
+
+📍
+
+- 같은 `makeSound()` 호출이지만,
+  실제 객체의 타입에 따라 **다르게 동작**합니다. (→ **동적 바인딩**)
+
+---
+
+## ⚙️ 다운캐스팅 (Downcasting)
+
+### 🔹 정의
+
+- 상위 타입으로 참조된 객체를 **다시 하위 타입으로 변환**하는 것
+- 형 변환 **명시 필요 (수동 변환)**
+- 잘못된 변환 시 `ClassCastException` 발생 가능
+- 하위 타입의 **고유 멤버(필드, 메서드)** 접근 가능
+
+### 📘 예제
+
+```java
+package d.inheritance;
+
+class Animal3 {
+    void makeSound() {
+        System.out.println("소리를 냅니다.");
+    }
+}
+
+class Dog3 extends Animal3 {
+    @Override
+    void makeSound() {
+        System.out.println("멍멍!");
+    }
+
+    void bark() {
+        System.out.println("왈왈!!");
+    }
+}
+
+class Cat3 extends Animal3 {
+    @Override
+    void makeSound() {
+        System.out.println("야옹!");
+    }
+
+    void meow() {
+        System.out.println("미야오!");
+    }
+}
+
+class Bird3 extends Animal3 {
+    @Override
+    void makeSound() {
+        System.out.println("짹짹!");
+    }
+}
+
+class Rabbit3 extends Animal3 {
+    @Override
+    void makeSound() {
+        System.out.println("깡총!");
+    }
+}
+
+public class PolyMain {
+    public static void main(String[] args) {
+        // ✅ 업캐스팅
+        Animal3 a = new Dog3();
+        a.makeSound();   // 멍멍!
+
+        // ✅ 다운캐스팅 (명시적 형변환)
+        ((Dog3) a).bark(); // 왈왈!!
+
+        Animal3 c1 = new Cat3();
+        Cat3 c2 = (Cat3) c1; // 다운캐스팅
+        c2.meow();           // 미야오!
+    }
+}
+```
+
+### 🧠 실행 결과
+
+```
+멍멍!
+왈왈!!
+미야오!
+```
+
+---
+
+## ⚠️ 다운캐스팅 주의사항
+
+잘못된 타입으로 캐스팅하면 예외 발생!
+
+```java
+Animal3 a = new Dog3();
+Cat3 c = (Cat3) a; // ❌ 런타임 오류 (ClassCastException)
+```
+
+> 💡 안전하게 캐스팅하려면 instanceof 연산자를 사용해야 합니다.
+
+```java
+if (a instanceof Dog3) {
+    ((Dog3) a).bark();
+}
+```
+
+---
+
+## 🧠 다형성 정리
+
+| 구분           | 업캐스팅 (Upcasting) | 다운캐스팅 (Downcasting)        |
+| -------------- | -------------------- | ------------------------------- |
+| 변환 방향      | 하위 → 상위          | 상위 → 하위                     |
+| 형변환 여부    | 자동 변환            | 명시적 변환 필요                |
+| 안전성         | 안전 (컴파일러 보장) | 위험 (런타임 예외 가능)         |
+| 접근 가능 범위 | 부모 클래스 멤버만   | 자식 클래스 고유 멤버 접근 가능 |
+| 주요 사용 목적 | 다형성 구현          | 특정 타입 기능 사용             |
+
+---
+
+## 🧩 정리 요약
+
+| 항목                     | 설명                                                    |
+| ------------------------ | ------------------------------------------------------- |
+| **다형성(Polymorphism)** | 상위 타입으로 다양한 하위 타입 객체를 다룰 수 있는 특성 |
+| **장점**                 | 코드 유연성, 확장성, 재사용성 향상                      |
+| **업캐스팅**             | 하위 → 상위, 자동 변환, 안전                            |
+| **다운캐스팅**           | 상위 → 하위, 명시적 변환, 예외 위험 있음                |
+| **핵심 키워드**          | `extends`, `@Override`, `instanceof`                    |
+
+---
