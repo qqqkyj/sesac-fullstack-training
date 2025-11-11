@@ -48,8 +48,27 @@ class Dog6 implements Animal6{
     }
 }
 
+interface Drawable{
+    void draw();
+}
+
+class Rectangle6 implements Drawable{
+    private int width, height;
+
+    public Rectangle6(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    @Override
+    public void draw() {
+        System.out.println("사각형 그리기");
+    }
+}
+
 public class InterfaceMain {
     public static void main(String[] args) {
-
+        Rectangle6 rec = new Rectangle6(10,20);
+        rec.draw();
     }
 }
