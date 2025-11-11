@@ -52,11 +52,11 @@ public class Zoo {
         Animal[] animals = {new Lion("심바", 10), new Elephant("덤보", 5), new Monkey("조조", 7)};
         System.out.println("=== 먹이 시간 ===");
         for (Animal animal : animals) {
-            feedingTile(animal);
+            feedingTime(animal);
         }
     }
 
-    public static void feedingTile(Animal animal){
+    public static void feedingTime(Animal animal){
         if(animal instanceof Lion){
             System.out.println("사자 " + animal.name + ": " + animal.makeSound());
         }
