@@ -16,11 +16,22 @@ class Pair<K, V>{
     public V getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "Pair{" +
+                "key=" + key +
+                ", value=" + value +
+                '}';
+    }
 }
 
 public class MultiType {
     public static void main(String[] args) {
-        Pair<String, Integer> p = new Pair<>("gildong", 20);
-        System.out.println(p.getKey());
+        Pair<String, Integer> p1 = new Pair<>("gildong", 20);
+        System.out.println(p1);
+
+        Pair<String, String> p2 = new Pair<>("hi", "my name is gilja");
+        System.out.println(p2);
     }
 }
