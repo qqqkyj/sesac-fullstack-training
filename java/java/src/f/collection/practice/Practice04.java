@@ -32,30 +32,23 @@ public class Practice04 {
     }
 
     public static ArrayList<ArrayList<Integer>> countFrequency(ArrayList<Integer> list) {
-        // 여기에 코드 작성
         ArrayList<ArrayList<Integer>> answer = new ArrayList<>();
         for(int i = 0; i < list.size(); i++) {
-            if (answer.isEmpty()) {
+            int key, value;
+            boolean flag = false; //key값 일치 여부
+            for (int j = 0; j < answer.size(); j++) {
+                key = answer.get(j).get(0);
+                value = answer.get(j).get(1);
+                if (key == list.get(i)) {
+                    flag = true;
+                    answer.get(j).set(1, value + 1);//value+1
+                    break;
+                }
+            }
+            if (!flag) { //일치하는 key가 없다면 생성
                 ArrayList<Integer> temp = new ArrayList<>();
                 temp.addAll(Arrays.asList(list.get(i), 1));
                 answer.add(temp);
-            } else {
-                int key, value;
-                boolean flag = false;
-                for (int j = 0; j < answer.size(); j++) {
-                    key = answer.get(j).get(0);
-                    value = answer.get(j).get(1);
-                    if (key == list.get(i)) {
-                        flag = true;
-                        answer.get(j).set(1, value + 1);//value값 +1
-                        break;
-                    }
-                }
-                if (!flag) {
-                    ArrayList<Integer> temp = new ArrayList<>();
-                    temp.addAll(Arrays.asList(list.get(i), 1));
-                    answer.add(temp);
-                }
             }
         }
 

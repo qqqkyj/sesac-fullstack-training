@@ -294,6 +294,7 @@ Box2<String> box = new Box2<>(); // 타입 추론 자동 적용
 | 다이아몬드 연산자 | 타입 추론 기능 (Java 7+) |
 
 ---
+
 # 💡 제네릭(Generic) 실습 정리
 
 ## 🧮 1️⃣ Calculator 실습
@@ -520,5 +521,312 @@ public class ArrayUtilTest {
 | `Calculator<T>` | 단일 타입 매개변수 | 다양한 타입 비교 및 출력 |
 | `Pair<K, V>` | 다중 타입 매개변수 | key-value 쌍 및 swap 기능 |
 | `ArrayUtil` | 제네릭 메서드 | 배열 다루기 (출력, 첫/마지막 요소) |
+
 ---
 
+# 🌱 **Java 제네릭(Generic) & 컬렉션(Collection) 정리**
+
+---
+
+## 🧩 **1. 제네릭(Generic)**
+
+### ✅ **1-1. 타입 매개변수 제한**
+
+- 특정 **클래스나 인터페이스를 상속/구현한 타입만 허용**할 수 있다.
+
+```java
+class NumberBox<T extends Number> { // Number와 그 하위 타입만 허용
+    private T value;
+
+    public NumberBox(T value) { this.value = value; }
+    public T getValue() { return value; }
+}
+
+public class ExtendsGeneric {
+    public static void main(String[] args) {
+        NumberBox<Integer> intBox = new NumberBox<>(100);
+        NumberBox<Double> doubleBox = new NumberBox<>(10.25);
+        // NumberBox<String> stringBox = new NumberBox<>("hello"); // 불가
+
+        System.out.println(intBox.getValue());
+        System.out.println(doubleBox.getValue());
+    }
+}
+```
+
+---
+
+### ✅ **1-2. 인터페이스 제한**
+
+```java
+class SortedBox<T extends Comparable<T>> {
+    private T value;
+    public SortedBox(T value) { this.value = value; }
+
+    public boolean isGreaterThan(T other) {
+        return value.compareTo(other) > 0;
+    }
+}
+
+public class ExtendsGeneric {
+    public static void main(String[] args) {
+        SortedBox<Integer> b1 = new SortedBox<>(10);
+        System.out.println(b1.isGreaterThan(5)); // true
+    }
+}
+```
+
+> 🔹 extends는 “상속”뿐 아니라 “인터페이스 구현”도 포함하는 제한(bound) 키워드.
+>
+
+---
+
+### ✅ **1-3. 다중 제한 (Multiple Bounds)**
+
+- 클래스는 **1개만**, 인터페이스는 **여러 개 가능**
+- 클래스는 **맨 앞에 위치**
+- 구분자는 `&`
+
+```java
+interface Printable { void print(); }
+interface Storable { void save(); }
+
+class MultiBox<T extends Number & Printable & Storable> {
+    private T value;
+    public MultiBox(T value) { this.value = value; }
+
+    public void process() {
+        System.out.println("숫자 값: " + value.doubleValue());
+        value.print();
+        value.save();
+    }
+}
+```
+
+---
+
+## 🌀 **2. 와일드카드(Wildcard)**
+
+| 형태 | 의미 | 특징 |
+| --- | --- | --- |
+| `<?>` | 비한정적 와일드카드 | 모든 타입 허용 |
+| `<? extends T>` | 상한 경계 (Upper Bounded) | T 또는 그 하위 타입 (읽기 가능 / 쓰기 불가) |
+| `<? super T>` | 하한 경계 (Lower Bounded) | T 또는 그 상위 타입 (쓰기 가능 / 읽기 제한) |
+
+---
+
+### ✅ **2-1. 비한정적 와일드카드**
+
+```java
+public static void printList(List<?> list) {
+    System.out.println(Arrays.toString(list.toArray()));
+}
+
+public static <T> void printList2(List<T> list) {
+    for (T t : list) System.out.println(t);
+}
+
+public static void main(String[] args) {
+    List<Integer> intList = Arrays.asList(1,2,3);
+    List<String> strList = Arrays.asList("A","B","C");
+
+    printList(intList);
+    printList(strList);
+}
+```
+
+---
+
+### ✅ **2-2. 상한 경계 (Upper Bounded Wildcard)**
+
+```java
+List<Integer> intList = new ArrayList<>();
+intList.add(1);
+intList.add(2);
+
+List<? extends Number> list = intList; // Number 또는 하위 타입 허용
+
+Number n = list.get(0); // ✅ 읽기 가능
+// list.add(3);        // ❌ 쓰기 불가능
+```
+
+---
+
+### ✅ **2-3. 하한 경계 (Lower Bounded Wildcard)**
+
+```java
+List<Number> numberList = new ArrayList<>();
+List<? super Integer> list = numberList;
+
+list.add(1); // ✅ 쓰기 가능
+list.add(new Integer(3));
+```
+
+---
+
+### ✅ **2-4. PECS 원칙**
+
+> PECS (Producer Extends, Consumer Super)
+>
+> - Producer → 읽기 전용 → `extends`
+> - Consumer → 쓰기 전용 → `super`
+
+```java
+public class PECSExample {
+    // Producer: 읽기
+    public static double sum(List<? extends Number> numbers) {
+        double total = 0;
+        for (Number n : numbers) total += n.doubleValue();
+        return total;
+    }
+
+    // Consumer: 쓰기
+    public static void addIntegers(List<? super Integer> list) {
+        for (int i = 1; i <= 5; i++) list.add(i);
+    }
+
+    // 복사: src → dest
+    public static <T> void copy(List<? extends T> src, List<? super T> dest) {
+        for (T item : src) dest.add(item);
+    }
+
+    public static void main(String[] args) {
+        List<Integer> src = Arrays.asList(10, 20, 30);
+        List<Number> dest = new ArrayList<>();
+        copy(src, dest);
+        System.out.println(dest); // [10, 20, 30]
+    }
+}
+```
+
+---
+
+## 📚 **3. 컬렉션(Collection)**
+
+### ✅ **3-1. 계층 구조**
+
+```
+Collection (인터페이스)
+├── List (인터페이스)
+│   ├── ArrayList
+│   ├── LinkedList
+│   ├── Vector
+│   └── Stack
+├── Set (인터페이스)
+└── Queue (인터페이스)
+```
+
+---
+
+## 📋 **4. List 특징**
+
+| 특징 | 설명 |
+| --- | --- |
+| 순서 있음 | 인덱스로 접근 가능 |
+| 중복 허용 | 같은 값 여러 번 가능 |
+| null 저장 가능 | 가능 |
+| 크기 | 동적으로 변경 가능 |
+
+---
+
+### ✅ **4-1. 요소 추가 / 변경 / 삭제**
+
+| 메서드 | 설명 | 예시 |
+| --- | --- | --- |
+| `add(E e)` | 끝에 추가 | `l.add("apple")` |
+| `add(int, E)` | 특정 위치에 추가 | `l.add(1, "cherry")` |
+| `set(int, E)` | 요소 수정 | `l.set(2, "grape")` |
+| `remove(int)` | 인덱스 삭제 | `l.remove(1)` |
+| `remove(Object)` | 객체 삭제 | `l.remove("grape")` |
+| `addAll(Collection)` | 전체 추가 | `l.addAll(Arrays.asList(1,2,3))` |
+| `clear()` | 전체 삭제 | `l.clear()` |
+
+---
+
+### ✅ **4-2. 요소 조회**
+
+| 메서드 | 설명 | 예시 |
+| --- | --- | --- |
+| `get(int)` | 특정 위치 조회 | `l.get(0)` |
+| `indexOf(Object)` | 첫 번째 인덱스 | `l.indexOf("apple")` |
+| `lastIndexOf(Object)` | 마지막 인덱스 | `l.lastIndexOf("apple")` |
+| `subList(int, int)` | 부분 리스트 반환 | `l.subList(1,3)` |
+| `toArray(T[])` | 배열로 변환 | `l.toArray(new String[0])` |
+
+---
+
+### ✅ **4-3. 상태 확인**
+
+| 메서드 | 설명 | 예시 |
+| --- | --- | --- |
+| `size()` | 요소 개수 | `l.size()` |
+| `isEmpty()` | 비어있는지 확인 | `l.isEmpty()` |
+
+---
+
+### ✅ **4-4. 반복(Traversal)**
+
+| 방식 | 예시 |
+| --- | --- |
+| for-each | `for (E e : list)` |
+| 인덱스 for | `for (int i=0; i<list.size(); i++)` |
+| Iterator | `Iterator<E> it = list.iterator()` |
+| forEach | `list.forEach(System.out::println)` |
+| Stream | `list.stream().forEach(...)` |
+
+---
+
+## 🔗 **5. LinkedList**
+
+> ArrayList의 기능을 모두 포함하면서, 양방향 연결 리스트 기반으로 삽입·삭제가 빠름.
+>
+
+### 🔹 **추가 메서드 (양쪽 끝 접근)**
+
+| 메서드 | 설명 | 예시 |
+| --- | --- | --- |
+| `addFirst(E e)` | 맨 앞에 추가 | `list.addFirst("start")` |
+| `addLast(E e)` | 맨 뒤에 추가 | `list.addLast("end")` |
+| `getFirst()` | 첫 요소 반환 | `list.getFirst()` |
+| `getLast()` | 마지막 요소 반환 | `list.getLast()` |
+| `removeFirst()` | 첫 요소 삭제 | `list.removeFirst()` |
+| `removeLast()` | 마지막 요소 삭제 | `list.removeLast()` |
+| `offer(E e)` | 맨 끝에 추가 (Queue처럼) | `list.offer("item")` |
+| `poll()` | 맨 앞 요소 제거 후 반환 | `list.poll()` |
+| `peek()` | 맨 앞 요소 반환 (삭제X) | `list.peek()` |
+
+---
+
+### 🔹 **반복 방식**
+
+| 방식 | 예시 |
+| --- | --- |
+| ListIterator | `ListIterator<E> it = list.listIterator();` (양방향 가능) |
+| forEach / Stream | `list.forEach(System.out::println);` |
+
+---
+
+## ⚖️ **6. ArrayList vs LinkedList 비교**
+
+| 구분 | ArrayList | LinkedList |
+| --- | --- | --- |
+| 내부 구조 | 배열(Array) | 이중 연결 리스트 |
+| 인덱스 접근 속도 | 빠름 (O(1)) | 느림 (O(n)) |
+| 중간 삽입/삭제 | 느림 (O(n)) | 빠름 (O(1)) |
+| 메모리 사용 | 적음 | 많음 (노드 포인터 필요) |
+| 특징 | 조회 중심 | 삽입/삭제 중심 |
+
+---
+
+✅ **핵심 요약**
+
+- **extends** → 상속 또는 인터페이스 구현 제한
+- **와일드카드 `?`** → 타입 불특정 (주로 매개변수에서 사용)
+- **PECS 원칙**
+    - Producer → `extends`
+    - Consumer → `super`
+- **List**
+    - 순서 있고 중복 가능
+    - `ArrayList`는 조회용, `LinkedList`는 삽입/삭제용
+
+---
