@@ -83,7 +83,9 @@
 - **2025-11-07** : [ Java를 활용한 객체 지향 프로그래밍 - 정적멤버, 싱글톤 패턴, enum](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/java/java/src/c/oop2/practice/README.md#-%EC%A0%95%EC%A0%81-%EB%A9%A4%EB%B2%84-static-member)
 - **2025-11-10** : [ Java를 활용한 객체 지향 프로그래밍 - 상속, 다형성](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/d/inheritance/practice#-%EC%83%81%EC%86%8D-inheritance)
 - **2025-11-11** : [ Java 고급 문법 및 자료구조 - 추상클래스, 인터페이스, 컴포지션, 위임](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/d/inheritance/practice03#-%EC%B6%94%EC%83%81%ED%99%94-abstraction)
-- **2025-11-12** : [ Java 고급 문법 및 자료구조 - 제네릭, 컬렉션](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/e/generic/practice#-java-%EC%A0%9C%EB%84%A4%EB%A6%ADgeneric-%EC%A0%95%EB%A6%AC)
+- **2025-11-12** : [ Java 고급 문법 및 자료구조 - 제네릭, 컬렉션(List)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/e/generic/practice#-java-%EC%A0%9C%EB%84%A4%EB%A6%ADgeneric-%EC%A0%95%EB%A6%AC)
+- **2025-11-13** : [ Java 고급 문법 및 자료구조 - 컬렉션(Set, Map)](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/java/java/src/f/collection/practice/README.md#-set-%EC%A7%91%ED%95%A9)
+- **2025-11-13** : [ Java 고급 문법 및 자료구조 - StandardLibrary(String, Wrapper, Math, Random)](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/java/java/src/g/javaclass/practice/README.md#-string-%ED%81%B4%EB%9E%98%EC%8A%A4)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
