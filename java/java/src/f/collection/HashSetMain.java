@@ -41,6 +41,5 @@ public class HashSetMain {
         set1.retainAll(set2);//차집합
         System.out.println(set1);
         System.out.println(set1.containsAll(set2));//부분집합
-
     }
 }
