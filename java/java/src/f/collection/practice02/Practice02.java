@@ -1,7 +1,9 @@
 package f.collection.practice02;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class Practice02 {
     public static void main(String[] args) {
@@ -34,8 +36,20 @@ public class Practice02 {
     public static Map<String, Integer> countWordFrequency(String[] words) {
         // 구현 필요
         Map<String, Integer> map = new HashMap<>();
+        Stream.of(words).forEach(word -> {map.put(word, map.getOrDefault(word, 0) + 1);});
+        return map;
+    }
+
+    // T
+    public static Map<String, Integer> countWordFrequency2(String[] words) {
+        Map<String, Integer> map = new HashMap<>();
+        // 1.
+        //for(String word : words){map.put(word, map.getOrDefault(word, 0) + 1);}
+
+        // 2.
         for(String word : words){
-            map.put(word, map.getOrDefault(word, 0) + 1);
+            if(!map.containsKey(word)){map.put(word,1);} //최초
+            else{map.put(word,map.get(word)+1);} //이미 존재
         }
         return map;
     }

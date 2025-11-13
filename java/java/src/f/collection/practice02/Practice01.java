@@ -1,6 +1,5 @@
 package f.collection.practice02;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,9 +36,18 @@ public class Practice01 {
         // 구현 필요
         Set<Integer> set1 = new HashSet<>();
         Set<Integer> set2 = new HashSet<>();
-        for(int num: arr1){set1.add(num);}
-        for(int num: arr2){set2.add(num);}
+        Arrays.stream(arr1).forEach(num -> set1.add(num));
+        Arrays.stream(arr2).forEach(num -> set2.add(num));
         set1.retainAll(set2); // 교집합
         return set1;
+    }
+
+    // T
+    public static Set<Integer> findCommonElements2(int[] arr1, int[] arr2){
+        HashSet<Integer> set1 = new HashSet<>();
+        HashSet<Integer> result = new HashSet<>();
+        for(int num : arr1){set1.add(num);}
+        for(int num : arr2){if(set1.contains(num)){result.add(num);}}
+        return result;
     }
 }

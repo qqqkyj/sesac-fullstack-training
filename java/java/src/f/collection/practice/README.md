@@ -181,3 +181,204 @@ public class SetOperationExample {
 | **주요 활용** | 중복 제거, 고유 값 관리, 집합 연산 등 |
 
 ---
+## 🗺️ **Map (맵)**
+
+> Key-Value(키-값) 쌍으로 데이터를 저장하는 컬렉션
+>
+>
+> 키는 중복될 수 없고, 값은 중복될 수 있습니다.
+>
+
+---
+
+### ✅ **특징**
+
+- **키-값 쌍**으로 데이터 저장
+- **키 중복 불가**, **값 중복 가능**
+- **순서 없음** (단, 구현체에 따라 다름)
+- **null 허용 여부**는 구현체마다 다름
+- `Collection` 인터페이스를 **상속하지 않음**
+
+---
+
+### 🧱 **Map 계층 구조**
+
+```java
+Map (인터페이스)
+├── HashMap (클래스)
+│   └── LinkedHashMap (클래스)
+├── TreeMap (클래스)
+└── Hashtable (클래스)
+    └── Properties (클래스)
+```
+
+---
+
+### ⚖️ **Map vs List vs Set**
+
+| 구분 | List | Set | **Map** |
+| --- | --- | --- | --- |
+| **저장 단위** | 단일 값 | 단일 값 | **키-값 쌍** |
+| **중복 허용** | O | ❌ | **키만 중복 불가** |
+| **순서** | 있음 | 없음 | 구현체에 따라 다름 |
+| **접근 방식** | 인덱스로 접근 | 요소 탐색 | **키로 접근** |
+
+---
+
+## 🌿 **Map 주요 구현체**
+
+### 1️⃣ **HashMap**
+
+- 가장 많이 쓰이는 `Map` 구현체
+- 내부적으로 **Hash Table** 사용
+- **순서 없음**, **키 1개 null 허용**, **빠른 성능 (O(1))**
+
+```java
+import java.util.HashMap;
+
+public class HashMapMain {
+    public static void main(String[] args) {
+        HashMap<String, Integer> map = new HashMap<>();
+
+        // 요소 추가
+        map.put("Apple", 1000);
+        map.put("Banana", 2000);
+        map.put("Cherry", 3000);
+        System.out.println(map);
+
+        // 값 조회
+        for (String key : map.keySet())
+            System.out.println(key + " : " + map.get(key));
+
+        // 키/값 존재 여부
+        System.out.println(map.containsKey("Apple"));   // true
+        System.out.println(map.containsValue(5000));    // false
+
+        // 값 수정 (같은 키로 put 시 덮어씀)
+        map.put("Apple", 1500);
+        System.out.println(map.get("Apple")); // 1500
+
+        // 삭제
+        map.remove("Banana");
+
+        // 크기/비어있는지 확인
+        System.out.println(map.size());
+        System.out.println(map.isEmpty());
+
+        // 모든 요소 삭제
+        map.clear();
+        System.out.println(map.isEmpty());
+
+        // getOrDefault() : 키 없을 때 기본값 반환
+        System.out.println(map.get("Durian")); // null
+        System.out.println(map.getOrDefault("Durian", 0)); // 0
+
+        // putIfAbsent() : 키가 없을 때만 추가
+        map.putIfAbsent("Durian", 10000);
+        map.putIfAbsent("Apple", 15000);
+        System.out.println(map);
+    }
+}
+```
+
+---
+
+### 🔁 **HashMap 순회 방법**
+
+```java
+// 1. keySet() : 키 집합
+for (String key : map.keySet())
+    System.out.println(key + " : " + map.get(key));
+
+// 2. values() : 값 집합
+for (int value : map.values())
+    System.out.println(value);
+
+// 3. entrySet() : 키-값 쌍 집합 (가장 효율적)
+for (Map.Entry<String, Integer> entry : map.entrySet())
+    System.out.println(entry.getKey() + " = " + entry.getValue());
+
+// 4. forEach() : Java 8+
+map.forEach((key, value) -> System.out.println(key + " : " + value));
+```
+
+---
+
+### 2️⃣ **LinkedHashMap**
+
+- **HashMap + LinkedList 구조**
+- **삽입 순서 유지**
+- 성능은 `HashMap`과 유사 (`O(1)`)
+
+```java
+Map<String, Integer> map = new LinkedHashMap<>();
+map.put("Apple", 1000);
+map.put("Banana", 2000);
+map.put("Cherry", 3000);
+System.out.println(map); // {Apple=1000, Banana=2000, Cherry=3000}
+```
+
+---
+
+### 3️⃣ **TreeMap**
+
+- **자동 정렬된 순서(키 기준)** 로 저장
+- 내부적으로 **Red-Black Tree** 구조 사용
+- **정렬된 탐색, 범위 검색 가능**
+- **null 키 불가**, **성능 O(log n)**
+
+```java
+import java.util.TreeMap;
+
+public class TreeMapMain {
+    public static void main(String[] args) {
+        TreeMap<String, Integer> map2 = new TreeMap<>();
+
+        // 요소 추가 (자동 정렬)
+        map2.put("Banana", 1500);
+        map2.put("Apple", 1000);
+        map2.put("Cherry", 2000);
+        map2.put("Durian", 2500);
+
+        System.out.println(map2); // 키 기준 오름차순
+
+        // TreeMap 특화 메서드
+        System.out.println("첫 번째 키: " + map2.firstKey());
+        System.out.println("마지막 키: " + map2.lastKey());
+        System.out.println("첫 번째 엔트리: " + map2.firstEntry());
+        System.out.println("마지막 엔트리: " + map2.lastEntry());
+
+        // 부분 맵 조회
+        System.out.println("Cherry 이전: " + map2.headMap("Cherry"));
+        System.out.println("Cherry 이후: " + map2.tailMap("Cherry"));
+        System.out.println("Apple~Durian: " + map2.subMap("Apple", "Durian"));
+    }
+}
+```
+
+---
+
+## 📊 **Map 구현체 비교**
+
+| 구분 | **HashMap** | **LinkedHashMap** | **TreeMap** |
+| --- | --- | --- | --- |
+| **저장 순서** | 없음 | 삽입 순서 | **정렬 순서(키 기준)** |
+| **null 키 허용** | ✅ (1개) | ✅ (1개) | ❌ |
+| **null 값 허용** | ✅ | ✅ | ✅ |
+| **성능** | ⚡ O(1) | ⚡ O(1) | 🕓 O(log n) |
+| **메모리 사용량** | 적음 | 중간 | 많음 |
+| **정렬 지원** | ❌ | ❌ | ✅ |
+| **사용 시기** | 일반적 | 순서 필요 | 정렬 필요 |
+
+---
+
+## 🧠 **요약 정리**
+
+| 항목 | 내용 |
+| --- | --- |
+| **Map 역할** | 키로 값에 접근하는 자료구조 |
+| **주요 구현체** | `HashMap`, `LinkedHashMap`, `TreeMap` |
+| **중복 허용 여부** | 키 ❌ / 값 ✅ |
+| **핵심 메서드** | `put()`, `get()`, `remove()`, `containsKey()`, `putIfAbsent()`, `getOrDefault()` |
+| **순회 방법** | `keySet()`, `values()`, `entrySet()`, `forEach()` |
+---

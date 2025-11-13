@@ -1,6 +1,7 @@
 package f.collection.practice02;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class Practice03 {
     public static void main(String[] args) {
@@ -34,8 +35,18 @@ public class Practice03 {
         Map<Character, List<Integer>> map = new HashMap<>();
         for(int i=0; i<str.length();i++){
             char c =  str.charAt(i);
-            map.putIfAbsent(c, new ArrayList<>(i)); // key가 없으면 추가
+            map.putIfAbsent(c, new ArrayList<>()); // key가 없으면 추가
             map.get(c).add(i);//key값 있으면 value에 i 추가
+        }
+        return map;
+    }
+
+    // T
+    public static Map<Character, List<Integer>> findCharacterPositions2(String str) {
+        Map<Character, List<Integer>> map = new HashMap<>();
+        for(int i=0; i<str.length();i++){
+            if(!map.containsKey(str.charAt(i))) map.put(str.charAt(i), new ArrayList<>());
+            map.get(str.charAt(i)).add(i);
         }
         return map;
     }
