@@ -38,4 +38,28 @@ public class Practice02 {
 
         return list.indexOf(target);
     }
+
+    // T
+    public static void rotateLeft(ArrayList<Integer> list, int k) {
+        if(list == null || list.isEmpty()){
+            return;
+        }
+
+        int size = list.size();
+        k = k % size;
+
+        //k번 반복
+        for(int i = 0; i < k; i++){
+            int first = list.remove(0);
+            list.add(first);
+        }
+    }
+
+    public static int findAfterRotation2(ArrayList<Integer> list, int k, int target) {
+        if(list == null || list.isEmpty()){
+            return -1;
+        }
+        rotateLeft(list, k);
+        return list.indexOf(target);
+    }
 }

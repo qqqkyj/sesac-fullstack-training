@@ -52,4 +52,22 @@ public class Practice03 {
 
         return max;
     }
+
+    // T
+    public static int maxSubArraySum2(ArrayList<Integer> list, int k) {
+        if(list == null || list.isEmpty() || list.size() < k){
+            return -1;
+        }
+
+        int windowSum = 0;
+        for(int i=0; i<k; i++){windowSum+=list.get(i);}
+
+        int maxSum = windowSum;
+        for(int i=k; i<list.size(); i++){
+            windowSum = windowSum - list.get(i-k) + list.get(i);
+            maxSum = Math.max(windowSum, maxSum);
+        }
+
+        return maxSum;
+    }
 }
