@@ -419,9 +419,68 @@ Stream<String> stream2 = Arrays.stream(arr);
 ## ✔ 중간 연산 (Intermediate Operations)
 
 - `filter()`
+
+    ```java
+    				List<Integer> numbers = Arrays.asList(5, 3, 1, 7, 5, 3, 2, 9, 4, 8);
+            List<Integer> evens = numbers.stream()
+                    .filter(i -> i % 2 == 0) // true/false
+                    .toList();
+            System.out.println(evens); // [2, 4, 8]
+    
+            List<Integer> greaterThan5 = numbers.stream()
+                    .filter(i -> i > 5) // true/false
+                    .toList();
+            System.out.println(greaterThan5); // [7, 9, 8]
+    
+            List<Integer> filtered = numbers.stream()
+                    .filter(i -> i > 5)
+                    .filter(i -> i % 2 == 0)
+                    .toList();
+            System.out.println(filtered); // [8]
+            
+            List<String> words = Arrays.asList("Apple", "Banana", "Cherry");
+            List<String> longWords = words.stream()
+                    .filter(s -> s.length() > 5)
+                    .toList();
+            System.out.println(longWords); // [Banana, Cherry]
+    ```
+
 - `map()`
+
+    ```java
+    				// map
+            List<Integer> squares = numbers.stream()
+                    .map(i -> i * i)
+                    .toList();
+            System.out.println(squares);// [25, 9, 1, 49, 25, 9, 4, 81, 16, 64]
+    
+            List<String> upper = words.stream()
+                    .map(String::toUpperCase)
+                    .toList();
+            System.out.println(upper);//[APPLE, BANANA, CHERRY]
+    ```
+
 - `sorted()`
+
+    ```java
+    				//sorted
+            List<Integer> sorted = numbers.stream()
+                    .sorted() //.sorted(Comparator.reverseOrder()) => 내림차순
+                    .toList();
+            System.out.println(sorted);//[1, 2, 3, 3, 4, 5, 5, 7, 8, 9] => 오름차순
+    ```
+
 - `distinct()`
+
+    ```java
+    				//distinct
+            List<Integer> distinct = numbers.stream()
+                    .distinct()
+                    .sorted()
+                    .toList();
+            System.out.println(distinct);
+    ```
+
 - `limit()`, `skip()`
 
 → **새로운 스트림을 반환하며 지연 실행됨**
@@ -431,9 +490,43 @@ Stream<String> stream2 = Arrays.stream(arr);
 ## ✔ 최종 연산 (Terminal Operations)
 
 - `forEach()`
+
+    ```java
+    //forEach
+            numbers.stream().forEach(System.out::println);
+            numbers.stream().filter(n -> n % 2 == 0).forEach(n -> System.out.printf(n + " "));
+    ```
+
 - `reduce()`
+
+    ```java
+    				//reduce
+            int result = numbers.stream()
+                    .reduce(1, Integer::sum);
+            System.out.println(result);
+    
+            int result2 = numbers.stream()
+                    .reduce(1, (a, b) -> a * b);
+            System.out.println(result2);
+    ```
+
 - `collect()`
+
+    ```java
+    				//collect
+            Map<String, Integer> map = words.stream()
+                    .collect(Collectors.toMap(s -> s, String::length));
+            System.out.println(map);
+    ```
+
 - `count()`
+
+    ```java
+    				//count
+            long count = numbers.stream().count();
+            System.out.println(count);
+    ```
+
 - `anyMatch()`, `allMatch()`
 
 → 스트림을 **소진하고 결과를 반환**
@@ -448,3 +541,4 @@ Stream<String> stream2 = Arrays.stream(arr);
 - **메서드 참조 (::)**: 기존 메서드를 람다 대신 사용
 - **Stream API**: 컬렉션을 함수형 스타일로 처리하는 기능
 ---
+

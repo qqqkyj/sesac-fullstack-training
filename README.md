@@ -86,6 +86,7 @@
 - **2025-11-12** : [ Java 고급 문법 및 자료구조 - 제네릭, 컬렉션(List)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/e/generic/practice#-java-%EC%A0%9C%EB%84%A4%EB%A6%ADgeneric-%EC%A0%95%EB%A6%AC)
 - **2025-11-13** : [ Java 고급 문법 및 자료구조 - 컬렉션(Set, Map)](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/java/java/src/f/collection/practice/README.md#-set-%EC%A7%91%ED%95%A9)
 - **2025-11-13** : [ Java 고급 문법 및 자료구조 - StandardLibrary(String, Wrapper, Math, Random)](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/java/java/src/g/javaclass/practice/README.md#-string-%ED%81%B4%EB%9E%98%EC%8A%A4)
+- **2025-11-13** : [ Java 고급 문법 및 자료구조 - 예외, 람다, 스트림](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/h/exception/practice#-%EC%9E%90%EB%B0%94-%EC%98%88%EC%99%B8exception-%EC%A0%95%EB%A6%AC)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
