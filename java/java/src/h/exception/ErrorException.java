@@ -80,7 +80,7 @@ public class ErrorException {
             System.out.println("모르는 예외: "+e.getMessage());
         }
 
-        
+
     }
 
 //    static void recursiveMethod(){
