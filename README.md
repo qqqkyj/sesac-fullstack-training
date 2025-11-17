@@ -86,7 +86,8 @@
 - **2025-11-12** : [ Java 고급 문법 및 자료구조 - 제네릭, 컬렉션(List)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/e/generic/practice#-java-%EC%A0%9C%EB%84%A4%EB%A6%ADgeneric-%EC%A0%95%EB%A6%AC)
 - **2025-11-13** : [ Java 고급 문법 및 자료구조 - 컬렉션(Set, Map)](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/java/java/src/f/collection/practice/README.md#-set-%EC%A7%91%ED%95%A9)
 - **2025-11-13** : [ Java 고급 문법 및 자료구조 - StandardLibrary(String, Wrapper, Math, Random)](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/java/java/src/g/javaclass/practice/README.md#-string-%ED%81%B4%EB%9E%98%EC%8A%A4)
-- **2025-11-13** : [ Java 고급 문법 및 자료구조 - 예외, 람다, 스트림](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/h/exception/practice#-%EC%9E%90%EB%B0%94-%EC%98%88%EC%99%B8exception-%EC%A0%95%EB%A6%AC)
+- **2025-11-14** : [ Java 고급 문법 및 자료구조 - 예외, 람다, 스트림](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/h/exception/practice#-%EC%9E%90%EB%B0%94-%EC%98%88%EC%99%B8exception-%EC%A0%95%EB%A6%AC)
+- **2025-11-17** : [Spring Boot 기초 및 MVC 아키텍처 - 프로젝트 생성 및 Thymeleaf 기본](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/springboot/firstapp/springboot-01/READEME.md#1-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%83%9D%EC%84%B1-%EB%B0%8F-thymeleaf-%EA%B8%B0%EB%B3%B8)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
