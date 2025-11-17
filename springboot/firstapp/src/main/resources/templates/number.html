@@ -8,7 +8,12 @@
     <title>number</title>
 </head>
 <body>
+    <!-- 로그인 유무와 같이 간단한 처리를 앞단에서 처리-->
     <h1>number</h1>
     <p th:text="${num} + '는 ' + ${result} + '입니다.'"></p>
+    <p th:text="${num} + '는 ' + ${num % 2 == 0 ? '짝수' : '홀수'} + '입니다.'"/>
+    <!-- T  -->
+    <p th:if="${num % 2 == 0}">짝수</p>
+    <p th:if="${num % 2 != 0}">홀수</p>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.example.firstapp.controller;
 
+import jakarta.websocket.server.PathParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -105,5 +106,20 @@ public class HomeController {
         model.addAttribute("birthYear", birthYear);
         model.addAttribute("age", Year.now().getValue() - birthYear + 1);
         return "age";
+    }
+
+    @GetMapping("/ping")
+    public String ping(Model model){
+        return "ping";
+    }
+
+    //QueryParameter = RequestParam
+    @GetMapping("/pong")
+    public String pong(@RequestParam String title,
+                       @RequestParam String content,
+                       Model model){
+        model.addAttribute("title", title);
+        model.addAttribute("content", content);
+        return "pong";
     }
 }
