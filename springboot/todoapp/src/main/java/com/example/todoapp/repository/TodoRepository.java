@@ -14,4 +14,8 @@ public class TodoRepository {
         storage.put(todo.getId(), todo);
         return todo;
     }
+
+    public List<TodoDto> findAll() {
+        return new ArrayList<>(storage.values());
+    }
 }

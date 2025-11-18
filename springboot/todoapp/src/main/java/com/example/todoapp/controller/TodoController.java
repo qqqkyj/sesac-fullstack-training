@@ -10,8 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class TodoController {
 
+    private final TodoRepository todoRepository = new  TodoRepository();
+
     @GetMapping("/todos")
-    public String todos() {
+    public String todos(Model model) {
+        //아래 todoRepository는 새로운 인스턴스라 storage가 다름
+        // 공통의 respository가 필요
+        //TodoRepository todoRepository = new TodoRepository();
+        model.addAttribute("todos", todoRepository.findAll());
         return "todos";
     }
 
@@ -23,10 +29,7 @@ public class TodoController {
     @GetMapping("/todos/create")
     public String create(@RequestParam String title, @RequestParam String content, Model model) {
         TodoDto dto = new TodoDto(null, title, content, false);
-        TodoRepository todoRepository = new TodoRepository();
         model.addAttribute("todo", todoRepository.save(dto));
-        return "create";
+        return "redirect:/todos";
     }
-
-
 }
