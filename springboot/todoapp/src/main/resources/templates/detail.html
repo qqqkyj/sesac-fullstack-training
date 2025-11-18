@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>detail</title>
+</head>
+<body>
+    <h1>detail</h1>
+    <ul>
+<!--        <li th:text="${todo.getTitle()}"></li>-->
+<!--        Tyemeleaf가 자동으로 getTitle메서드를 호출-->
+        <li th:text="${todo.title}"></li>
+        <li th:text="${todo.content}"></li>
+        <li th:text="${todo.completed ? '완료' : '미완료'}"></li>
+    </ul>
+    <a href="/todos">home</a><br>
+    <a th:href="@{/todo/update/{id}(id=${todo.getId()})}">update</a>
+</body>
+</html>
