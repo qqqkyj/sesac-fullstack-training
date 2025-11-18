@@ -10,8 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class TodoController {
+// TodoRepository클래스에 @Repository
+//    private final TodoRepository todoRepository = new  TodoRepository();
 
-    private final TodoRepository todoRepository = new  TodoRepository();
+    private final TodoRepository todoRepository;
+    public TodoController(TodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
+    }
 
     @GetMapping("/todos")
     public String todos(Model model) {
