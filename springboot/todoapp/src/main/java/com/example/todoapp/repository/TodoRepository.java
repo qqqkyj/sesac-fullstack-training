@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-//DAO(Data Access Object)
 @Repository
 public class TodoRepository {
     private final Map<Long, TodoDto> storage = new ConcurrentHashMap<>(); //HashMap보다 멀티스레드 환경에서 안정적으로 작동
@@ -24,5 +23,9 @@ public class TodoRepository {
 
     public TodoDto findById(Long id) {
         return storage.get(id);
+    }
+
+    public void deleteById(Long id) {
+        storage.remove(id);
     }
 }

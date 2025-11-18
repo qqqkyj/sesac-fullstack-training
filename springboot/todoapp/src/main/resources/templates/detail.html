@@ -16,7 +16,9 @@
         <li th:text="${todo.content}"></li>
         <li th:text="${todo.completed ? '완료' : '미완료'}"></li>
     </ul>
+    <hr>
+    <a th:href="@{/todos/{id}/delete(id=${todo.id})}">delete</a><br>
     <a href="/todos">home</a><br>
-    <a th:href="@{/todo/update/{id}(id=${todo.getId()})}">update</a>
+    <a th:href="@{/todos/{id}/update(id=${todo.id})}">update</a>
 </body>
 </html>

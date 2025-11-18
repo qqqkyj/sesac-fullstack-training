@@ -44,4 +44,10 @@ public class TodoController {
         model.addAttribute("todo", todoRepository.findById(id));
         return "detail";
     }
+
+    @GetMapping("/todos/{id}/delete")
+    public String delete(@PathVariable Long id) {
+        todoRepository.deleteById(id);
+        return "redirect:/todos";
+    }
 }
