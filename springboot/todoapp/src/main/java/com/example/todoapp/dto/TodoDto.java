@@ -2,12 +2,12 @@ package com.example.todoapp.dto;
 
 // Data Transter Object
 public class TodoDto {
-    private long id;
+    private Long id;
     private String title;
     private String content;
     private boolean completed;
 
-    public TodoDto(long id, String title, String content, boolean completed) {
+    public TodoDto(Long id, String title, String content, boolean completed) {
         this.id = id;
         this.title = title;
         this.content = content;
