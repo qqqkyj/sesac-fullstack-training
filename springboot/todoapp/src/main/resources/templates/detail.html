@@ -11,7 +11,7 @@
     <h1>detail</h1>
     <ul>
 <!--        <li th:text="${todo.getTitle()}"></li>-->
-<!--        Tyemeleaf가 자동으로 getTitle메서드를 호출-->
+<!--        thymeleaf 자동으로 getTitle메서드를 호출-->
         <li th:text="${todo.title}"></li>
         <li th:text="${todo.content}"></li>
         <li th:text="${todo.completed ? '완료' : '미완료'}"></li>
@@ -19,6 +19,6 @@
     <hr>
     <a th:href="@{/todos/{id}/delete(id=${todo.id})}">delete</a><br>
     <a href="/todos">home</a><br>
-    <a th:href="@{/todos/{id}/update(id=${todo.id})}">update</a>
+    <a th:href="@{/todos/{id}/edit(id=${todo.id})}">edit</a>
 </body>
 </html>
