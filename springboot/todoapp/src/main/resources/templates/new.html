@@ -13,9 +13,11 @@
         <h1>할 일 생성</h1>
         <!-- /를 앞에 붙여야 최상위 도메인부터 시작한다는 뜻 -->
         <form action="/todos/create">
-            <input type="text" name="title">
-            <input type="text" name="content">
-            <input type="submit">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="title" id="title" class="form-control">
+            <label for="content" class="form-label">Content</label>
+            <input type="text" name="content" id="content" class="form-control">
+            <input type="submit" class="btn btn-primary">
         </form>
     </div>
 </body>
