@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 @Repository
 public class TodoRepository {
@@ -30,5 +31,11 @@ public class TodoRepository {
 
     public void deleteById(Long id) {
         storage.remove(id);
+    }
+
+    public List<TodoDto> findByTitleContaining(String keyword){
+        return storage.values().stream()
+                .filter((todo) -> todo.getTitle().toLowerCase().contains(keyword.toLowerCase()))
+                .toList();
     }
 }

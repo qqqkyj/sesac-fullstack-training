@@ -86,4 +86,10 @@ public class TodoController {
         }
         return "redirect:/todos/" + id;
     }
+
+    @GetMapping("/todos/search")
+    public String search(@RequestParam String keyword, Model model){
+        model.addAttribute("todos", todoRepository.findByTitleContaining(keyword));
+        return "/todos";
+    }
 }
