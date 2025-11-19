@@ -92,4 +92,16 @@ public class TodoController {
         model.addAttribute("todos", todoRepository.findByTitleContaining(keyword));
         return "/todos";
     }
+
+    @GetMapping("/todos/active")
+    public String active(Model model){
+        model.addAttribute("todos", todoRepository.findByCompleted(false));
+        return "/todos";
+    }
+
+    @GetMapping("/todos/completed")
+    public String completed(Model model){
+        model.addAttribute("todos", todoRepository.findByCompleted(true));
+        return "/todos";
+    }
 }

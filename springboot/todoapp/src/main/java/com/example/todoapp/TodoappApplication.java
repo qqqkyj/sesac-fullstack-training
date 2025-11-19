@@ -22,7 +22,7 @@ public class TodoappApplication {
     public CommandLineRunner init(TodoRepository todoRepository) {
         return args -> {
             todoRepository.save(new TodoDto(null, "Study", "Java", false));
-            todoRepository.save(new TodoDto(null, "Cook", "kimbob", false));
+            todoRepository.save(new TodoDto(null, "Cook", "kimbob", true));
             todoRepository.save(new TodoDto(null, "workout", "run", false));
         };
     }

@@ -38,4 +38,10 @@ public class TodoRepository {
                 .filter((todo) -> todo.getTitle().toLowerCase().contains(keyword.toLowerCase()))
                 .toList();
     }
+
+    public List<TodoDto> findByCompleted(boolean isCompleted){
+        return storage.values().stream()
+                .filter((todo) -> todo.isCompleted() == isCompleted)
+                .toList();
+    }
 }
