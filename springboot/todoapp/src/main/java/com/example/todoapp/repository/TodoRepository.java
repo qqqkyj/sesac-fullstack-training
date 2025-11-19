@@ -23,8 +23,9 @@ public class TodoRepository {
         return new ArrayList<>(storage.values());
     }
 
-    public TodoDto findById(Long id) {
-        return storage.get(id);
+    public Optional<TodoDto> findById(Long id) {
+//        return storage.get(id);
+        return Optional.ofNullable(storage.get(id));
     }
 
     public void deleteById(Long id) {
