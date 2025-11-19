@@ -1,26 +1,32 @@
 <!doctype html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}"
+>
 <head>
     <meta charset="UTF-8">
     <title>Todos</title>
 </head>
 <body>
-    <h1>할 일 목록</h1>
-    <a href="/todos">home</a><br>
-    <a href="/todos/active">active</a><br>
-    <a href="/todos/completed">completed</a><br>
-    <a href="/todos/new">new</a>
+    <div layout:fragment="content">
+        <h1>할 일 목록</h1>
+        <a href="/todos">home</a><br>
+        <a href="/todos/active">active</a><br>
+        <a href="/todos/completed">completed</a><br>
+        <a href="/todos/new">new</a>
 
-    <form action="/todos/search">
-        <input type="text" name="keyword">
-        <input type="submit" value="검색">
-    </form>
-    <hr>
-<!--    <h3 th:each="todo: ${todos}" th:text="${todo.getTitle()}"></h3>-->
-    <div th:each="todo : ${todos}">
-        <a th:href="@{/todos/{id}(id=${todo.getId()})}">
-            <h3 th:text="${todo.getTitle()}"></h3>
-        </a>
+        <form action="/todos/search">
+            <input type="text" name="keyword">
+            <input type="submit" value="검색">
+        </form>
+        <hr>
+    <!--    <h3 th:each="todo: ${todos}" th:text="${todo.getTitle()}"></h3>-->
+        <div th:each="todo : ${todos}">
+            <a th:href="@{/todos/{id}(id=${todo.getId()})}">
+                <h3 th:text="${todo.getTitle()}"></h3>
+            </a>
+        </div>
     </div>
 </body>
 </html>
