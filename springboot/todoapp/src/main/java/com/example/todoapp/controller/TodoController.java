@@ -5,6 +5,7 @@ import com.example.todoapp.repository.TodoRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/todos")
@@ -19,31 +20,28 @@ public class TodoController {
 
     @GetMapping
     public String todos(Model model) {
-        //아래 todoRepository는 새로운 인스턴스라 storage가 다름
-        // 공통의 respository가 필요
-        //TodoRepository todoRepository = new TodoRepository();
         model.addAttribute("todos", todoRepository.findAll());
         return "todos";
     }
 
+    //화면 표시
     @GetMapping("/new")
     public String newTodo() {
         return "new";
     }
 
+    //실제 생성
     @PostMapping
-    public String create(@RequestParam String title, @RequestParam String content, Model model) {
+    public String create(@RequestParam String title,
+                         @RequestParam String content,
+                         RedirectAttributes redirectAttributes,
+                         Model model) {
         TodoDto dto = new TodoDto(null, title, content, false);
         model.addAttribute("todo", todoRepository.save(dto));
+        //todos.html에서 "message" 사용 가능
+        redirectAttributes.addFlashAttribute("message", "create todo!");//잠깐만 보여줌
         return "redirect:/todos";
     }
-
-//    @GetMapping("/create")
-//    public String create(@RequestParam String title, @RequestParam String content, Model model) {
-//        TodoDto dto = new TodoDto(null, title, content, false);
-//        model.addAttribute("todo", todoRepository.save(dto));
-//        return "redirect:/todos";
-//    }
 
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model model) {
@@ -58,23 +56,15 @@ public class TodoController {
     }
 
     @GetMapping("/{id}/delete")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id,
+                         RedirectAttributes redirectAttributes) {
         todoRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute("message", "deleted!");
+        redirectAttributes.addFlashAttribute("status", "delete");
         return "redirect:/todos";
     }
 
-//    @GetMapping("/{id}/edit")
-//    public String edit(@PathVariable Long id, Model model) {
-//        try{
-//            model.addAttribute("todo", todoRepository.findById(id)
-//                    .orElseThrow(() -> new IllegalArgumentException("todo not found")));
-//        }
-//        catch (IllegalArgumentException e){
-//            return "redirect:/todos";
-//        }
-//        return "edit";
-//    }
-
+    //화면 표시
     @GetMapping("/{id}/update")
     public String edit(@PathVariable Long id, Model model) {
         try{
@@ -87,12 +77,13 @@ public class TodoController {
         return "update";
     }
 
-
+    //실제 수정
     @PostMapping("/{id}/update")
     public String update(@PathVariable Long id,
                          @RequestParam String title,
                          @RequestParam String content,
-                         @RequestParam(defaultValue = "false") Boolean completed) {
+                         @RequestParam(defaultValue = "false") Boolean completed,
+                         RedirectAttributes redirectAttributes) {
 
         try{
             TodoDto dto = todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("todo not found"));
@@ -100,7 +91,10 @@ public class TodoController {
             dto.setContent(content);
             dto.setCompleted(completed);
             todoRepository.save(dto);
+            redirectAttributes.addFlashAttribute("message","update todo!");
+            redirectAttributes.addFlashAttribute("status","update");
         }catch (IllegalArgumentException e){
+            redirectAttributes.addFlashAttribute("message","This todo is not exist!");
             return "redirect:/todos";
         }
         return "redirect:/todos/" + id;
