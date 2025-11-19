@@ -104,4 +104,16 @@ public class TodoController {
         model.addAttribute("todos", todoRepository.findByCompleted(true));
         return "/todos";
     }
+
+    @GetMapping("/todos/{id}/toggle")
+    public String toggle(@PathVariable Long id, Model model){
+        try{
+            TodoDto todo = todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("todo not found"));
+            todo.setCompleted(!todo.isCompleted());
+            todoRepository.save(todo);
+            return "redirect:/todos/" + id;
+        }catch (IllegalArgumentException e){
+            return "redirect:/todos";
+        }
+    }
 }
