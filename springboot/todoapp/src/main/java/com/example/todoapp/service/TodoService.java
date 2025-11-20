@@ -22,8 +22,14 @@ public class TodoService {
         return todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not found : id = " + id));
     }
 
-    public TodoDto createTodo(TodoDto todoDto) {
-        return todoRepository.save(todoDto);
+    public TodoDto createTodo(TodoDto todo) {
+        if(todo.getTitle() == null || todo.getTitle().equals("")) {
+            throw new IllegalArgumentException("title is empty");
+        }
+        else if(todo.getTitle().length() > 50) {
+            throw new IllegalArgumentException("title is too long");
+        }
+        return todoRepository.save(todo);
     }
 
     public void deleteTodoById(Long id) {
@@ -53,4 +59,9 @@ public class TodoService {
         todo.setCompleted(!todo.isCompleted());
         return todoRepository.save(todo);
     }
+
+    public void deleteByCompleted() {
+        todoRepository.deleteTodosByCompleted();
+    }
+
 }

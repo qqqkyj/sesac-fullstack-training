@@ -44,4 +44,10 @@ public class TodoRepository {
                 .filter((todo) -> todo.isCompleted() == isCompleted)
                 .toList();
     }
+
+    public void deleteTodosByCompleted(){
+        for(TodoDto todoDto : storage.values()){
+            if(todoDto.isCompleted()) storage.remove(todoDto.getId());
+        }
+    }
 }

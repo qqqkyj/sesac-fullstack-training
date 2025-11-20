@@ -1,5 +1,6 @@
 package com.example.todoapp.controller;
 
+import com.example.todoapp.costant.TodoStatus;
 import com.example.todoapp.dto.TodoDto;
 import com.example.todoapp.service.TodoService;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,9 @@ public class TodoController {
     @GetMapping
     public String todos(Model model) {
         model.addAttribute("todos", todoService.getAllTodos());
+        model.addAttribute("todosCnt", todoService.getAllTodos().size());
+        model.addAttribute("completedTodosCnt", todoService.getTodosByCompleted(true).size());
+        model.addAttribute("status", TodoStatus.NORMAL.getCode());
         return "todos";
     }
 
@@ -106,6 +110,7 @@ public class TodoController {
     @GetMapping("/completed")
     public String completed(Model model){
         model.addAttribute("todos", todoService.getTodosByCompleted(true));
+        model.addAttribute("status",TodoStatus.COMPLETED.getCode());
         return "/todos";
     }
 
@@ -118,4 +123,23 @@ public class TodoController {
             return "redirect:/todos";
         }
     }
+
+    @GetMapping("/completed/delete")
+    public String deleteCompletedTodos(RedirectAttributes redirectAttributes, Model model) {
+        todoService.deleteByCompleted();
+        model.addAttribute("todos", todoService.getTodosByCompleted(true));
+        redirectAttributes.addFlashAttribute("message", "완료된 할 일 전체 삭제!");
+        return "redirect:/todos";
+    }
+
+
+    // 1. 제목 검증 추가
+    // - 제목이 비어있이면 예외
+    // - 50자 초과시 예외
+
+    // 2. 통계 기능 추가
+    // - 전체, 완료된, 미완료 할 일 개수 => /todos에 표시
+
+    // 3. 완료된 할 일 일괄 삭제
+
 }
