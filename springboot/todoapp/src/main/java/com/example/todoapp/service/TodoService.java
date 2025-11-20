@@ -23,13 +23,17 @@ public class TodoService {
     }
 
     public TodoDto createTodo(TodoDto todo) {
-        if(todo.getTitle() == null || todo.getTitle().equals("")) {
-            throw new IllegalArgumentException("title is empty");
-        }
-        else if(todo.getTitle().length() > 50) {
-            throw new IllegalArgumentException("title is too long");
-        }
+        validateTitle(todo.getTitle());
         return todoRepository.save(todo);
+    }
+
+    private void validateTitle(String title){
+        if(title == null || title.trim().isEmpty()) {
+            throw new IllegalArgumentException("제목은 필수입니다.");
+        }
+        if(title.trim().length() > 50){
+            throw new IllegalArgumentException("제목은 50자를 초과할 수 없습니다.");
+        }
     }
 
     public void deleteTodoById(Long id) {
@@ -40,6 +44,7 @@ public class TodoService {
 
     public TodoDto updateTodoById(Long id, TodoDto newTodo) {
         TodoDto oldTodo = getTodoById(id);
+        validateTitle(newTodo.getTitle());
         oldTodo.setTitle(newTodo.getTitle());
         oldTodo.setContent(newTodo.getContent());
         oldTodo.setCompleted(newTodo.isCompleted());

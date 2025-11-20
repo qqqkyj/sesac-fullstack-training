@@ -42,9 +42,16 @@ public class TodoController {
     @PostMapping
     public String create(@ModelAttribute TodoDto todo,
                          RedirectAttributes redirectAttributes) {
-        todoService.createTodo(todo);
-        redirectAttributes.addFlashAttribute("message", "create todo!");//잠깐만 보여줌
-        return "redirect:/todos";
+        try {
+                todoService.createTodo(todo);
+                redirectAttributes.addFlashAttribute("message", "create todo!");//잠깐만 보여줌
+                return "redirect:/todos";
+            }
+        catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            redirectAttributes.addFlashAttribute("status", TodoStatus.DANGER.getCode());
+            return "redirect:/todos/new";
+        }
     }
 
     @GetMapping("/{id}")
@@ -63,7 +70,7 @@ public class TodoController {
                          RedirectAttributes redirectAttributes) {
         todoService.deleteTodoById(id);
         redirectAttributes.addFlashAttribute("message", "deleted!");
-        redirectAttributes.addFlashAttribute("status", "delete");
+        redirectAttributes.addFlashAttribute("status", TodoStatus.DANGER.getCode());
         return "redirect:/todos";
     }
 
@@ -87,9 +94,10 @@ public class TodoController {
         try{
             todoService.updateTodoById(id, todo);
             redirectAttributes.addFlashAttribute("message","update todo!");
-            redirectAttributes.addFlashAttribute("status","update");
+            redirectAttributes.addFlashAttribute("status",TodoStatus.WARNING.getCode());
         }catch (IllegalArgumentException e){
-            redirectAttributes.addFlashAttribute("message","This todo is not exist!");
+            redirectAttributes.addFlashAttribute("message",e.getMessage());
+            redirectAttributes.addFlashAttribute("status",TodoStatus.DANGER.getCode());
             return "redirect:/todos";
         }
         return "redirect:/todos/" + id;
@@ -110,7 +118,6 @@ public class TodoController {
     @GetMapping("/completed")
     public String completed(Model model){
         model.addAttribute("todos", todoService.getTodosByCompleted(true));
-        model.addAttribute("status",TodoStatus.COMPLETED.getCode());
         return "/todos";
     }
 
@@ -128,6 +135,7 @@ public class TodoController {
     public String deleteCompletedTodos(RedirectAttributes redirectAttributes, Model model) {
         todoService.deleteByCompleted();
         model.addAttribute("todos", todoService.getTodosByCompleted(true));
+        model.addAttribute("status",TodoStatus.DANGER.getCode());
         redirectAttributes.addFlashAttribute("message", "완료된 할 일 전체 삭제!");
         return "redirect:/todos";
     }

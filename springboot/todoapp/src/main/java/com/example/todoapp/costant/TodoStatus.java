@@ -2,10 +2,8 @@ package com.example.todoapp.costant;
 
 public enum TodoStatus {
     NORMAL(0),
-    DELETE(1),
-    UPDATE(2),
-    COMPLETED(3),
-    INCOMPLETED(4);
+    DANGER(1),
+    WARNING(2);
 
     private final int code;
 
