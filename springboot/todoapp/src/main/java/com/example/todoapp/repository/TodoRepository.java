@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 @Repository
 public class TodoRepository {
@@ -45,9 +44,7 @@ public class TodoRepository {
                 .toList();
     }
 
-    public void deleteTodosByCompleted(){
-        for(TodoDto todoDto : storage.values()){
-            if(todoDto.isCompleted()) storage.remove(todoDto.getId());
-        }
+    public void deleteCompleted(){
+        storage.entrySet().removeIf(item -> item.getValue().isCompleted());
     }
 }

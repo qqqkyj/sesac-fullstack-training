@@ -65,8 +65,20 @@ public class TodoService {
         return todoRepository.save(todo);
     }
 
-    public void deleteByCompleted() {
-        todoRepository.deleteTodosByCompleted();
+    public void deleteCompletedTodos() {
+        todoRepository.deleteCompleted();
+    }
+
+    public long getTotalCount(){
+        return todoRepository.findAll().size();
+    }
+
+    public long getCompletedCount(){
+        return todoRepository.findByCompleted(true).size();
+    }
+
+    public long getActiveCount(){
+        return todoRepository.findByCompleted(false).size();
     }
 
 }

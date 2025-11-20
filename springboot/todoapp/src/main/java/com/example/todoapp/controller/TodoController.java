@@ -25,8 +25,9 @@ public class TodoController {
     @GetMapping
     public String todos(Model model) {
         model.addAttribute("todos", todoService.getAllTodos());
-        model.addAttribute("todosCnt", todoService.getAllTodos().size());
-        model.addAttribute("completedTodosCnt", todoService.getTodosByCompleted(true).size());
+        model.addAttribute("todosCount", todoService.getTotalCount());
+        model.addAttribute("completedCount", todoService.getCompletedCount());
+        model.addAttribute("activeCount", todoService.getActiveCount());
         model.addAttribute("status", TodoStatus.NORMAL.getCode());
         return "todos";
     }
@@ -96,9 +97,16 @@ public class TodoController {
             redirectAttributes.addFlashAttribute("message","update todo!");
             redirectAttributes.addFlashAttribute("status",TodoStatus.WARNING.getCode());
         }catch (IllegalArgumentException e){
-            redirectAttributes.addFlashAttribute("message",e.getMessage());
-            redirectAttributes.addFlashAttribute("status",TodoStatus.DANGER.getCode());
-            return "redirect:/todos";
+            if(e.getMessage().contains("제목")){
+                redirectAttributes.addFlashAttribute("message",e.getMessage());
+                redirectAttributes.addFlashAttribute("status",TodoStatus.DANGER.getCode());
+                return "redirect:/todos/"+id+"/update";
+            }
+            else{
+                redirectAttributes.addFlashAttribute("message",e.getMessage());
+                redirectAttributes.addFlashAttribute("status",TodoStatus.DANGER.getCode());
+                return "redirect:/todos";
+            }
         }
         return "redirect:/todos/" + id;
     }
@@ -131,11 +139,10 @@ public class TodoController {
         }
     }
 
-    @GetMapping("/completed/delete")
-    public String deleteCompletedTodos(RedirectAttributes redirectAttributes, Model model) {
-        todoService.deleteByCompleted();
-        model.addAttribute("todos", todoService.getTodosByCompleted(true));
-        model.addAttribute("status",TodoStatus.DANGER.getCode());
+    @GetMapping("/delete-completed")
+    public String deleteCompletedTodos(RedirectAttributes redirectAttributes) {
+        todoService.deleteCompletedTodos();
+        redirectAttributes.addFlashAttribute("status", TodoStatus.DANGER.getCode());
         redirectAttributes.addFlashAttribute("message", "완료된 할 일 전체 삭제!");
         return "redirect:/todos";
     }
