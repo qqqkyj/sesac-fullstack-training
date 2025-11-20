@@ -28,7 +28,8 @@ public class TodoController {
         model.addAttribute("todosCount", todoService.getTotalCount());
         model.addAttribute("completedCount", todoService.getCompletedCount());
         model.addAttribute("activeCount", todoService.getActiveCount());
-        model.addAttribute("status", TodoStatus.NORMAL.getCode());
+        // status로 할 경우 삭제 시 flashmessage가 아래 데이터로 먹혀서 danger로 안보임
+        model.addAttribute("check", TodoStatus.NORMAL.getCode());
         return "todos";
     }
 

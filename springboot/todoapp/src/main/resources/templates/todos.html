@@ -10,13 +10,10 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <div th:if="${status == 0}">
+        <div th:if="${check == 0}">
             전체 : <span th:text="${todosCount}" class="badge bg-primary"></span>
             완료: <span th:text="${completedCount}" class="badge bg-success"></span>
             미완료: <span th:text="${activeCount}" class="badge bg-warning"></span>
-        </div>
-        <div th:if="${status == 3}">
-            <a th:href="@{/todos/completed/delete}" class="btn btn-sm btn-danger">전체삭제</a>
         </div>
         <table class="table table-striped">
             <thead>
