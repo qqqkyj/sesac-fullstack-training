@@ -88,8 +88,9 @@
 - **2025-11-13** : [ Java 고급 문법 및 자료구조 - StandardLibrary(String, Wrapper, Math, Random)](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/java/java/src/g/javaclass/practice/README.md#-string-%ED%81%B4%EB%9E%98%EC%8A%A4)
 - **2025-11-14** : [ Java 고급 문법 및 자료구조 - 예외, 람다, 스트림](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/java/java/src/h/exception/practice#-%EC%9E%90%EB%B0%94-%EC%98%88%EC%99%B8exception-%EC%A0%95%EB%A6%AC)
 - **2025-11-17** : [Spring Boot 기초 및 MVC 아키텍처 - 프로젝트 생성 및 Thymeleaf 기본](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/springboot/firstapp/springboot-01/READEME.md#1-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%83%9D%EC%84%B1-%EB%B0%8F-thymeleaf-%EA%B8%B0%EB%B3%B8)
-- **2025-11-18** : [Spring Boot 기초 및 MVC 아키텍처 - CRUD](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/todoapp/readme#2-crud)
-- **2025-11-19** : [Spring Boot 기초 및 MVC 아키텍처 - CRUD2](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/springboot/todoapp/readme2/README.md#3-crud2)
+- **2025-11-18** : [Spring Boot 기초 및 MVC 아키텍처 - CRUD(프로젝트 생성, dto, Controller, Repository, Thymeleaf적용)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/todoapp/readme#2-crud)
+- **2025-11-19** : [Spring Boot 기초 및 MVC 아키텍처 - CRUD2(Optional적용, Thymeleaf Layout Dialect, Bootstrap, RequestMapping, Get -> Post)](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/springboot/todoapp/readme2/README.md#3-crud2)
+- **2025-11-20** : [Spring Boot 기초 및 MVC 아키텍처 - CRUD3(Service분리, JPA연동, 유효성처리, ModelAttribute)](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/springboot/todoapp/readme3/README.md#3-crud3)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
