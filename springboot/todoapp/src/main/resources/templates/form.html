@@ -11,7 +11,7 @@
 <body>
 <div layout:fragment="content">
     <h1 th:text="${todo.id == null} ? 'new' : 'update'"></h1>
-    <form th:action="@{/todos/{id}/update(id=${todo.id})}" method="post" th:object="${todo}">
+    <form th:action="${todo.id == null} ? '/todos' : @{/todos/{id}/update(id=${todo.id})}" method="post" th:object="${todo}">
         <label for="title" class="form-label">Title</label>
         <input id="title" class="form-control" th:field="*{title}">
         <label for="content" class="form-label">Content</label>
