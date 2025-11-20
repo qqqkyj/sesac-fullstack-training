@@ -24,21 +24,18 @@ public class TodoController {
         return "todos";
     }
 
-    //화면 표시
+    //생성 화면 렌더링
     @GetMapping("/new")
-    public String newTodo() {
-        return "new";
+    public String newTodo(Model model) {
+        model.addAttribute("todo", new TodoDto());
+        return "form";
     }
 
     //실제 생성
     @PostMapping
-    public String create(@RequestParam String title,
-                         @RequestParam String content,
-                         RedirectAttributes redirectAttributes,
-                         Model model) {
-        TodoDto dto = new TodoDto(null, title, content, false);
-        model.addAttribute("todo", todoRepository.save(dto));
-        //todos.html에서 "message" 사용 가능
+    public String create(@ModelAttribute TodoDto todo,
+                         RedirectAttributes redirectAttributes) {
+        todoRepository.save(todo);
         redirectAttributes.addFlashAttribute("message", "create todo!");//잠깐만 보여줌
         return "redirect:/todos";
     }
@@ -64,7 +61,7 @@ public class TodoController {
         return "redirect:/todos";
     }
 
-    //화면 표시
+    //수정 화면 렌더링
     @GetMapping("/{id}/update")
     public String edit(@PathVariable Long id, Model model) {
         try{
@@ -74,23 +71,17 @@ public class TodoController {
         catch (IllegalArgumentException e){
             return "redirect:/todos";
         }
-        return "update";
+        return "form";
     }
 
     //실제 수정
     @PostMapping("/{id}/update")
     public String update(@PathVariable Long id,
-                         @RequestParam String title,
-                         @RequestParam String content,
-                         @RequestParam(defaultValue = "false") Boolean completed,
+                         @ModelAttribute TodoDto todo,
                          RedirectAttributes redirectAttributes) {
-
         try{
-            TodoDto dto = todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("todo not found"));
-            dto.setTitle(title);
-            dto.setContent(content);
-            dto.setCompleted(completed);
-            todoRepository.save(dto);
+            todo.setId(id);
+            todoRepository.save(todo);
             redirectAttributes.addFlashAttribute("message","update todo!");
             redirectAttributes.addFlashAttribute("status","update");
         }catch (IllegalArgumentException e){
@@ -119,7 +110,7 @@ public class TodoController {
     }
 
     @GetMapping("/{id}/toggle")
-    public String toggle(@PathVariable Long id, Model model){
+    public String toggle(@PathVariable Long id){
         try{
             TodoDto todo = todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("todo not found"));
             todo.setCompleted(!todo.isCompleted());

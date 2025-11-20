@@ -11,13 +11,12 @@
 <body>
     <div layout:fragment="content">
         <h1>edit</h1>
-<!--        <form th:action="@{/todos/{id}/update(id=${todo.id})}">-->
-        <form th:action="@{/todos/{id}/update(id=${todo.id})}" method="post">
+        <form th:action="@{/todos/{id}/update(id=${todo.id})}" method="post" th:object="${todo}">
             <label for="title" class="form-label">Title</label>
-            <input type="text" name="title" id="title" th:value="${todo.title}" class="form-control">
+            <input id="title" class="form-control" th:field="*{title}">
             <label for="content" class="form-label">Content</label>
-            <input type="text" name="content" id="content" th:value="${todo.content}" class="form-control">
-            <input type="checkbox" name="completed" value="true" th:checked="${todo.completed}" class="form-check-input mt-0">
+            <input id="content" class="form-control" th:field="*{content}">
+            <input type="checkbox" class="form-check-input mt-0" th:field="*{completed}">
             <input type="submit" class="btn btn-primary">
         </form>
     </div>
