@@ -2,6 +2,7 @@ package com.example.todoapp.controller;
 
 import com.example.todoapp.costant.TodoStatus;
 import com.example.todoapp.dto.TodoDto;
+import com.example.todoapp.exception.GlobalExceptionHandler;
 import com.example.todoapp.service.TodoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,26 +45,24 @@ public class TodoController {
     @PostMapping
     public String create(@ModelAttribute TodoDto todo,
                          RedirectAttributes redirectAttributes) {
-        try {
-                todoService.createTodo(todo);
-                redirectAttributes.addFlashAttribute("message", "create todo!");//잠깐만 보여줌
-                return "redirect:/todos";
-            }
-        catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            redirectAttributes.addFlashAttribute("status", TodoStatus.DANGER.getCode());
-            return "redirect:/todos/new";
-        }
+        todoService.createTodo(todo);
+        redirectAttributes.addFlashAttribute("message", "create todo!");//잠깐만 보여줌
+        return "redirect:/todos";
+//        try {
+//                todoService.createTodo(todo);
+//                redirectAttributes.addFlashAttribute("message", "create todo!");//잠깐만 보여줌
+//                return "redirect:/todos";
+//            }
+//        catch (IllegalArgumentException e) {
+//            redirectAttributes.addFlashAttribute("message", e.getMessage());
+//            redirectAttributes.addFlashAttribute("status", TodoStatus.DANGER.getCode());
+//            return "redirect:/todos/new";
+//        }
     }
 
     @GetMapping("/{id}")
-    public String detail(@PathVariable Long id, Model model) {
-        try{
-            model.addAttribute("todo", todoService.getTodoById(id));
-        }
-        catch (IllegalArgumentException e){
-            return "redirect:/todos";
-        }
+    public String detail(@PathVariable Long id, Model model){
+        model.addAttribute("todo", todoService.getTodoById(id));
         return "detail";
     }
 
@@ -79,12 +78,7 @@ public class TodoController {
     //수정 화면 렌더링
     @GetMapping("/{id}/update")
     public String edit(@PathVariable Long id, Model model) {
-        try{
-            model.addAttribute("todo", todoService.getTodoById(id));
-        }
-        catch (IllegalArgumentException e){
-            return "redirect:/todos";
-        }
+        model.addAttribute("todo", todoService.getTodoById(id));
         return "form";
     }
 

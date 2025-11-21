@@ -2,6 +2,7 @@ package com.example.todoapp.service;
 
 import com.example.todoapp.dto.TodoDto;
 import com.example.todoapp.entity.TodoEntity;
+import com.example.todoapp.exception.ResourceNotFoundException;
 import com.example.todoapp.repository.TodoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ public class TodoService{
     }
 
     public TodoEntity findEntityById(Long id){
-        return todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not found : id = " + id));
+        return todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("not found : id = " + id));
     }
 
     public TodoDto getTodoById(Long id) {
@@ -86,17 +87,14 @@ public class TodoService{
     }
 
     public long getTotalCount(){
-//        return todoRepository.findAll().size();
         return todoRepository.count();
     }
 
     public long getCompletedCount(){
-//        return todoRepository.findByCompleted(true).size();
         return todoRepository.countByCompleted(true);
     }
 
     public long getActiveCount(){
-//        return todoRepository.findByCompleted(false).size();
         return todoRepository.countByCompleted(false);
     }
 
