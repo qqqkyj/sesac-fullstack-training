@@ -48,16 +48,6 @@ public class TodoController {
         todoService.createTodo(todo);
         redirectAttributes.addFlashAttribute("message", "create todo!");//잠깐만 보여줌
         return "redirect:/todos";
-//        try {
-//                todoService.createTodo(todo);
-//                redirectAttributes.addFlashAttribute("message", "create todo!");//잠깐만 보여줌
-//                return "redirect:/todos";
-//            }
-//        catch (IllegalArgumentException e) {
-//            redirectAttributes.addFlashAttribute("message", e.getMessage());
-//            redirectAttributes.addFlashAttribute("status", TodoStatus.DANGER.getCode());
-//            return "redirect:/todos/new";
-//        }
     }
 
     @GetMapping("/{id}")
@@ -87,22 +77,9 @@ public class TodoController {
     public String update(@PathVariable Long id,
                          @ModelAttribute TodoDto todo,
                          RedirectAttributes redirectAttributes) {
-        try{
-            todoService.updateTodoById(id, todo);
-            redirectAttributes.addFlashAttribute("message","update todo!");
-            redirectAttributes.addFlashAttribute("status",TodoStatus.WARNING.getCode());
-        }catch (IllegalArgumentException e){
-            if(e.getMessage().contains("제목")){
-                redirectAttributes.addFlashAttribute("message",e.getMessage());
-                redirectAttributes.addFlashAttribute("status",TodoStatus.DANGER.getCode());
-                return "redirect:/todos/"+id+"/update";
-            }
-            else{
-                redirectAttributes.addFlashAttribute("message",e.getMessage());
-                redirectAttributes.addFlashAttribute("status",TodoStatus.DANGER.getCode());
-                return "redirect:/todos";
-            }
-        }
+        todoService.updateTodoById(id, todo);
+        redirectAttributes.addFlashAttribute("message","update todo!");
+        redirectAttributes.addFlashAttribute("status", TodoStatus.WARNING.getCode());
         return "redirect:/todos/" + id;
     }
 
@@ -126,19 +103,15 @@ public class TodoController {
 
     @GetMapping("/{id}/toggle")
     public String toggle(@PathVariable Long id){
-        try{
-            todoService.toggleCompleted(id);
-            return "redirect:/todos/" + id;
-        }catch (IllegalArgumentException e){
-            return "redirect:/todos";
-        }
+        todoService.toggleCompleted(id);
+        return "redirect:/todos/" + id;
     }
 
     @GetMapping("/delete-completed")
     public String deleteCompletedTodos(RedirectAttributes redirectAttributes) {
         todoService.deleteCompletedTodos();
-        redirectAttributes.addFlashAttribute("status", TodoStatus.DANGER.getCode());
         redirectAttributes.addFlashAttribute("message", "완료된 할 일 전체 삭제!");
+        redirectAttributes.addFlashAttribute("status", TodoStatus.DANGER.getCode());
         return "redirect:/todos";
     }
 
