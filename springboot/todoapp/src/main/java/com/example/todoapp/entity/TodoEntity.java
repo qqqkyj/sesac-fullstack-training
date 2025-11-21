@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 // 디비 스키마 구성과 유사
 // 실제 디비와 연결되는 클래스
 @Entity
+@Table(name="todos")
 public class TodoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//autoIncrement 유사
@@ -17,7 +18,7 @@ public class TodoEntity {
     }
 
     // id는 자동생성이라 빼도 됨
-    public TodoEntity(boolean completed, String content, String title) {
+    public TodoEntity(String title, String content, boolean completed) {
         this.completed = completed;
         this.content = content;
         this.title = title;

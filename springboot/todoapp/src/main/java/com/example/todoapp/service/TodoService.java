@@ -1,13 +1,16 @@
 package com.example.todoapp.service;
 
 import com.example.todoapp.dto.TodoDto;
+import com.example.todoapp.entity.TodoEntity;
 import com.example.todoapp.repository.TodoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
-public class TodoService {
+public class TodoService{
     private final TodoRepository todoRepository;
 
     public TodoService(TodoRepository todoRepository) {
@@ -15,16 +18,26 @@ public class TodoService {
     }
 
     public List<TodoDto> getAllTodos() {
-        return todoRepository.findAll();
+        return todoRepository.findAll().stream()
+                .map(this::toDto)
+                .toList();
     }
 
-    public TodoDto getTodoById(Long id) {
+    public TodoEntity findEntityById(Long id){
         return todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not found : id = " + id));
     }
 
-    public TodoDto createTodo(TodoDto todo) {
-        validateTitle(todo.getTitle());
-        return todoRepository.save(todo);
+    public TodoDto getTodoById(Long id) {
+        return toDto(findEntityById(id));
+    }
+
+    public TodoDto createTodo(TodoDto dto) {
+        validateTitle(dto.getTitle());
+        TodoEntity entity = new TodoEntity(
+                dto.getTitle(), dto.getContent(),dto.isCompleted()
+        );
+        TodoEntity saved = todoRepository.save(entity);
+        return toDto(saved);
     }
 
     private void validateTitle(String title){
@@ -37,48 +50,63 @@ public class TodoService {
     }
 
     public void deleteTodoById(Long id) {
-        if(getTodoById(id) != null) {
-            todoRepository.deleteById(id);
-        }
+        findEntityById(id);
+        todoRepository.deleteById(id);
     }
 
-    public TodoDto updateTodoById(Long id, TodoDto newTodo) {
-        TodoDto oldTodo = getTodoById(id);
-        validateTitle(newTodo.getTitle());
-        oldTodo.setTitle(newTodo.getTitle());
-        oldTodo.setContent(newTodo.getContent());
-        oldTodo.setCompleted(newTodo.isCompleted());
-        return todoRepository.save(oldTodo);
+    public TodoDto updateTodoById(Long id, TodoDto newDto) {
+        validateTitle(newDto.getTitle());
+        TodoEntity entity = findEntityById(id);
+        entity.setTitle(newDto.getTitle());
+        entity.setContent(newDto.getContent());
+        entity.setCompleted(newDto.isCompleted());
+        return toDto(entity);
     }
 
     public List<TodoDto> searchTodosByTitle(String keyword) {
-        return todoRepository.findByTitleContaining(keyword);
+        return todoRepository.findByTitleContaining(keyword).stream()
+                .map(this::toDto)
+                .toList();
     }
 
     public List<TodoDto> getTodosByCompleted(boolean completed) {
-        return todoRepository.findByCompleted(completed);
+        return todoRepository.findByCompleted(completed).stream()
+                .map(this::toDto)
+                .toList();
     }
 
     public TodoDto toggleCompleted(Long id){
-        TodoDto todo = getTodoById(id);
-        todo.setCompleted(!todo.isCompleted());
-        return todoRepository.save(todo);
+        TodoEntity entity = findEntityById(id);
+        entity.setCompleted(!entity.isCompleted());
+        return toDto(entity);
     }
 
     public void deleteCompletedTodos() {
-        todoRepository.deleteCompleted();
+        todoRepository.deleteByCompleted(true);
     }
 
     public long getTotalCount(){
-        return todoRepository.findAll().size();
+//        return todoRepository.findAll().size();
+        return todoRepository.count();
     }
 
     public long getCompletedCount(){
-        return todoRepository.findByCompleted(true).size();
+//        return todoRepository.findByCompleted(true).size();
+        return todoRepository.countByCompleted(true);
     }
 
     public long getActiveCount(){
-        return todoRepository.findByCompleted(false).size();
+//        return todoRepository.findByCompleted(false).size();
+        return todoRepository.countByCompleted(false);
     }
 
+    // TodoEntity -> TodoDTO
+    private TodoDto toDto(TodoEntity entity){
+        TodoDto dto = new TodoDto();
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setContent(entity.getContent());
+        dto.setCompleted(entity.isCompleted());
+        return dto;
+    }
 }
