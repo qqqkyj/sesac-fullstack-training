@@ -1,5 +1,6 @@
 package com.example.board.controller;
 
+import com.example.board.dto.PostDTO;
 import com.example.board.entity.Post;
 import com.example.board.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class PostController {
     //생성 화면 렌더링
     @GetMapping("/new")
     public String newPost(Model model){
-        model.addAttribute("post", new Post());
+        model.addAttribute("post", new PostDTO());
         return "posts/form";
     }
 
@@ -59,5 +60,24 @@ public class PostController {
     public String update(@ModelAttribute Post newPost, @PathVariable Long id){
         postService.updatePost(id, newPost);
         return "redirect:/posts/"+id;
+    }
+
+    //캐시 테스트
+    @GetMapping("/test/cache")
+    public String testCache(){
+        postService.testFirstLevelCache();
+        return "redirect:/posts";
+    }
+
+    @GetMapping("/test/write-behind")
+    public String testWriteBehind(){
+        postService.testWriteBehind();
+        return "redirect:/posts";
+    }
+
+    @GetMapping("test/dirty-checking")
+    public String testDirtyChecking(){
+        postService.testDirtyChecking();
+        return "redirect:/posts";
     }
 }

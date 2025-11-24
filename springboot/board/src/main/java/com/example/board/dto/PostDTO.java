@@ -13,5 +13,5 @@ public class PostDTO {
     private Long id;
     private String title;
     private String content;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 }
