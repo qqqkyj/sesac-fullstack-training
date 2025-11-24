@@ -31,6 +31,14 @@ public class PostRepository{
     //전체 조회
     public List<PostDTO> findAll(){
         String sql = "SELECT * FROM post";
+        // query => Statement
         return jdbcTemplate.query(sql, rowMapper);
+    }
+
+    //상세 조회(id)
+    public PostDTO findById(Long id){
+        String sql = "SELECT * FROM post WHERE id = ?";
+        //queryForObject => PrepareStatement
+        return jdbcTemplate.queryForObject(sql, rowMapper, id);
     }
 }

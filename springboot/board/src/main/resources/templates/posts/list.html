@@ -23,7 +23,12 @@
         <!-- tr>td*3 입력 후 tab -->
         <tr th:each="post : ${posts}">
             <td th:text="${post.id}"></td>
-            <td th:text="${post.title}"></td>
+            <td>
+                <a th:href="@{/posts/{id}(id=${post.id})}"
+                   th:text="${post.title}"
+                >
+                </a>
+            </td>
             <td th:text="${post.createAt}"></td>
         </tr>
         </tbody>
