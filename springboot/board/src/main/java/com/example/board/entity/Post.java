@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class Post{
+    @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY) // BIGINT AUTO_INCREMENT PRIMARY KEY
     private Long id;
 
