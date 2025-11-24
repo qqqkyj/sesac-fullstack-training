@@ -55,13 +55,12 @@ public class TodoService{
         todoRepository.deleteById(id);
     }
 
-    public TodoDto updateTodoById(Long id, TodoDto newDto) {
+    public void updateTodoById(Long id, TodoDto newDto) {
         validateTitle(newDto.getTitle());
         TodoEntity entity = findEntityById(id);
         entity.setTitle(newDto.getTitle());
         entity.setContent(newDto.getContent());
         entity.setCompleted(newDto.isCompleted());
-        return toDto(entity);
     }
 
     public List<TodoDto> searchTodosByTitle(String keyword) {
