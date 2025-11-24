@@ -62,6 +62,13 @@ public class PostController {
         return "redirect:/posts/"+id;
     }
 
+    //검색
+    @GetMapping("/search")
+    public String search(@RequestParam String keyword, Model model){
+        model.addAttribute("posts", postService.searchPosts(keyword));
+        return "posts/list";
+    }
+
     //캐시 테스트
     @GetMapping("/test/cache")
     public String testCache(){

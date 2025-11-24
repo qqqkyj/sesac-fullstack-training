@@ -3,7 +3,6 @@ package com.example.board.service;
 import com.example.board.entity.Post;
 import com.example.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,15 +22,6 @@ public class PostService {
 
     public Post getPostById(Long id) {
         return postRepository.findById(id);
-        // readOnly = false
-        // 1. 엔티티 조회
-        // 2. 스냅샷 저장
-        // 3. 트랜잭션이 끝날 때 가지고 있는 데이터와 마지막 데이터 비교
-        // 4. 변경이 있으면 update
-
-        // readOnly = true
-        // 1. 엔티티 조회
-        // 2. 끝 (스냅샷 저장X)
     }
 
     public List<Post> getAllPosts() {
@@ -59,6 +49,10 @@ public class PostService {
         Post post2 = postRepository.findById(1L);
         System.out.println(post2.getTitle());
         System.out.println(post1 == post2);
+    }
+
+    public List<Post> searchPosts(String keyword) {
+        return postRepository.findByTitleContaining(keyword);
     }
 
     // 쓰기 지연

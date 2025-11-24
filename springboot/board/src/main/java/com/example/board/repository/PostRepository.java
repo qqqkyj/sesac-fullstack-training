@@ -102,19 +102,8 @@ public class PostRepository{
         em.remove(post);
     }
 
-    // em(Entity Manager)
-    // 1. 비영속
-    // new Post("title", "content")
-    // 데이터베이스 저장되기 전
-
-    // 2. 영속
-    // em.persist(post);
-    // id가 부여됨
-
-    // 3. 준영속 (detached 수정하는중)
-    // em.detach(post)
-    // 수정중
-
-    // 4. 삭제
-    // em.remove(post)
+    public List<Post> findByTitleContaining(String keyword){
+        String jpql = "SELECT p FROM Post p WHERE p.title LIKE :keyword ";
+        return em.createQuery(jpql, Post.class).setParameter("keyword", "%" + keyword + "%").getResultList();
+    }
 }
