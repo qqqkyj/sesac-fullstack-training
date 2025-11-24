@@ -41,4 +41,23 @@ public class PostRepository{
         //queryForObject => PrepareStatement
         return jdbcTemplate.queryForObject(sql, rowMapper, id);
     }
+
+    //게시물 생성
+    public void save(PostDTO post) {
+        String sql = "INSERT INTO post (title, content) VALUES (?, ?)";
+        //update =>
+        jdbcTemplate.update(sql, post.getTitle(), post.getContent());
+    }
+
+    //게시물 수정
+    public void update(Long id, PostDTO post) {
+        String sql = "UPDATE post SET title=?, content=? WHERE id=?";
+        jdbcTemplate.update(sql, post.getTitle(), post.getContent(), id);
+    }
+
+    //게시물 삭제
+    public void deleteById(Long id){
+        String sql = "DELETE FROM post WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
 }
