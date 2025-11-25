@@ -6,6 +6,7 @@ import com.example.board.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -28,13 +29,25 @@ public class PostController {
         Page<Post> postPage = postService.getPostPage(pageable);
         int currentPage = postPage.getNumber();
         int totalPages = postPage.getTotalPages();
-        int startPage = Math.max(0, currentPage - 5);
-        int endPage = Math.min(totalPages-1, currentPage + 5);
+
+        // 최대 5페이지 표시
+        int displayPages = 5;
+        int startPage = Math.max(0, currentPage - displayPages / 2);
+        int endPage = Math.min(totalPages - 1, startPage + displayPages - 1);
+        startPage = Math.max(0, endPage - displayPages + 1);
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("postPage", postPage);
         return "posts/list";
+    }
+
+    @GetMapping("/more")
+    public String more(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                       Model model){
+        Slice<Post> postSlice = postService.getPostSlice(pageable);
+        model.addAttribute("postSlice", postSlice);
+        return "posts/list-more";
     }
 
     @GetMapping("/{id}")
@@ -88,8 +101,12 @@ public class PostController {
         Page<Post> postPage =  postService.searchPostsPage(pageable, keyword);
         int currentPage = postPage.getNumber();
         int totalPages = postPage.getTotalPages();
-        int startPage = Math.max(0, currentPage - 5);
-        int endPage = Math.min(totalPages-1, currentPage + 5);
+
+        // 최대 5페이지 표시
+        int displayPages = 5;
+        int startPage = Math.max(0, currentPage - displayPages / 2);
+        int endPage = Math.min(totalPages - 1, startPage + displayPages - 1);
+        startPage = Math.max(0, endPage - displayPages + 1);
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
