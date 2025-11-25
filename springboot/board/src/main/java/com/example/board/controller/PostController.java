@@ -19,14 +19,14 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public String findAll(@PageableDefault(size = 20,
+    public String findAll(@PageableDefault(size = 10,
                                       sort = "id",
                                       direction = Sort.Direction.DESC
                               ) Pageable page,
                                 Model model){
         //model.addAttribute("posts", postService.getAllPosts());
         Page<Post> postPage = postService.getPostPage(page);
-        model.addAttribute("posts", postPage.getContent());
+        model.addAttribute("postPage", postPage);
         return "posts/list";
     }
 
