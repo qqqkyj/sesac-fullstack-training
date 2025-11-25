@@ -3,6 +3,7 @@ package com.example.board.service;
 import com.example.board.entity.Post;
 import com.example.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,11 +22,12 @@ public class PostService {
     }
 
     public Post getPostById(Long id) {
-        return postRepository.findById(id);
+        return postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("post not found!"));
     }
 
     public List<Post> getAllPosts() {
-        return postRepository.findAll();
+        return postRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     @Transactional
@@ -33,7 +35,7 @@ public class PostService {
         Post post = getPostById(id);
         post.setTitle(updatedPost.getTitle());
         post.setContent(updatedPost.getContent());
-        return postRepository.update(post);
+        return postRepository.save(post);
     }
 
     @Transactional
@@ -44,9 +46,9 @@ public class PostService {
 
     @Transactional
     public void testFirstLevelCache() {
-        Post post1 = postRepository.findById(1L);
+        Post post1 = postRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("post not found!"));
         System.out.println(post1.getTitle());
-        Post post2 = postRepository.findById(1L);
+        Post post2 = postRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("post not found!"));
         System.out.println(post2.getTitle());
         System.out.println(post1 == post2);
     }
@@ -58,7 +60,7 @@ public class PostService {
     // 쓰기 지연
     @Transactional
     public void testWriteBehind() {
-        Post post1 = postRepository.findById(1L);
+        Post post1 = postRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("post not found!"));
 
         post1.setTitle("hello!!!");
         System.out.println("update1");
@@ -76,7 +78,7 @@ public class PostService {
     // 데이터 변경 여부 확인
     @Transactional
     public void testDirtyChecking(){
-        Post post1 = postRepository.findById(1L);
+        Post post1 = postRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("post not found!"));
         System.out.println("SELECT!!!");
 
         post1.setTitle("hello!!!");
