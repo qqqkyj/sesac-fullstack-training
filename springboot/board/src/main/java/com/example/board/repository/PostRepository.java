@@ -1,6 +1,7 @@
 package com.example.board.repository;
 
 import com.example.board.entity.Post;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -93,4 +94,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     LIMIT 3
     """, nativeQuery = true)
     List<Post> findRecentPostsNative();
+
+
+    //페이징처리
+    //List<Post> findAll() => JpaRepository가 구현 해둔 메서드
+    // 오버로딩(동일한 이름이지만 매개변수가 다름)
+    Page<Post> findAll(Pageable pageable);
 }
