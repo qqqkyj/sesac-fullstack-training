@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,6 +76,10 @@ public class PostService {
 
     public Page<Post> searchPostsPage(Pageable pageable, String keyword) {
         return postRepository.findByTitleContaining(pageable, keyword);
+    }
+
+    public Slice<Post> getPostSlice(Pageable pageable) {
+        return postRepository.findAllBy(pageable);
     }
 
     //자동 게시물 샘플 생성
