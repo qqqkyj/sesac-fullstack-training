@@ -28,5 +28,20 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     //존재 여부 확인
     //boolean existById(Long id);
 
+    // findBy + 필드 이름 + 조건
+
+    // LIKE %keyword%
     List<Post> findByTitleContaining(String keyword);
+
+    // LIKE keyword%
+    List<Post> findByTitleStartingWith(String keyword);
+
+    // >
+    List<Post> findByIdGreaterThan(Long id);
+
+    // ORDER BY id DESC
+    List<Post> findAllByOrderByIdDesc();
+
+    // 제목 or 내용으로 검색 : 장점(편함), 단점(복잡한쿼리는 메서드명이 길어짐)
+    List<Post> findByTitleContainingOrContentContaining(String titleKeyword, String contentKeyword);
 }

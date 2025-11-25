@@ -65,7 +65,7 @@ public class PostController {
     //검색
     @GetMapping("/search")
     public String search(@RequestParam String keyword, Model model){
-        model.addAttribute("posts", postService.searchPosts(keyword));
+        model.addAttribute("posts", postService.searchPostByTitleOrContent(keyword));
         return "posts/list";
     }
 

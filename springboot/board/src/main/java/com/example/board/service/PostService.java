@@ -27,7 +27,9 @@ public class PostService {
     }
 
     public List<Post> getAllPosts() {
-        return postRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        // ListPagingAndSortingRepository
+        //return postRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        return postRepository.findAllByOrderByIdDesc();
     }
 
     @Transactional
@@ -55,6 +57,10 @@ public class PostService {
 
     public List<Post> searchPosts(String keyword) {
         return postRepository.findByTitleContaining(keyword);
+    }
+
+    public List<Post> searchPostByTitleOrContent(String keyword){
+        return postRepository.findByTitleContainingOrContentContaining(keyword, keyword);
     }
 
     // 쓰기 지연
