@@ -73,6 +73,10 @@ public class PostService {
         return postRepository.findAll(pageable);
     }
 
+    public Page<Post> searchPostsPage(Pageable pageable, String keyword) {
+        return postRepository.findByTitleContaining(pageable, keyword);
+    }
+
     //자동 게시물 샘플 생성
     @Transactional
     public void createDummyPost(int count){

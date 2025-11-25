@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>post search</title>
+</head>
+<body>
+<h1>list</h1>
+<a href="/posts/new">new</a>
+<a href="/posts/dummy">dummy</a>
+<a href="/posts/recent">recent</a>
+
+<form action="/posts/search">
+    <input type="text" name="keyword">
+    <input type="submit">
+</form>
+
+<!--    table>thead+tbody입력 후 tab 누르면 자동으로 생성-->
+<table>
+    <thead>
+    <!-- tr>th*3 입력 후 tab -->
+    <tr>
+        <th>ID</th>
+        <th>제목</th>
+        <th>작성일</th>
+    </tr></thead>
+    <tbody>
+    <!-- tr>td*3 입력 후 tab -->
+    <tr th:each="post : ${postPage.getContent()}">
+        <td th:text="${post.id}"></td>
+        <td>
+            <a th:href="@{/posts/{id}(id=${post.id})}"
+               th:text="${post.title}"
+            >
+            </a>
+        </td>
+        <td th:text="${post.createdAt}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div>
+    총<span th:text="${postPage.getTotalElements()}"></span>개<br>
+    <span th:text="${postPage.number+1}"></span> / <span th:text="${postPage.getTotalPages()}"></span>페이지
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div>
+    <a th:href="@{/posts/search(page=0, keyword=${keyword})}">first</a>
+    <!--이전-->
+    <a th:if="${postPage.hasPrevious()}" th:href="@{/posts/search(page=${postPage.number-1}, keyword=${keyword})}">◀</a>
+    <!--페이지-->
+    <span th:each="i : ${#numbers.sequence(startPage,endPage)}"><!--thymeleaf 문법-->
+            <a th:if="${i != postPage.number}" th:href="@{/posts/search(page=${i}, keyword=${keyword})}" th:text="${i+1}"></a>
+            <strong th:if="${i == postPage.number}" th:text="${i+1}"></strong>
+        </span>
+    <!--다음-->
+    <a th:if="${postPage.hasNext()}" th:href="@{/posts/search(page=${postPage.number+1}, keyword=${keyword})}">▶</a>
+    <a th:href="@{/posts/search(page=${postPage.totalPages}, keyword=${keyword})}">last</a>
+</div>
+</body>
+</html>
