@@ -1,7 +1,10 @@
 package com.example.board.repository;
 
 import com.example.board.entity.Post;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -44,4 +47,50 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     // 제목 or 내용으로 검색 : 장점(편함), 단점(복잡한쿼리는 메서드명이 길어짐)
     List<Post> findByTitleContainingOrContentContaining(String titleKeyword, String contentKeyword);
+
+    //JPQL(Java Persistence Query Language)
+    //@Query 방식
+    @Query("SELECT p FROM Post p WHERE p.title LIKE %:keyword%")
+    List<Post> searchByTitle(@Param("keyword") String keyword);
+
+    // search title or content
+    @Query("""
+        SELECT p 
+        FROM Post p 
+        WHERE p.title LIKE %:keyword% OR p.content LIKE %:keyword% 
+        ORDER BY p.createdAt DESC
+    """)
+    List<Post> searchByKeyword(@Param("keyword") String keyword);
+
+    //native Query 사용하는 법
+    @Query(value = """
+        SELECT * 
+        FROM post 
+        WHERE title LIKE %:keyword% 
+        ORDER BY id DESC
+     """
+            , nativeQuery = true)
+    List<Post> searchByTitleNative(@Param("keyword") String keyword);
+
+    // 최근 게시물 3개만 출력
+    // /post/recent
+    // 1. query method
+    List<Post> findTop3ByOrderByCreatedAtDesc();
+
+    // 2.jpql
+    @Query("""
+    SELECT p
+    FROM Post p
+    ORDER BY p.createdAt DESC
+    """)
+    List<Post> searchRecentPostsJPQL(Pageable pageable);
+
+    // 3. native sql
+    @Query(value = """
+    SELECT *
+    FROM post
+    ORDER BY created_at DESC
+    LIMIT 3
+    """, nativeQuery = true)
+    List<Post> findRecentPostsNative();
 }

@@ -3,6 +3,7 @@ package com.example.board.service;
 import com.example.board.entity.Post;
 import com.example.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,7 +61,11 @@ public class PostService {
     }
 
     public List<Post> searchPostByTitleOrContent(String keyword){
-        return postRepository.findByTitleContainingOrContentContaining(keyword, keyword);
+        return postRepository.searchByTitleNative(keyword);
+    }
+
+    public List<Post> findTop3RecentPosts(){
+        return postRepository.searchRecentPostsJPQL(PageRequest.of(0, 3));
     }
 
     // 쓰기 지연

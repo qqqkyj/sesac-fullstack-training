@@ -69,6 +69,13 @@ public class PostController {
         return "posts/list";
     }
 
+    // 최근 게시물 3개만 출력
+    @GetMapping("/recent")
+    public String recent(Model model){
+        model.addAttribute("posts", postService.findTop3RecentPosts());
+        return "posts/list";
+    }
+
     //캐시 테스트
     @GetMapping("/test/cache")
     public String testCache(){
