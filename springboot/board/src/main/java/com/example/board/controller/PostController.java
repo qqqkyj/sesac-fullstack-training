@@ -1,5 +1,6 @@
 package com.example.board.controller;
 
+import com.example.board.dto.CommentDTO;
 import com.example.board.dto.PostDTO;
 import com.example.board.entity.Post;
 import com.example.board.service.PostService;
@@ -54,6 +55,8 @@ public class PostController {
     public String detail(@PathVariable Long id, Model model){
         Post post = postService.getPostById(id);
         model.addAttribute("post", post);
+        //빈 댓글 객체를 생성하여 detail페이지에서 타임림프를 통해 매핑
+        model.addAttribute("comment", new CommentDTO());
         return "posts/detail";
     }
 
