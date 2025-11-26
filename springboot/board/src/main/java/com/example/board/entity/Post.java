@@ -41,4 +41,15 @@ public class Post{
     public void prePersist(){
         this.createdAt = LocalDateTime.now();
     }
+
+    //연관관계 편의메서드
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+        comment.setPost(this);
+    }
+
+    public void removeComment(Comment comment){
+        comments.remove(comment);
+        comment.setPost(null);
+    }
 }

@@ -20,7 +20,10 @@ public class CommentService {
     @Transactional
     public Comment createComment(Long  postId, Comment comment) {
         Post post = postService.getPostById(postId);
+
+        post.addComment(comment);
         comment.setPost(post);
+
         return commentRepository.save(comment);
     }
 

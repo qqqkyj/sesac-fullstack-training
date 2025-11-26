@@ -34,6 +34,8 @@ public class Comment {
 
     public Comment(String content, Post post) {
         this.content = content;
-        this.post = post;
+        if(post != null) {
+            post.addComment(this);
+        }
     }
 }
