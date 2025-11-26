@@ -22,10 +22,19 @@
     <hr>
 
     <!--댓글 생성-->
-    <form th:action="@{posts/{id}/comments(id=${post.id})}" th:object="${comment}">
+    <form th:action="@{/posts/{id}/comments(id=${post.id})}" th:object="${comment}" method="post">
         <label for="content">댓글</label>
         <input type="text" th:field="*{content}" id="content">
         <input type="submit">
     </form>
+
+    <!-- 댓글 목록 -->
+    <div th:if="${comments != null}">
+        <div th:each="comment : ${comments}">
+            <p th:text="${comment.content}"></p>
+            <small th:text="${comment.createdAt}"></small>
+            <hr>
+        </div>
+    </div>
 </body>
 </html>

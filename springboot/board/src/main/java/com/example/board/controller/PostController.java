@@ -2,7 +2,9 @@ package com.example.board.controller;
 
 import com.example.board.dto.CommentDTO;
 import com.example.board.dto.PostDTO;
+import com.example.board.entity.Comment;
 import com.example.board.entity.Post;
+import com.example.board.service.CommentService;
 import com.example.board.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,11 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/posts")
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final CommentService commentService;
 
     @GetMapping
     public String findAll(@PageableDefault(
@@ -54,10 +59,24 @@ public class PostController {
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model model){
         Post post = postService.getPostById(id);
+        List<Comment> comments = commentService.getCommentsByPostId(id);
+
         model.addAttribute("post", post);
         //빈 댓글 객체를 생성하여 detail페이지에서 타임림프를 통해 매핑
         model.addAttribute("comment", new CommentDTO());
+        model.addAttribute("comments", comments);
         return "posts/detail";
+    }
+
+    // Comment(댓글)
+    @PostMapping("/{postId}/comments")
+    public String createComment(
+            @PathVariable Long postId,
+            @ModelAttribute Comment comment,
+            Model model
+    ){
+        commentService.createComment(postId, comment);
+        return "redirect:/posts/" + postId;
     }
 
     //생성 화면 렌더링
