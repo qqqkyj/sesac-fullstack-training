@@ -118,4 +118,13 @@ public class PostService {
         post1.setTitle("hello!!!");
         System.out.println("change title");
     }
+
+    public List<Post> getAllPostsWithFetchJoin() {
+        return postRepository.findAllWithComments();
+    }
+
+
+    public List<Post> getAllPostsWithEntityGraph(){
+        return postRepository.findAllWithCommentsEntityGraph();
+    }
 }

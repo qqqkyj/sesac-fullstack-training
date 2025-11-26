@@ -87,6 +87,21 @@ public class PostController {
         return "redirect:/posts/" + postId;
     }
 
+    //페이징처리 빠진 조인 방법
+    @GetMapping("/fetch-join")
+    public String listWithFetchJoin(Model model){
+        List<Post> posts = postService.getAllPostsWithFetchJoin();
+        model.addAttribute("posts",posts);
+        return "posts/list-test";
+    }
+
+    @GetMapping("/entity-graph")
+    public String listWithEntityGraph(Model model){
+        List<Post> posts = postService.getAllPostsWithEntityGraph();
+        model.addAttribute("posts",posts);
+        return "posts/list-test";
+    }
+
     //생성 화면 렌더링
     @GetMapping("/new")
     public String newPost(Model model){
