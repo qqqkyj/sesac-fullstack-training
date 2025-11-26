@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class Post{
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+//    @BatchSize(size = 10)
     @OneToMany(mappedBy = "post", //누가 관계의 주인인지 설정
             cascade = CascadeType.REMOVE, //게시물(부모)가 삭제되면 댓글(자식)도 삭제
             orphanRemoval = true // 고아 객체 생성시 삭제
