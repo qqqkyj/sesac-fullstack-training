@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -25,6 +27,9 @@ public class Post{
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)//누가 관계의 주인인지 설정
+    private List<Comment> comments = new ArrayList<>();
 
     public Post(String title, String content) {
         this.title = title;

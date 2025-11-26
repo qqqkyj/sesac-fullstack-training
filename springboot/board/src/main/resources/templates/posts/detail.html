@@ -33,6 +33,9 @@
         <div th:each="comment : ${comments}">
             <p th:text="${comment.content}"></p>
             <small th:text="${comment.createdAt}"></small>
+            <form th:action="@{/posts/{postId}/comments/{cId}/delete(postId=${post.id},cId=${comment.id})}" method="post">
+                <button type="submit">delete</button>
+            </form>
             <hr>
         </div>
     </div>

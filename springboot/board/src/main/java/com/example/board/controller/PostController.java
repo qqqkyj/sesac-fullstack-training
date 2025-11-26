@@ -59,7 +59,8 @@ public class PostController {
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model model){
         Post post = postService.getPostById(id);
-        List<Comment> comments = commentService.getCommentsByPostId(id);
+        List<Comment> comments = post.getComments();
+//        List<Comment> comments = commentService.getCommentsByPostId(id);
 
         model.addAttribute("post", post);
         //빈 댓글 객체를 생성하여 detail페이지에서 타임림프를 통해 매핑
@@ -76,6 +77,13 @@ public class PostController {
             Model model
     ){
         commentService.createComment(postId, comment);
+        return "redirect:/posts/" + postId;
+    }
+
+    //댓글 삭제
+    @PostMapping("/{postId}/comments/{cId}/delete")
+    public String deleteComment(@PathVariable Long postId, @PathVariable Long cId){
+        commentService.deleteComment(cId);
         return "redirect:/posts/" + postId;
     }
 
