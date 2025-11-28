@@ -9,13 +9,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
-
 @RequiredArgsConstructor
 @Service
-public class CustomUserDetailService implements UserDetailsService, Serializable {
+public class CustomUserDetailService implements UserDetailsService {
 
-    private static final long serialVersionUID = 1L;
     private final UserRepository userRepository;
 
     @Override
