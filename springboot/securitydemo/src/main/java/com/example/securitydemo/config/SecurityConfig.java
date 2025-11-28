@@ -16,7 +16,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/info", "/login").permitAll() // 두 개 라우팅 오픈
+                        .requestMatchers("/", "/info", "/login").permitAll() // 두 개 라우팅 오픈 (로그인 필요X)
+                        .requestMatchers("/admin/**").hasRole("ADMIN") //관리자 권한만 볼 수 있는 화면
+                        .requestMatchers("/user/**").hasAnyRole("USER","ADMIN") // 사용자, 관리자 모두
                         .anyRequest().authenticated() //anyRequest() : 그 외 라우팅, authenticated: 인증 필요
                 )
                 .formLogin(form -> form
@@ -28,7 +30,9 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login") //로그아웃 성공시 이동할 페이지
                         .permitAll()
-                );
+                )
+                .exceptionHandling(ex -> ex
+                        .accessDeniedPage("/access-denied"));
 
         return http.build(); //빌더 패턴으로 return
     }
