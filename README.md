@@ -95,6 +95,7 @@
 - **2025-11-24** : [Spring Data JPA와 영속성 관리 - 게시판(JDBC TO JPA, JPQL, EntityManager)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/board/readme#-jpa---%EA%B2%8C%EC%8B%9C%ED%8C%90-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-jdbc--jpa--jpql-%EC%A0%84%ED%99%98-%ED%95%99%EC%8A%B5)
 - **2025-11-25** : [Spring Data JPA와 영속성 관리 - 게시판(Data JPA, 쿼리메서드, 페이징처리, 무한스크롤)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/board/readme2#6-jpa---boarddata-jpa-%ED%8E%98%EC%9D%B4%EC%A7%80-slice)
 - **2025-11-26** : [Spring Data JPA와 영속성 관리 - 게시판(댓글 기능 추가, Fetch Join or EntityGraph와 Batch Fetching 적용으로 1+N문제 해결)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/board/readme3#7-jpa---board%EB%8C%93%EA%B8%80)
+- **2025-11-28** : [Spring Security - 인증/인가](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/springboot/securitydemo/readme/README.md#9-spring-security)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
