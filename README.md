@@ -97,6 +97,7 @@
 - **2025-11-26** : [Spring Data JPA와 영속성 관리 - 게시판(댓글 기능 추가, Fetch Join or EntityGraph와 Batch Fetching 적용으로 1+N문제 해결)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/board/readme3#7-jpa---board%EB%8C%93%EA%B8%80)
 - **2025-11-28** : [Spring Security - 인증/인가 로그인](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/springboot/securitydemo/readme/README.md#9-spring-security)
 - **2025-12-01** : [Spring Security - 회원가입](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/securitydemo/readme2#10-spring-security---%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
+- **2025-12-01** : [인스타그램 클론 코딩 프로젝트 - 로그인/회원가입](https://github.com/qqqkyj/Instagram-Clone/tree/main/readme#11-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8---%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
