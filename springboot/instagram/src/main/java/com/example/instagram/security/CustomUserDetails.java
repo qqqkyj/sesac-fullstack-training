@@ -13,6 +13,10 @@ import java.util.List;
 public class CustomUserDetails implements UserDetails {
     private final User user;
 
+    //custom method
+    public Long getId(){
+        return user.getId();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

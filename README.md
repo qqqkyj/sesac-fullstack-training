@@ -98,6 +98,7 @@
 - **2025-11-28** : [Spring Security - 인증/인가 로그인](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/springboot/securitydemo/readme/README.md#9-spring-security)
 - **2025-12-01** : [Spring Security - 회원가입](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/securitydemo/readme2#10-spring-security---%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
 - **2025-12-01** : [인스타그램 클론 코딩 프로젝트 - 로그인/회원가입](https://github.com/qqqkyj/Instagram-Clone/tree/main/readme#11-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8---%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
+- **2025-12-02** : [인스타그램 클론 코딩 프로젝트 - 게시물 생성/조회/상세페이지](https://github.com/qqqkyj/Instagram-Clone/tree/main/readme2#12-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8---%EA%B2%8C%EC%8B%9C%EA%B8%80-%EC%83%9D%EC%84%B1-%EB%B0%8F-%EC%A1%B0%ED%9A%8C)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
