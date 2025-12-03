@@ -47,4 +47,15 @@ public class PostServiceImpl implements PostService {
     public List<PostResponse> getAllPosts() {
         return postRepository.findAllByOrderByCreatedAtDesc().stream().map(PostResponse::from).toList();
     }
+
+    @Override
+    public List<PostResponse> getPostsByUsername(String username) {
+        User user = userService.findByUsername(username);
+        return postRepository.findByUserIdOrderByCreatedAtDesc(user.getId()).stream().map(PostResponse::from).toList();
+    }
+
+    @Override
+    public long countByUserId(Long userId) {
+        return postRepository.countByUserId(userId);
+    }
 }
