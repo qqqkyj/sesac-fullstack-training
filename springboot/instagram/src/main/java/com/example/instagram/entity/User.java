@@ -3,7 +3,7 @@ package com.example.instagram.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter @Setter
+@Getter
 @Entity
 @NoArgsConstructor
 @Table(name = "users")
@@ -23,6 +23,8 @@ public class User extends BaseEntity{
     private Role role;
     @Column(length = 200)
     private String bio;
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
 
     @Builder
     public User(String username, String password, String email, Role role, String bio, String name) {
@@ -32,5 +34,14 @@ public class User extends BaseEntity{
         this.role = role != null ? role : Role.USER;
         this.bio = bio;
         this.name = name;
+    }
+
+    public void updateProfile(String name, String bio) {
+        this.name = name;
+        this.bio = bio;
+    }
+
+    public void updateProfileImage(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }

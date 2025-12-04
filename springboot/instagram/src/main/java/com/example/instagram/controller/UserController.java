@@ -35,10 +35,12 @@ public class UserController {
         ProfileResponse profile = userService.getProfile(username);
         List<PostResponse> posts = postService.getPostsByUsername(username);
         boolean isFollowing = followService.isFollowing(userDetails.getId(), profile.getId());
+        boolean isOwner = userDetails.getUsername().equals(username);
 
         model.addAttribute("profile", profile);
         model.addAttribute("posts", posts);
         model.addAttribute("isFollowing", isFollowing);
+        model.addAttribute("isOwner", isOwner);
         return "user/profile";
     }
 

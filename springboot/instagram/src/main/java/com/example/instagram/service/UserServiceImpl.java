@@ -1,7 +1,9 @@
 package com.example.instagram.service;
 
+import com.example.instagram.dto.request.ProfileUpdateRequest;
 import com.example.instagram.dto.request.SignUpRequest;
 import com.example.instagram.dto.response.ProfileResponse;
+import com.example.instagram.dto.response.UserResponse;
 import com.example.instagram.entity.Follow;
 import com.example.instagram.entity.Role;
 import com.example.instagram.entity.User;
@@ -9,9 +11,11 @@ import com.example.instagram.repository.FollowRepository;
 import com.example.instagram.repository.PostRepository;
 import com.example.instagram.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +27,11 @@ public class UserServiceImpl implements UserService{
 //    private final FollowService followService; //순환 참조 오류 발생
     private final FollowRepository followRepository;
     private final PostRepository postRepository;
+    private final FileService fileService;
+
+    //properties에 작성한 데이터 가져옴
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     @Override
     @Transactional
@@ -51,13 +60,34 @@ public class UserServiceImpl implements UserService{
     public ProfileResponse getProfile(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User not found"));
         long postCount = postRepository.countByUserId(user.getId());
-        long followerCount = followRepository.countByFollowerId(user.getId());
-        long followingCount = followRepository.countByFollowingId(user.getId());
+        long followerCount = followRepository.countByFollowingId(user.getId());
+        long followingCount = followRepository.countByFollowerId(user.getId());
         return ProfileResponse.from(user, postCount, followerCount, followingCount);
     }
 
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    @Override
+    public UserResponse getUserById(Long id) {
+        return UserResponse.from(findById(id));
+    }
+
+    @Override
+    @Transactional
+    public void updateProfile(Long id, ProfileUpdateRequest profileUpdateRequest, MultipartFile profileImg) {
+        User user = findById(id);
+
+        //프로필 이미지 처리
+        if(profileImg != null && !profileImg.isEmpty()){
+            String savedFilename = fileService.saveFile(profileImg);//실제 로컬 폴더에 저장
+            String imgUrl = "/" + uploadDir + "/" +  savedFilename;
+            user.updateProfileImage(imgUrl);
+        }
+
+        user.updateProfile(profileUpdateRequest.getName(), profileUpdateRequest.getBio());
+        userRepository.save(user);
     }
 }

@@ -4,10 +4,14 @@ import com.example.instagram.dto.request.PostCreateRequest;
 import com.example.instagram.dto.response.PostResponse;
 import com.example.instagram.entity.Post;
 import com.example.instagram.entity.User;
+import com.example.instagram.repository.CommentRepository;
+import com.example.instagram.repository.LikeRepository;
 import com.example.instagram.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +22,30 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserService userService;
+    private final LikeRepository likeRepository;
+    private final CommentRepository commentRepository;
+    private final FileService fileService;
+
+    //properties에 작성한 데이터 가져옴
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     @Override
     @Transactional
-    public PostResponse create(PostCreateRequest postCreateRequest, Long userId) {
+    public PostResponse create(PostCreateRequest postCreateRequest, MultipartFile image, Long userId) {
         User user = userService.findById(userId);
+
+        //파일을 저장 => 경로
+        String imageUrl = null;
+        if(image != null || !image.isEmpty()) {
+            String fileName = fileService.saveFile(image);
+            imageUrl =  "/" + uploadDir + "/" + fileName;
+        }
+
         Post post = Post.builder()
                 .content(postCreateRequest.getContent())
                 .user(user)
+                .imageUrl(imageUrl)
                 .build();
         Post saved = postRepository.save(post);
         return PostResponse.from(saved);
@@ -57,5 +77,16 @@ public class PostServiceImpl implements PostService {
     @Override
     public long countByUserId(Long userId) {
         return postRepository.countByUserId(userId);
+    }
+
+    @Override
+    public List<PostResponse> getAllPostsWithStats() {
+        return postRepository.findAllByOrderByCreatedAtDesc().stream()
+                .map(post -> {
+                    long likeCount = likeRepository.countByPostId(post.getId());
+                    long commentCount = commentRepository.countByPostId(post.getId());
+                    return PostResponse.from(post, commentCount, likeCount);
+                })
+                .toList();
     }
 }

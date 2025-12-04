@@ -1,6 +1,6 @@
 package com.example.instagram.controller;
 
-import com.example.instagram.dto.request.CommentCreateRequest;
+import com.example.instagram.dto.request.CommentRequest;
 import com.example.instagram.dto.request.PostCreateRequest;
 import com.example.instagram.dto.response.CommentResponse;
 import com.example.instagram.dto.response.PostResponse;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -38,11 +39,12 @@ public class PostController {
     public String create(@Valid @ModelAttribute PostCreateRequest postCreateRequest,
                          BindingResult bindingResult,
                          //세션을 통해 현재 로그인한 사용자 정보
-                         @AuthenticationPrincipal CustomUserDetails userDetails) {
+                         @AuthenticationPrincipal CustomUserDetails userDetails,
+                         @RequestParam(value = "image", required = false) MultipartFile image) {
         if (bindingResult.hasErrors()) {
             return "post/form";
         }
-        postService.create(postCreateRequest, userDetails.getId());
+        postService.create(postCreateRequest, image, userDetails.getId());
         return "redirect:/";
     }
 
@@ -54,7 +56,7 @@ public class PostController {
         PostResponse post = postService.getPostById(id);
         List<CommentResponse> comments = commentService.getAllCommentsByPostId(id);
         model.addAttribute("post", post);
-        model.addAttribute("commentRequest", new CommentCreateRequest());
+        model.addAttribute("commentRequest", new CommentRequest());
         model.addAttribute("comments", comments);
         model.addAttribute("liked", likeService.isLiked(id,userDetails.getId()));
         model.addAttribute("likeCount", likeService.getLikeCount(id));
@@ -63,7 +65,7 @@ public class PostController {
 
     @PostMapping("/{postId}/comments")
     public String createComment(@PathVariable Long postId,
-                                @Valid @ModelAttribute("commentRequest") CommentCreateRequest commentCreateRequest,
+                                @Valid @ModelAttribute CommentRequest commentRequest,
                                 BindingResult bindingResult,
                                 //세션을 통해 현재 로그인한 사용자 정보
                                 @AuthenticationPrincipal CustomUserDetails userDetails,
@@ -76,10 +78,12 @@ public class PostController {
             List<CommentResponse> comments = commentService.getAllCommentsByPostId(postId);
             model.addAttribute("post", post);
             model.addAttribute("comments", comments);
+            model.addAttribute("liked", likeService.isLiked(postId,userDetails.getId()));
+            model.addAttribute("likeCount", likeService.getLikeCount(postId));
             return "post/detail";
         }
 
-        commentService.create(postId, commentCreateRequest, userDetails.getId());
+        commentService.create(postId, commentRequest, userDetails.getId());
 
         return "redirect:/posts/"+postId;
     }
