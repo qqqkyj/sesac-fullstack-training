@@ -99,8 +99,9 @@
 - **2025-12-01** : [Spring Security - 회원가입](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/securitydemo/readme2#10-spring-security---%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
 - **2025-12-01** : [인스타그램 클론 코딩 프로젝트 - 로그인/회원가입](https://github.com/qqqkyj/Instagram-Clone/tree/main/readme#11-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8---%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
 - **2025-12-02** : [인스타그램 클론 코딩 프로젝트 - 게시물 생성/조회/상세페이지](https://github.com/qqqkyj/Instagram-Clone/tree/main/readme2#12-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8---%EA%B2%8C%EC%8B%9C%EA%B8%80-%EC%83%9D%EC%84%B1-%EB%B0%8F-%EC%A1%B0%ED%9A%8C)
-- **2025-12-02** : [인스타그램 클론 코딩 프로젝트 - 댓글, 좋아요, 팔로우](https://github.com/qqqkyj/Instagram-Clone/tree/main/readme3#3-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8---%EB%8C%93%EA%B8%80-%EC%A2%8B%EC%95%84%EC%9A%94-%ED%8C%94%EB%A1%9C%EC%9A%B0)
-- **2025-12-03** : [인스타그램 클론 코딩 프로젝트 - 프로필 조회, 프로필 수정, 1+N 문제, 파일 업로드](https://github.com/qqqkyj/Instagram-Clone/tree/main/readme4#4-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8---%ED%94%84%EB%A1%9C%ED%95%84-%ED%8C%8C%EC%9D%BC-%EC%97%85%EB%A1%9C%EB%93%9C)
+- **2025-12-03** : [인스타그램 클론 코딩 프로젝트 - 댓글, 좋아요, 팔로우](https://github.com/qqqkyj/Instagram-Clone/tree/main/readme3#3-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8---%EB%8C%93%EA%B8%80-%EC%A2%8B%EC%95%84%EC%9A%94-%ED%8C%94%EB%A1%9C%EC%9A%B0)
+- **2025-12-04** : [인스타그램 클론 코딩 프로젝트 - 프로필 조회, 프로필 수정, 1+N 문제, 파일 업로드](https://github.com/qqqkyj/Instagram-Clone/tree/main/readme4#4-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8---%ED%94%84%EB%A1%9C%ED%95%84-%ED%8C%8C%EC%9D%BC-%EC%97%85%EB%A1%9C%EB%93%9C)
+- **2025-12-05** : [인스타그램 클론 코딩 프로젝트 - 무한 스크롤, REST API, 피드/탐색/검색, 예외 처리](https://github.com/qqqkyj/Instagram-Clone/tree/main/readme5#5-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8---%EB%AC%B4%ED%95%9C%EC%8A%A4%ED%81%AC%EB%A1%A4-%EA%B2%80%EC%83%89-%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
