@@ -95,13 +95,23 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
-    //좋아요
+    //좋아요 생성
     @PostMapping("{id}/like")
     public ResponseEntity<ApiResponse<LikeResponse>> like(
             @PathVariable Long id,
             @AuthenticationPrincipal CustomUserDetails userDetails
     ){
         LikeResponse response = postLikeService.like(id, userDetails.getId());
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    //좋아요 삭제
+    @DeleteMapping("{id}/like")
+    public ResponseEntity<ApiResponse<LikeResponse>> unlike(
+            @PathVariable Long id,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ){
+        LikeResponse response = postLikeService.unlike(id, userDetails.getId());
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

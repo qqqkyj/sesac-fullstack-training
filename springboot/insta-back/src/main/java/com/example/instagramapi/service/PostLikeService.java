@@ -21,6 +21,7 @@ public class PostLikeService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
+    //좋아요 생성
     @Transactional
     public LikeResponse like(Long userId, Long postId){
         User user = userRepository.findById(userId)
@@ -41,5 +42,20 @@ public class PostLikeService {
         postLikeRepository.save(postLike);
         long likeCount = postLikeRepository.countByPostId(postId);
         return LikeResponse.of(true, likeCount);
+    }
+
+    //좋아요 삭제
+    @Transactional
+    public LikeResponse unlike(Long userId, Long postId){
+        if(!postRepository.existsById(postId)){
+            throw new CustomException(ErrorCode.POST_NOT_FOUND);
+        }
+
+        PostLike postLike = postLikeRepository.findByUserIdAndPostId(userId, postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_LIKED));
+
+        postLikeRepository.delete(postLike);
+        long likeCount = postLikeRepository.countByPostId(postId);
+        return LikeResponse.of(false, likeCount);
     }
 }
