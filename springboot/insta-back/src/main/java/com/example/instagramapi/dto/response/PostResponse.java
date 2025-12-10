@@ -17,7 +17,7 @@ public class PostResponse {
     private UserResponse author;
 
     private boolean liked;
-    private long likesCount;
+    private long likeCount;
     private long commentCount;
 
     public static PostResponse from(Post post) {
@@ -28,7 +28,7 @@ public class PostResponse {
                 .author(UserResponse.from(post.getUser()))
                 .createdAt(post.getCreatedAt())
                 .liked(false)
-                .likesCount(0)
+                .likeCount(0)
                 .commentCount(0)
                 .build();
     }
@@ -41,7 +41,7 @@ public class PostResponse {
                 .author(UserResponse.from(post.getUser()))
                 .createdAt(post.getCreatedAt())
                 .liked(liked)
-                .likesCount(likesCount)
+                .likeCount(likesCount)
                 .commentCount(commentCount)
                 .build();
     }

@@ -58,4 +58,16 @@ public class PostLikeService {
         long likeCount = postLikeRepository.countByPostId(postId);
         return LikeResponse.of(false, likeCount);
     }
+
+    //좋아요 상태
+    public LikeResponse getLikeStatus(Long postId, Long userId){
+        if(!postRepository.existsById(postId)){
+            throw new CustomException(ErrorCode.POST_NOT_FOUND);
+        }
+
+        boolean liked = userId != null && postLikeRepository.existsByUserIdAndPostId(userId, postId);
+        long likeCount = postLikeRepository.countByPostId(postId);
+
+        return LikeResponse.of(liked, likeCount);
+    }
 }

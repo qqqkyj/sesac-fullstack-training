@@ -40,8 +40,11 @@ public class PostController {
 
     //게시물 전체 조회
     @GetMapping
-    public ResponseEntity<ApiResponse<List<PostResponse>>> findAll(){
-        List<PostResponse> list = postService.findAll();
+    public ResponseEntity<ApiResponse<List<PostResponse>>> findAll(
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ){
+        Long  userId = userDetails !=null ? userDetails.getId() : null;
+        List<PostResponse> list = postService.findAll(userId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success(list));
     }
@@ -101,7 +104,7 @@ public class PostController {
             @PathVariable Long id,
             @AuthenticationPrincipal CustomUserDetails userDetails
     ){
-        LikeResponse response = postLikeService.like(id, userDetails.getId());
+        LikeResponse response = postLikeService.like(userDetails.getId(), id);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
@@ -111,7 +114,18 @@ public class PostController {
             @PathVariable Long id,
             @AuthenticationPrincipal CustomUserDetails userDetails
     ){
-        LikeResponse response = postLikeService.unlike(id, userDetails.getId());
+        LikeResponse response = postLikeService.unlike(userDetails.getId(), id);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    //좋아요 상태
+    @GetMapping("/{id}/like")
+    public ResponseEntity<ApiResponse<LikeResponse>> getLikeStatus(
+            @PathVariable Long id,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ){
+        Long userId = userDetails != null ? userDetails.getId() : null;
+        LikeResponse response = postLikeService.getLikeStatus(id, userId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

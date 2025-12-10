@@ -9,7 +9,7 @@ public class LikeResponse {
     private boolean liked;
     private long likeCount;
 
-    public static LikeResponse of(boolean liked, Long  likeCount) {
+    public static LikeResponse of(boolean liked, long likeCount) {
         return LikeResponse.builder()
                 .liked(liked)
                 .likeCount(likeCount)

@@ -6,6 +6,7 @@ import com.example.instagramapi.entity.Post;
 import com.example.instagramapi.entity.User;
 import com.example.instagramapi.exception.CustomException;
 import com.example.instagramapi.exception.ErrorCode;
+import com.example.instagramapi.repository.PostLikeRepository;
 import com.example.instagramapi.repository.PostRepository;
 import com.example.instagramapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final PostLikeRepository postLikeRepository;
 
     //게시물 생성
     @Transactional
@@ -36,9 +38,9 @@ public class PostService {
     }
 
     //전체 게시물
-    public List<PostResponse> findAll(){
+    public List<PostResponse> findAll(Long currentUserId){
         List<Post> posts = postRepository.findAllWithUser();
-        return posts.stream().map(PostResponse::from).toList();
+        return posts.stream().map(post -> toPostResponseWithStatus(post, currentUserId)).toList();
     }
 
     //단일 게시물
@@ -67,5 +69,14 @@ public class PostService {
         }
 
         postRepository.delete(post);
+    }
+
+    //Post엔티티와 사용자 정보로 게시물의 상태 반환
+    private PostResponse toPostResponseWithStatus(Post post, Long currentUserId){
+        boolean liked = currentUserId != null
+                && postLikeRepository.existsByUserIdAndPostId(currentUserId, post.getId());
+        long likeCount = postLikeRepository.countByPostId(post.getId());
+        long commentCount = post.getComments().size();
+        return PostResponse.from(post, liked, likeCount, commentCount);
     }
 }
