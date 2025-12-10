@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div id="parent">
+			<div id="child"></div>
+		</div>
+
+		<script>
+			// div 태그 요소 생성, 변수에 할당
+			const divTag = document.createElement("div");
+
+			// div 태그에 id 속성 "container" 지정
+			divTag.setAttribute("id", "container");
+
+			// p 태그 요소 생성, 변수에 할당
+			const pTag = document.createElement("p");
+			// 요소의 textContent 속성으로 텍스트 설정
+			pTag["textContent"] = "pTag";
+
+			// append() 메서드로 body 태그에 divTag를 추가
+			const bodyTag = document.querySelector("body");
+			bodyTag.append(divTag, pTag);
+
+			// h1 태그 요소를 생성하고, 변수에 할당
+			const h1Tag = document.createElement("h1");
+			// 텍스트로 "h1" 설정
+			h1Tag["textContent"] = "h1";
+
+			// id="child"인 요소를 선택하고, 변수에 할당
+			const childTag = document.querySelector("#child");
+
+			// id가 parent인 요소를 선택하고, 변수에 할당
+			const parentTag = document.querySelector("#parent");
+
+			// 부모 요소: parentTag, 추가할 요소: h1Tag, 특정 자식 요소: childTag
+			parentTag.insertBefore(h1Tag, childTag);
+
+			// removeChild: 부모에서 자식 제거
+			parentTag.removeChild(childTag);
+
+			// remove() : 자기 자신 제거
+			h1Tag.remove();
+		</script>
+	</body>
+</html>

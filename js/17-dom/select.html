@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			.red {
+				color: red;
+			}
+			.green {
+				color: green;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="parent">
+			<div class="child" id="first">
+				<p></p>
+				<p></p>
+				<p></p>
+			</div>
+			<div class="child">
+				<p></p>
+				<p></p>
+				<p></p>
+			</div>
+			<div class="child">
+				<p></p>
+				<p></p>
+				<p></p>
+			</div>
+			<div class="child">
+				<p></p>
+				<p></p>
+				<p></p>
+			</div>
+			<p></p>
+			<p></p>
+			<p></p>
+		</div>
+
+		<a href="" id="naver">네이버</a>
+
+		<h1 id="red">red</h1>
+		<h1 id="green">green</h1>
+
+		<!-- script -->
+		<script>
+			// 선택자가 div인 요소 하나를 선택
+			const divEl1 = document.querySelector("div");
+			// console.log(divEl1);
+
+			// 태그명이 div인 요소를 모두 선택
+			const divEl2 = document.querySelectorAll("div");
+			// console.log(divEl2);
+
+			// divEl2를 forEach()를 사용해서 요소들을 한 줄 씩 출력
+			// NodeList는 배열과 다를게 없다
+			// divEl2.forEach((element) => {
+			// 	console.log(element);
+			// });
+
+			// 1. 클래스가 child인 요소를 모두 선택
+			// 2. 선택한 NodeList를 변수에 할당
+			// 3. 변수에 forEach()를 사용해서 요소들을 한 줄 씩 출력
+			const divEl3 = document.querySelectorAll(".child");
+			// divEl3.forEach((child) => {
+			// 	console.log(child);
+			// });
+
+			// id 속성은 문서 내에 동일한 값이 2개 이상 있으면 안된다
+			// 1. id 속성이 first인 요소를 선택
+			const firstChild = document.querySelector("#first");
+
+			// 선택된 요소는 모두 객체(Object)
+			// 객체는 속성(key - value)을 가진다
+
+			// textContent 속성을 조작
+			// 요소의 텍스트를 조작
+			firstChild["textContent"] = "첫 번째 자식"; //firstChild.textContent("첫 번째 자식")
+
+			// 3초 뒤 firstChild 요소의 텍스트를 "3초 뒤" 조작
+			setTimeout(() => {
+				firstChild["textContent"] = "3초 뒤";
+			}, 3000);
+
+			// 1. p 태그를 모두 선택
+			// 2. p 태그 요소의 텍스트를 "p 태그" 로 조작
+			// const pEle = document.querySelectorAll("p");
+			// pEle.forEach((p) => {
+			// 	p["textContent"] = "p 태그";
+			// });
+
+			// 자식 선택자 기본구조: '부모 선택자' > '자식 선택자'
+			// 1. id가 first인 요소의 자식 p 태그를 모두 선택
+			// 2. 선택한 p 태그 요소들의 텍스트를 "first의 자식 p 태그"로 조작
+
+			// 위에서 이미 first에 대한 텍스트 수정으로 자식 노드가 제거된 상태
+			// 주의 사항 : 텍스트 수정 시, 자식 노드가 모두 제거되므로 주의
+			// #first > p : 부모 요소의 id가 first인 p 태그 요소
+			const pChildEle = document.querySelectorAll("#first > p");
+			pChildEle.forEach((p) => {
+				p["textContent"] = "first의 자식 p 태그";
+			});
+
+			// 1. class가 parent인 div를 선택
+			// 2. 텍스트(textContent)를 빈 문자열 ""로 설정
+			const divParent = document.querySelector("div.parent");
+			divParent["textContent"] = "";
+
+			// 1. a 태그 선택
+			const link = document.querySelector("a");
+			// 2. link 변수 href 속성을 "https://naver.com"으로 변경
+			link.setAttribute("href", "https://naver.com");
+
+			// 1. id가 red인 요소를 선택하고 변수에 할당
+			const redH1 = document.querySelector("#red");
+
+			// 2. id가 green인 요소를 선택하고 변수에 할당
+			const greenH1 = document.querySelector("#green");
+
+			// 3. redH1에는 class 지정 "red"
+			redH1.className = "red";
+
+			// 4. greenH1에는 class 지정 "green"
+			greenH1.className = "green";
+		</script>
+	</body>
+</html>

@@ -1,0 +1,18 @@
+.header {
+  height: 200px;
+  background-color: lightblue;
+}
+
+.sticky {
+  height: 100px;
+  width: 100px;
+  background-color: lightgreen;
+  position: sticky;
+  /* 어디서 고정을 시킬지 지정해야 됨 */
+  top: 50px;
+}
+
+.content {
+  height: 2000px;
+  background-color: lightgray;
+}

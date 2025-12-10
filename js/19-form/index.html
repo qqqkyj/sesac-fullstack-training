@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<form action="#" id="form">
+			<!-- email : <input type="text" name="email" /><br> -->
+			pwd1 : <input type="password" name="pwd" /><br />
+			pwd2 :<input type="password" name="pwd-confirm" /><br />
+			<input type="submit" value="암호 확인" />
+		</form>
+
+		<!-- script -->
+		<script>
+			//id 속성이 form인 요소를 선택하고, 변수에 할당
+			// 변수의 이름: formTag
+			const formTag = document.querySelector("#form");
+
+			// 이벤트 리소너 등록, addEventListener
+			// 이벤트 종류 : submit
+			// 이벤트 핸들러 함수 : () => {console.log("제출")}
+			formTag.addEventListener("submit", (event) => {
+				// 기본 동작(이벤트) 막기
+				event.preventDefault();
+
+				// 제출을 했을 떄
+				// name 속성이 password인 입력 요소의 값(value)과
+				// name 속성이 password-confirm인 입력 요소의 값이
+				// 동일한지 확인하는 코드를 작성
+				// 같으면 "같습니다" 출력/ 다르면 "다릅니다" 출력
+				// formTag["elements"] : 폼이 가진 모든 입력 요소를 저장
+				const pwd1 = formTag["elements"]["pwd"]["value"];
+				const pwd2 = formTag["elements"]["pwd-confirm"]["value"];
+				console.log(pwd1 === pwd2 ? "같습니다" : "다릅니다");
+
+				// console.log(formTag["elements"]);
+
+				// // formTag["elements"]를 활용해서
+				// // 속성이 password인 요소의 value 속성 출력
+				// console.log(formTag["elements"]["pwd"]["value"]);
+
+				// console.log("제출");
+			});
+		</script>
+	</body>
+</html>

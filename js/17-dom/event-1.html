@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<!-- event-1.html -->
+		<!-- onclick 속성에 함수를 지정 -->
+		<!-- onclick 속성은 HTML 문서에 포함된다 -->
+		<button onclick="clickEvent()">클릭</button>
+
+		<!-- oninput 속성: 입력했을 때 발생하는 이벤트 -->
+		<input type="text" oninput="console.log('입력')" />
+
+		<!-- script -->
+		<script>
+			function clickEvent() {
+				alert("클릭");
+			}
+		</script>
+	</body>
+</html>

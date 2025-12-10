@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<!-- 16-web-api/index.html -->
+		<!-- method는 default가 GET -->
+		<form action="https://jsonplaceholder.typicode.com/posts" method="GET">
+			<!-- name: 서버로 전송될 데이터의 이름(key) -->
+			<!-- input의 값: 서버로 전송될 데이터의 값 -->
+			<!-- 완성되는 URL: https://jsonplaceholder.typicode.com/posts?userId=value -->
+			<input type="number" name="userId" />
+			<button type="submit">N번 사용자의 게시글 목록 가져오기</button>
+		</form>
+	</body>
+</html>

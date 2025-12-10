@@ -1,0 +1,29 @@
+* {
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.nav {
+  display: flex;
+  background-color: black;
+  height: 10vh;
+  justify-content: space-between;
+}
+
+.left {
+  display: flex;
+  color: white;
+  gap: 2rem;
+  padding-left: 2rem;
+  align-items: center;
+  height: 10vh;
+}
+
+.right {
+  display: flex;
+  color: white;
+  gap: 2rem;
+  padding-right: 2rem;
+  align-items: center; /*중앙 정렬*/
+  height: 10vh;
+}

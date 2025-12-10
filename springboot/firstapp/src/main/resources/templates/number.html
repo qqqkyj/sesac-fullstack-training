@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>number</title>
+</head>
+<body>
+    <!-- 로그인 유무와 같이 간단한 처리를 앞단에서 처리-->
+    <h1>number</h1>
+    <p th:text="${num} + '는 ' + ${result} + '입니다.'"></p>
+    <p th:text="${num} + '는 ' + ${num % 2 == 0 ? '짝수' : '홀수'} + '입니다.'"/>
+    <!-- T  -->
+    <p th:if="${num % 2 == 0}">짝수</p>
+    <p th:if="${num % 2 != 0}">홀수</p>
+</body>
+</html>

@@ -1,0 +1,21 @@
+.box {
+  height: 100px;
+  width: 100px;
+  background-color: lightblue;
+  margin: 2rem;
+}
+
+.display-inline {
+  /* inline: 너비와 높이를 지정할 수 없다 */
+  display: inline;
+}
+
+.display-inline-block {
+  display: inline-block;
+}
+
+input,
+button {
+  width: 100px;
+  height: 100px;
+}
