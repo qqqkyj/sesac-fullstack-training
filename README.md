@@ -103,6 +103,7 @@
 - **2025-12-04** : [인스타그램 클론 코딩 프로젝트 - 프로필 조회, 프로필 수정, 1+N 문제, 파일 업로드](https://github.com/qqqkyj/Instagram-Clone/tree/main/readme4#4-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8---%ED%94%84%EB%A1%9C%ED%95%84-%ED%8C%8C%EC%9D%BC-%EC%97%85%EB%A1%9C%EB%93%9C)
 - **2025-12-05** : [인스타그램 클론 코딩 프로젝트 - 무한 스크롤, REST API, 피드/탐색/검색, 예외 처리](https://github.com/qqqkyj/Instagram-Clone/tree/main/readme5#5-%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8---%EB%AC%B4%ED%95%9C%EC%8A%A4%ED%81%AC%EB%A1%A4-%EA%B2%80%EC%83%89-%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC)
 - **2025-12-09** : [REST API - JWT방식(회원가입, 로그인 등)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/rest-api/readme#-1-%EC%84%B8%EC%85%98session-%EB%B0%A9%EC%8B%9D-vs-jwt-%EB%B0%A9%EC%8B%9D)
+- **2025-12-10** : [REST API - 인스타그램 클론 코딩(JWT방식 - 회원가입, 로그인 등, 게시물, 댓글, 좋아요)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/insta-back/readme#3-instagram-rest-api)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
