@@ -34,6 +34,16 @@ public class FollowService {
         User follower = userRepository.findById(followerId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
+        //자기 자신 팔로우 방지
+        if(following.getId().equals(follower.getId())){
+            throw new CustomException(ErrorCode.CANNOT_FOLLOW_SELF);
+        }
+
+        //이미 팔로우 중인지 체크
+        if(followRepository.existsByFollowerIdAndFollowingId(follower.getId(), following.getId())){
+            throw new CustomException(ErrorCode.ALREADY_FOLLOWING);
+        }
+
         Follow follow = Follow.builder()
                 .follower(follower)
                 .following(follower)
