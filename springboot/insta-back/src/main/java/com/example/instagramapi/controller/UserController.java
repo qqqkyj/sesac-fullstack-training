@@ -1,11 +1,9 @@
 package com.example.instagramapi.controller;
 
 import com.example.instagramapi.dto.request.ProfileUpdateRequest;
-import com.example.instagramapi.dto.response.ApiResponse;
-import com.example.instagramapi.dto.response.PostResponse;
-import com.example.instagramapi.dto.response.UserProfileResponse;
-import com.example.instagramapi.dto.response.UserResponse;
+import com.example.instagramapi.dto.response.*;
 import com.example.instagramapi.security.CustomUserDetails;
+import com.example.instagramapi.service.FollowService;
 import com.example.instagramapi.service.PostService;
 import com.example.instagramapi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,6 +26,7 @@ public class UserController {
     private final UserService userService;
     private final PostService postService;
     // TODO: PostService, FollowService 추가 후 주입
+    private final FollowService followService;
 
     @Operation(summary = "프로필 조회")
     @GetMapping("/{username}")
@@ -51,7 +50,7 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
-    // TODO: 사용자 게시물 조회 API 추가
+    //사용자 게시물 조회 API 추가
     // GET /api/users/{username}/posts
     @GetMapping("/{username}/posts")
     public ResponseEntity<ApiResponse<List<PostResponse>>> getUserPosts(
@@ -61,9 +60,44 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.success(posts));
     }
 
-    // TODO: 팔로워 목록 조회 API 추가
-    // GET /api/users/{username}/followers
+    //팔로우
+    @PostMapping("{username}/follow")
+    public ResponseEntity<ApiResponse<FollowResponse>> follow(
+            @PathVariable String username,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ){
+        FollowResponse response = followService.follow(username, userDetails.getId());
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
 
-    // TODO: 팔로잉 목록 조회 API 추가
+    //언팔로우
+    @DeleteMapping("{username}/follow")
+    public ResponseEntity<ApiResponse<FollowResponse>> unfollow(
+            @PathVariable String username,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ){
+        FollowResponse response = followService.unfollow(username, userDetails.getId());
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    // 팔로워 목록 조회 API 추가
+    // GET /api/users/{username}/followers
+    @GetMapping("{username}/followers")
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getFollowers(
+            @PathVariable String username
+    ){
+        List<UserResponse> response = followService.getFollowers(username);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+
+    //팔로잉 목록 조회 API 추가
     // GET /api/users/{username}/following
+    @GetMapping("{username}/following")
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getFollowings(
+            @PathVariable String username
+    ){
+        List<UserResponse> response = followService.getFollowings(username);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
 }
