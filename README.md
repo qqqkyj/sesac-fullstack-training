@@ -105,6 +105,10 @@
 - **2025-12-09** : [REST API - JWT방식(회원가입, 로그인 등)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/rest-api/readme#-1-%EC%84%B8%EC%85%98session-%EB%B0%A9%EC%8B%9D-vs-jwt-%EB%B0%A9%EC%8B%9D)
 - **2025-12-10** : [REST API - 인스타그램 클론 코딩(JWT방식 - 회원가입, 로그인 등, 게시물, 댓글, 좋아요)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/insta-back/readme#3-instagram-rest-api)
 - **2025-12-11** : [REST API - 인스타그램 클론 코딩(팔로우, 무한스크롤(피드/탐색), OAUTH(카카오 API 활용 로그인)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/insta-back/readme2#2-%ED%8C%94%EB%A1%9C%EC%9A%B0-%EB%AC%B4%ED%95%9C%EC%8A%A4%ED%81%AC%EB%A1%A4-oauth%EC%B9%B4%EC%B9%B4%EC%98%A4)
+- **2025-12-11** : [REST API - 인스타그램 클론 코딩(팔로우, 무한스크롤(피드/탐색), OAUTH(카카오 API 활용 로그인)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/insta-back/readme2#2-%ED%8C%94%EB%A1%9C%EC%9A%B0-%EB%AC%B4%ED%95%9C%EC%8A%A4%ED%81%AC%EB%A1%A4-oauth%EC%B9%B4%EC%B9%B4%EC%98%A4)
+- **2025-12-15 ~ 2025-12-19** : 특강
+- **2025-12-22 ~ 2026-01-08** : [프로젝트(BE) - devso (개발자 SNS & 스터디 및 프로젝트 팀원 모집 플랫폼)](https://github.com/orgs/dev-network/repositories)
+- **2025-12-22 ~ 2026-01-08** : [프로젝트(FE) - devso (개발자 SNS & 스터디 및 프로젝트 팀원 모집 플랫폼)](https://github.com/orgs/dev-network/repositories)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
