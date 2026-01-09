@@ -107,8 +107,8 @@
 - **2025-12-11** : [REST API - 인스타그램 클론 코딩(팔로우, 무한스크롤(피드/탐색), OAUTH(카카오 API 활용 로그인)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/insta-back/readme2#2-%ED%8C%94%EB%A1%9C%EC%9A%B0-%EB%AC%B4%ED%95%9C%EC%8A%A4%ED%81%AC%EB%A1%A4-oauth%EC%B9%B4%EC%B9%B4%EC%98%A4)
 - **2025-12-11** : [REST API - 인스타그램 클론 코딩(팔로우, 무한스크롤(피드/탐색), OAUTH(카카오 API 활용 로그인)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/springboot/insta-back/readme2#2-%ED%8C%94%EB%A1%9C%EC%9A%B0-%EB%AC%B4%ED%95%9C%EC%8A%A4%ED%81%AC%EB%A1%A4-oauth%EC%B9%B4%EC%B9%B4%EC%98%A4)
 - **2025-12-15 ~ 2025-12-19** : 특강
-- **2025-12-22 ~ 2026-01-08** : [프로젝트(BE) - devso (개발자 SNS & 스터디 및 프로젝트 팀원 모집 플랫폼)](https://github.com/orgs/dev-network/repositories)
-- **2025-12-22 ~ 2026-01-08** : [프로젝트(FE) - devso (개발자 SNS & 스터디 및 프로젝트 팀원 모집 플랫폼)](https://github.com/orgs/dev-network/repositories)
+- **2025-12-22 ~ 2026-01-09** : [프로젝트(BE) - devso (개발자 SNS & 스터디 및 프로젝트 팀원 모집 플랫폼)](https://github.com/qqqkyj/SeSAC-devSO-back/tree/main?tab=readme-ov-file#-devso-developers-social-network)
+- **2025-12-22 ~ 2026-01-09** : [프로젝트(FE) - devso (개발자 SNS & 스터디 및 프로젝트 팀원 모집 플랫폼)](https://github.com/qqqkyj/SeSAC-devSO-front/tree/main?tab=readme-ov-file#-devso-developers-social-network)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
