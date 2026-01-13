@@ -109,7 +109,8 @@
 - **2025-12-15 ~ 2025-12-19** : 특강
 - **2025-12-22 ~ 2026-01-09** : [프로젝트(BE) - devso (개발자 SNS & 스터디 및 프로젝트 팀원 모집 플랫폼)](https://github.com/qqqkyj/SeSAC-devSO-back/tree/main?tab=readme-ov-file#-devso-developers-social-network)
 - **2025-12-22 ~ 2026-01-09** : [프로젝트(FE) - devso (개발자 SNS & 스터디 및 프로젝트 팀원 모집 플랫폼)](https://github.com/qqqkyj/SeSAC-devSO-front/tree/main?tab=readme-ov-file#-devso-developers-social-network)
-- **2026-01-12** : [Docker - 설치 및 이미지 생성](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/docker/readme1/README.md#1-docker-%EC%84%A4%EC%B9%98-%EB%B0%8F-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%83%9D%EC%84%B1)
+- **2026-01-12** : [Docker - 설치 및 기초(이미지, 컨테이너 생성)](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/docker/readme1/README.md#1-docker-%EC%84%A4%EC%B9%98-%EB%B0%8F-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%83%9D%EC%84%B1)
+- **2026-01-13** : [Docker - 네트워크(Bridge, User-defined Network), 볼륨(Named Volume, Bind Mount, tmpfs)]()
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
