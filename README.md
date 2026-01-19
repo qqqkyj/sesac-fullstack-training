@@ -114,6 +114,7 @@
 - **2026-01-14** : [Docker - Dockerlings 실습 및 Docker Hub 이미지 Push & Pull](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/docker/readme3#3-docker-%EC%97%B0%EC%8A%B5insta-front)
 - **2026-01-15** : [Docker - AWS EC2 배포 및 GitHub Actions 기반 CI/CD 파이프라인 구축](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/docker/readme4#4-dockerinsta-febe)
 - **2026-01-16** : [Docker - AWS RDS 연동을 통한 서비스 DB 분리](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/docker/readme5#5-aws-ec2-%EC%99%80-rds-gallery%EB%B0%B0%ED%8F%AC)
+- **2026-01-19** : [AWS 클라우드 네이티브 아키텍처 구축: RDS·S3 전환 및 SSL 보안 배포](https://github.com/qqqkyj/sesac-fullstack-training/blob/main/docker/readme6/README.md#6-aws-%EC%9D%B8%ED%94%84%EB%9D%BC-%EC%A0%84%ED%99%98-rds-%EB%B0%8F-s3-%EA%B8%B0%EB%B0%98-%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C-%EA%B3%A0%EB%8F%84%ED%99%94)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
