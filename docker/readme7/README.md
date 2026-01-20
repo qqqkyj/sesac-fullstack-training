@@ -1,4 +1,4 @@
-# 7. AWS EC2, RDS, S3, CI/CD
+# 7. 테스트 코드 작성과 GitHub Actions 기반 CI/CD 배포 가이드
 
 ### BE 소스 (테스트 코드 작성)
 
@@ -23,6 +23,7 @@ testAnnotationProcessor 'org.projectlombok:lombok'
 **`import static org.mockito.BDDMockito.*;` : service test에서 import 시 주의**
 
 - repository > PhotoRepositoryTest
+
   ```java
   package com.example.galleryback.repository;
 
@@ -77,7 +78,9 @@ testAnnotationProcessor 'org.projectlombok:lombok'
       }
   }
   ```
+
 - service > PhotoServiceTest (로직이 잘 작동하는지)
+
   ```java
   package com.example.galleryback.service;
 
@@ -136,7 +139,9 @@ testAnnotationProcessor 'org.projectlombok:lombok'
       }
   }
   ```
+
 - controller > PhotoControllerTest (api 호출이 잘 작동하는지)
+
   ```java
   package com.example.galleryback.controller;
 
@@ -192,7 +197,9 @@ testAnnotationProcessor 'org.projectlombok:lombok'
 
   }
   ```
+
 - integration > PhotoIntegrationTest
+
   ```java
   package com.example.galleryback.integration;
 
@@ -238,7 +245,9 @@ testAnnotationProcessor 'org.projectlombok:lombok'
       }
   }
   ```
+
 - test > resources > [application.properties](http://application.properties) (테스트용)
+
   ```java
   spring.application.name=gallery-back
 
@@ -276,6 +285,7 @@ default로 생성된 테스트는 사용안할 예정(`@Disabled`)
 [https://github.com/marketplace?type=actions](https://github.com/marketplace?type=actions)
 
 - **cicd.yml**
+
   ```yaml
   name: CI/CD
 
@@ -390,6 +400,7 @@ github 레포지토리 > settings > Secrets and variables에 등록
 최상단 폴더에 **`.github > workflows > cicd.yml`**생성
 
 - cicd.yml
+
   ```yaml
   name: CI/CD
 
