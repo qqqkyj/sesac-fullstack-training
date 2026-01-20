@@ -495,7 +495,7 @@ FE,BE소스가 모두 있는 최상위 폴더(gallery)에서 SSH에 EC2 등록
 
 gallery-ec2 오른쪽에 새창으로 열기 클릭> 계속 > 폴더 열기 > /home/ubuntu > 확인
 
-### 도커 설치(`Ctrl+ `` : 터미널 오픈)
+### 도커 설치(Ctrl+ ` : 터미널 오픈)
 
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
