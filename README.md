@@ -118,7 +118,7 @@
 - **2026-01-20** : [테스트 코드 작성(Given-When-Then)과 GitHub Actions 기반 CI/CD 배포 가이드(test-build-deploy)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/docker/readme7#7-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1%EA%B3%BC-github-actions-%EA%B8%B0%EB%B0%98-cicd-%EB%B0%B0%ED%8F%AC-%EA%B0%80%EC%9D%B4%EB%93%9C)
 - **2026-01-21 ~ 2026-02-27** : [프로젝트(BE) - joinflix (실시간 동기화 기반 OTT 소셜 파티 플랫폼)](https://github.com/qqqkyj/SeSAC-joinflix-back)
 - **2026-01-21 ~ 2026-02-27** : [프로젝트(FE) - joinflix (실시간 동기화 기반 OTT 소셜 파티 플랫폼)](https://github.com/qqqkyj/SeSAC-joinflix-front)
-- **2026-03-25** : [모니터링 시스템 구축 (Actuator + Prometheus + Grafana)]()
+- **2026-03-25** : [모니터링 시스템 구축 (Actuator + Prometheus + Grafana)](https://github.com/qqqkyj/sesac-fullstack-training/tree/main/docker/readme8#1-%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%B5%AC%EC%B6%95-actuator--prometheus--grafana)
 
 > 🗒 앞으로 매일 학습 내용을 업데이트합니다.
 
